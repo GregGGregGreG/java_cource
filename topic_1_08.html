@@ -1,0 +1,355 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>1.08 -Понятие паттернов проектирования. Порождающие паттерны</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background: #dfdfdf;
+        }
+
+        /* Remove the navbar's default margin-bottom and rounded borders */
+        .jumbotron {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        #header {
+            background-color: #445566;
+        }
+
+        #header h2, #header h4, #header h3, #header h5, #header p {
+            margin-left: -10px;
+            color: #ededed;
+        }
+
+        #header h2 {
+            font-weight: bold;
+        }
+
+        #header h4 {
+            font-size: 1.5em;
+        }
+
+        #content {
+            background: white;
+            padding-right: 9%;
+            box-sizing: border-box;
+        }
+
+        p {
+            text-align: justify;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        ul.nav, ul.side_menu {
+            list-style-type: none;
+            margin-left: -20px;
+        }
+
+        .navbar {
+            margin-bottom: 0;
+            border-radius: 0;
+        }
+
+        .navbar-inverse {
+            background-color: #445566;
+            border: none;
+            border-top: 1px solid white;
+        }
+
+        .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > li > a:hover {
+            background-color: #293b4c;
+        }
+
+        /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+        .row.content {
+            height: 450px
+        }
+
+        /* Set gray background color and 100% height */
+        .sidenav {
+            padding-top: 20px;
+            height: 100%;
+        }
+
+        .btn-info {
+            color: #fff;
+            background-color: #445566;
+            border: none;
+            border-radius: 0;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .btn-info:hover {
+            background-color: #293b4c;
+        }
+
+        .navbar-inverse .navbar-toggle:hover {
+            background-color: #293b4c;
+        }
+
+        .hide {
+            visibility: hidden;
+        }
+
+        .disa {
+            cursor: default;
+            opacity: 0.6;
+
+        }
+
+        .disa:hover {
+            background-color: #445566;
+        }
+
+        /* Set black background color, white text and some padding */
+        footer {
+            background-color: #293b4c;
+            color: white;
+            padding: 15px;
+        }
+
+        #up {
+            color: #fff;
+            position: fixed;
+            display: block;
+            background: #293b4c;
+            width: 40px;
+            height: 40px;
+            bottom: 64px;
+            right: 30px;
+            opacity: 0;
+            border-radius: 50%;
+            padding-left: 12px;
+            padding-top: 8px;
+            box-sizing: border-box;
+        }
+
+        /* On small screens, set height to 'auto' for sidenav and grid */
+        @media screen and (max-width: 990px) {
+            #content {
+                padding-right: 10px;
+            }
+
+            #up {
+                display: none !important;
+            }
+        }
+
+        /* On small screens, set height to 'auto' for sidenav and grid */
+        @media screen and (max-width: 767px) {
+            .sidenav {
+                height: auto;
+                padding: 15px;
+            }
+
+            .row.content {
+                height: auto;
+            }
+        }
+
+        @media only screen and (max-width: 600px) {
+            img.small_img {
+                width: 40%;
+                height: auto;
+            }
+
+            img.big_img {
+                width: 90%;
+                height: auto;
+            }
+        }
+
+        .justified {
+            text-align: justify;
+            font-weight: normal
+        }
+
+        tt {
+            color: #446699;
+        }
+    </style>
+</head>
+<body id="top">
+<div class="container-fluid text-left" id="header">
+    <div class="container text-left col-md-3 col-sm-12">
+        <img src="Images/icon-java.png" style="padding-top: 15px; box-sizing: border-box;">
+    </div>
+    <div class="container text-left col-md-9 col-sm-12">
+        <h2>Язык программирования и технологии Java</h2>
+        <h5>Разработчик курса Л. В. Иванов</h5>
+        <h4>Модуль 1 Объектно-ориентированное программирование и язык Java</h4>
+
+    </div>
+</div>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <!--div class="col-sm-12 col-md-3 sidenav">
+            </div-->
+
+            <ul class="nav navbar-nav">
+                <li><a href="index.html">Главная</a></li>
+                <li class="active"><a href="topic_1_01.html">Объектно-ориентированное программирование и язык Java</a>
+                </li>
+                <li><a href="topic_2_01.html">Платформа Java SE</a></li>
+                <li><a href="">Разработка приложений JAVA EE</a></li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid text-left">
+    <div class="row content">
+        <div class="col-sm-12 col-md-3 sidenav">
+            <ul class="side_menu">
+                <li>1 Объектно-ориентированное программирование и язык Java
+                    <ul class="side_menu">
+                        <li><a href="topic_1_01.html">01 Парадигмы программирования. Основы объектно-ориентированного
+                            подхода</a></li>
+                        <li><a href="topic_1_02.html">02 Язык программирования Java и Java-платформа</a></li>
+                        <li><a href="topic_1_03.html">03 Синтаксические конструкции языка Java</a></li>
+                        <li><a href="topic_1_04.html">04 Ссылочные типы. Массивы. Строки и классы-оболочки</a></li>
+                        <li><a href="topic_1_05.html">05 Определение классов.  Наследование и полиморфизм</a></li>
+                        <li><a href="topic_1_06.html">06 Вложенные типы. Интерфейсы. Лямбда-выражения и ссылки на методы</a></li>
+                        <li><a href="topic_1_07.html">07 Перечисления. Исключения. Использование обобщений</a></li>
+                        <li>08 Понятие паттернов проектирования. Порождающие паттерны</li>
+                    </ul>
+                </li>
+                <li>2 Платформа Java SE
+                  <ul class="side_menu">
+                        <li><a href="topic_2_01.html">01 Платформа Java SE и ее составляющие</a></li>
+                        <li><a href="topic_2_02.html">02 Работа с коллекциями в Java 7</a></li>
+                        <li><a href="topic_2_03.html">03 Работа с текстовыми данными. Локализация</a></li>
+                        <li><a href="topic_2_04.html">04 Работа с потоками ввода-вывода и файловой системой</a></li>
+                        <li><a href="topic_2_05.html">05 Работа с XML. XML-сериализация</a></li>
+                        <li>06 Тестирование и управление сборкой. Ведение системного журнала</li>
+                        <li>07 Работа с потоками выполнения</li>
+                        <li>08 Работа с контейнерами Java 8. Stream API</li>
+                        <li>09 Поддержка сетевого взаимодействия</li>
+                        <li>10 Работа с базами данных</li>
+                        <li>11 Использование RTTI и рефлексии. Метапрограммирование. Аннотации</a></li>
+                        <li>12 </a>Использование структурных паттернов</li>
+                  </ul>
+                </li>
+                <li>3 Основы разработки приложений Java EE
+                    <ul class="side_menu">
+                        <li>01 Платформа Java EE. Web-приложения. Создание сервлетов</li>
+                        <li>02 Основы создания страниц JSP</li>
+                        <li>03 Работа с EJB. Создание Web-сервисов</li>
+                        <li>04 Использование Spring Framework</li>
+                        <li>05 Использование паттернов поведения и распределения ответственности </li>
+                        <li>06 Дополнительные возможности Java 11</li>
+                    </ul>
+                </li>
+            </ul>
+      </div>
+        <div class="col-sm-12 col-md-9 text-left" id="content">
+            <div class="w3-clear nextprev">
+                <a class="btn btn-info float-left" href="topic_1_07.html">Предыдущая</a>
+                <a class="btn btn-info float-left" href="topic_2_01.html">Следующая</a>
+            </div>
+            <h1>Понятие паттернов проектирования. Порождающие паттерны</h1>
+<p>&nbsp;</p>
+<p><em>Under construction </em></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<div class="w3-clear nextprev">
+        <a class="btn btn-info float-left" href="topic_1_07.html">Предыдущая</a>
+        <a class="btn btn-info float-left" href="topic_2_01.html">Следующая</a>
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+<a href="#top" id="up">up</a>
+<footer class="container-fluid text-center">
+    <p>&copy; 2003-2019 Л.В.Иванов</p>
+</footer>
+<script>
+    $(document).ready(function () {
+        // Add smooth scrolling to all links in navbar + footer link
+        $("a[href='#top']").on('click', function (event) {
+
+            // Make sure this.hash has a value before overriding default behavior
+            if (this.hash !== "") {
+
+                // Prevent default anchor click behavior
+                event.preventDefault();
+
+                // Store hash
+                var hash = this.hash;
+
+                // Using jQuery's animate() method to add smooth page scroll
+                // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+                $('html, body').animate({
+                    scrollTop: $(hash).offset().top
+                }, 900, function () {
+
+                    // Add hash (#) to URL when done scrolling (default click behavior)
+                    window.location.hash = hash;
+                });
+            } // End if
+        });
+        var offset = 200;
+        var duration = 300;
+        $('#up').fadeOut(0);
+        $(window).scroll(function () {
+            var winTop = $(window).scrollTop();
+            if (winTop > offset) {
+                $('#up').css("opacity", "0.8");
+                $('#up').fadeIn(duration);
+            } else {
+                $('#up').fadeOut(duration);
+            }
+        });
+    })
+</script>
+
+</body>
+</html>

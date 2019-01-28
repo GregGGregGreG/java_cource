@@ -1,0 +1,1594 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>2.04 - Работа с потоками ввода-вывода и файловой системой</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background: #dfdfdf;
+        }
+
+        /* Remove the navbar's default margin-bottom and rounded borders */
+        .jumbotron {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        #header {
+            background-color: #445566;
+        }
+
+        #header h2, #header h4, #header h3, #header h5, #header p {
+            margin-left: -10px;
+            color: #ededed;
+        }
+
+        #header h2 {
+            font-weight: bold;
+        }
+
+        #header h4 {
+            font-size: 1.5em;
+        }
+
+        #content {
+            background: white;
+            padding-right: 9%;
+            box-sizing: border-box;
+        }
+
+        p {
+            text-align: justify;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        ul.nav, ul.side_menu {
+            list-style-type: none;
+            margin-left: -20px;
+        }
+
+        .navbar {
+            margin-bottom: 0;
+            border-radius: 0;
+        }
+
+        .navbar-inverse {
+            background-color: #445566;
+            border: none;
+            border-top: 1px solid white;
+        }
+
+        .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > li > a:hover {
+            background-color: #293b4c;
+        }
+
+        /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+        .row.content {
+            height: 450px
+        }
+
+        /* Set gray background color and 100% height */
+        .sidenav {
+            padding-top: 20px;
+            height: 100%;
+        }
+
+        .btn-info {
+            color: #fff;
+            background-color: #445566;
+            border: none;
+            border-radius: 0;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .btn-info:hover {
+            background-color: #293b4c;
+        }
+
+        .navbar-inverse .navbar-toggle:hover {
+            background-color: #293b4c;
+        }
+
+        .hide {
+            visibility: hidden;
+        }
+
+        .disa {
+            cursor: default;
+            opacity: 0.6;
+
+        }
+
+        .disa:hover {
+            background-color: #445566;
+        }
+
+        /* Set black background color, white text and some padding */
+        footer {
+            background-color: #293b4c;
+            color: white;
+            padding: 15px;
+        }
+
+        #up {
+            color: #fff;
+            position: fixed;
+            display: block;
+            background: #293b4c;
+            width: 40px;
+            height: 40px;
+            bottom: 64px;
+            right: 30px;
+            opacity: 0;
+            border-radius: 50%;
+            padding-left: 12px;
+            padding-top: 8px;
+            box-sizing: border-box;
+        }
+
+        /* On small screens, set height to 'auto' for sidenav and grid */
+        @media screen and (max-width: 990px) {
+            #content {
+                padding-right: 10px;
+            }
+
+            #up {
+                display: none !important;
+            }
+        }
+
+        /* On small screens, set height to 'auto' for sidenav and grid */
+        @media screen and (max-width: 767px) {
+            .sidenav {
+                height: auto;
+                padding: 15px;
+            }
+
+            .row.content {
+                height: auto;
+            }
+        }
+
+        @media only screen and (max-width: 600px) {
+            img.small_img {
+                width: 40%;
+                height: auto;
+            }
+
+            img.big_img {
+                width: 90%;
+                height: auto;
+            }
+        }
+
+        .justified {
+            text-align: justify;
+            font-weight: normal
+        }
+
+        tt {
+            color: #446699;
+        }
+    </style>
+</head>
+<body id="top">
+<div class="container-fluid text-left" id="header">
+    <div class="container text-left col-md-3 col-sm-12">
+        <img src="Images/icon-java.png" style="padding-top: 15px; box-sizing: border-box;">
+    </div>
+    <div class="container text-left col-md-9 col-sm-12">
+        <h2>Язык программирования и технологии Java</h2>
+        <h5>Разработчик курса Л. В. Иванов</h5>
+        <h4>Модуль 1 Объектно-ориентированное программирование и язык Java</h4>
+
+    </div>
+</div>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <!--div class="col-sm-12 col-md-3 sidenav">
+            </div-->
+
+            <ul class="nav navbar-nav">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="topic_1_01.html">Объектно-ориентированное программирование и язык Java</a>
+                </li>
+                <li class="active"><a href="">Платформа Java SE</a></li>
+                <li><a href="">Разработка приложений JAVA EE</a></li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid text-left">
+    <div class="row content">
+        <div class="col-sm-12 col-md-3 sidenav">
+            <ul class="side_menu">
+                <li>1 Объектно-ориентированное программирование и язык Java
+                    <ul class="side_menu">
+                        <li><a href="topic_1_01.html">01 Парадигмы программирования. Основы объектно-ориентированного
+                            подхода</a></li>
+                        <li><a href="topic_1_02.html">02 Язык программирования Java и Java-платформа</a></li>
+                        <li><a href="topic_1_03.html">03 Синтаксические конструкции языка Java</a></li>
+                        <li><a href="topic_1_04.html">04 Ссылочные типы. Массивы. Строки и классы-оболочки</a></li>
+                        <li><a href="topic_1_05.html">05 Определение классов.  Наследование и полиморфизм</a></li>
+                        <li><a href="topic_1_06.html">06 Вложенные типы. Интерфейсы. Лямбда-выражения и ссылки на методы</a></li>
+                        <li><a href="topic_1_07.html">07 Перечисления. Исключения. Использование обобщений</a></li>
+                        <li><a href="topic_1_08.html">08 Понятие паттернов проектирования. Порождающие паттерны</a></li>
+                    </ul>
+                </li>
+                <li>2 Платформа Java SE
+                  <ul class="side_menu">
+                        <li><a href="topic_2_01.html">01 Платформа Java SE и ее составляющие</a></li>
+                        <li><a href="topic_2_02.html">02 Работа с коллекциями в Java 7</a></li>
+                        <li><a href="topic_2_03.html">03 Работа с текстовыми данными. Локализация</a></li>
+                        <li>04 Работа с потоками ввода-вывода и файловой системой</li>
+                        <li><a href="topic_2_05.html">05 Работа с XML. XML-сериализация</a></li>
+                        <li>06 Тестирование и управление сборкой. Ведение системного журнала</li>
+                        <li>07 Работа с потоками выполнения</li>
+                        <li>08 Работа с контейнерами Java 8. Stream API</li>
+                        <li>09 Поддержка сетевого взаимодействия</li>
+                        <li>10 Работа с базами данных</li>
+                        <li>11 Использование RTTI и рефлексии. Метапрограммирование. Аннотации</a></li>
+                        <li>12 </a>Использование структурных паттернов</li>
+                  </ul>
+                </li>
+                <li>3 Основы разработки приложений Java EE
+                    <ul class="side_menu">
+                        <li>01 Платформа Java EE. Web-приложения. Создание сервлетов</li>
+                        <li>02 Основы создания страниц JSP</li>
+                        <li>03 Работа с EJB. Создание Web-сервисов</li>
+                        <li>04 Использование Spring Framework</li>
+                        <li>05 Использование паттернов поведения и распределения ответственности </li>
+                        <li>06 Дополнительные возможности Java 11</li>
+                    </ul>
+                </li>
+            </ul>
+      </div>
+        <div class="col-sm-12 col-md-9 text-left" id="content">
+            <div class="w3-clear nextprev">
+                <a class="btn btn-info float-left" href="topic_2_03.html">Предыдущая</a>
+                <a class="btn btn-info float-left" href="topic_2_05.html">Следующая</a>
+            </div>
+            <h1>Работа с потоками ввода-вывода и файловой системой</h1>
+<h2>1 Теоретическая часть</h2>
+<h3>1.1 Файловые потоки ввода-вывода</h3>
+<h4>1.1.1 Общие концепции</h4>
+<p>Классы, осуществляющие файловый ввод и вывод, а также другие действия с потоками, расположенные в пакете <code>java.io</code>. Классы этого пакета предлагают ряд методов для создания таких потоков, чтения, записи и т.д. Существует два подмножества классов &#8211; соответственно для работы с текстовыми и бинарными (двоичными) файлами.</p>
+<p>Непосредственную работу с текстовыми файлами осуществляют объекты классов <code>FileReader</code> и <code>FileWriter</code>. Потоки, предназначенные для работы с текстовой информацией, называются <i>потокам символов</i>.</p>
+<p>Важный элемент работы с файловыми потоками &#8211; это буферизация. <i>Буферизация</i> предусматривает создание в оперативной памяти специальной области (буфера), в которую данные загружаются из файла для дальнейшего поэлементного чтения либо поэлементно записываются данные с последующим переписыванием на диск. Объекты класса <code>BufferedReader</code> осуществляют такое буферизированное чтение. Для буферизированного вывода применяют объекты класса <code>BufferedWriter</code>.</p>
+<p>Непосредственный форматированный вывод осуществляется методами <code>print()</code> и <code>println()</code> объекта класса <code>PrintWriter</code>. Вся работа с потоками, кроме стандартного потока <code>System.out</code>, должна предусматривать перехват исключений, связанных с вводом-выводом. Это <code>IOException</code> и его потомки &#8211; <code>FileNotFoundException</code>, <code>ObjectStreamException</code> и другие.</p>
+<p>Очень важно закрыть все файлы, взаимодействие с которыми имело место. При закрытии файлов осуществляется переписывание данных, оставшихся в буфере, освобождение буфера и других ресурсов, связанных с файлом. Закрыть поток можно с помощью метода <code>close()</code>. Например, для потока <code>in</code>:</p>
+<blockquote>
+  <pre>in.close();</pre>
+</blockquote>
+<p>Если программа, которая требует файлового ввода, загружается в среде IntelliJ IDEA, необходимые для чтения файлы следует разместить в папке проекта (не в папке пакета). Именно в папке проекта можно найти результирующие файлы, которые появляются после завершения выполнения программы, включающей файловый вывод.</p>
+<p>В программе можно одновременно открыть несколько потоков ввода и несколько потоков вывода.</p>
+<h4>1.1.2 Работа с потоками символов</h4>
+<p>В следующем примере из файла с именем <tt>data.txt</tt> осуществляется чтение одного целого и одного вещественного значения, их сумма записывается в файл <tt>results.txt</tt>.</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.*;
+<b>import</b> java.util.StringTokenizer;
+<b>
+public class</b> FileTest {
+
+    <b>void</b> readWrite() {
+        <b>try</b> {
+            FileReader fr = <b>new</b> FileReader(&quot;data.txt&quot;);
+            BufferedReader br = <b>new</b> BufferedReader(fr);
+            String s = br.readLine();
+            <b>int</b> x;
+      <b>      double</b> y;
+      <b>      try</b> {
+                StringTokenizer st = <b>new</b> StringTokenizer(s);
+                x = Integer.parseInt(st.nextToken());
+                y = Double.parseDouble(st.nextToken());
+            }
+      <b>      finally</b> {
+                br.close();
+            }     
+            <b>double</b> z = x + y;
+            FileWriter fw = <b>new</b> FileWriter(&quot;results.txt&quot;);
+            PrintWriter pw = <b>new</b> PrintWriter(fw);
+            pw.println(z);
+            pw.close();
+        }
+        <b>catch</b> (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    <b>public static void</b> main(String[] args) {
+        <b>new</b> FileTest().readWrite();
+    }
+
+}    </pre>
+</blockquote>
+<p>Для открытия файла создается объект класса <code>FileReader</code>, в конструкторе которого указывается строка &#8211; имя файла. Ссылка на созданный объект передается в конструктор класса <code>BufferedReader</code>. Чтение из файла осуществляется с помощью метода <code>readLine()</code>, который возвращает ссылку на строку символов, или <code><b>null</b></code>, если достигнут конец файла.</p>
+<p>Переменная <code>s</code> типа <code>String</code> ссылается на строку, содержащую два числа. Для выделения из этой строки отдельных лексем используют объект класса <code>StringTokenizer</code>, в конструктор которого передается строка. Ссылки на отдельные части строки постепенно получают с помощью метода <code>nextToken()</code>. Эти ссылки могут быть использованы непосредственно, либо используются для преобразования данных в числовые значения (статические методы<code> parseDouble()</code> и <code>parseInt()</code> классов <code>Double</code> и <code>Integer</code> соответственно). </p>
+<p>Для чтения из файла можно использовать уже знакомый класс <code>Scanner</code>. Фактическим параметром конструктора может быть файловый поток. Предыдущий пример можно реализовать с помощью класса <code>Scanner</code>. Можно также сократить код путем исключения ненужных переменных. Кроме того, целесообразно воспользоваться конструкцией <code>try () { }</code> Java 7, которая для классов, реализующих интерфейс <code>AutoCloseable</code>, обеспечивает гарантированное закрытие потоков:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.*;
+<b>import</b> java.util.Scanner;
+
+<b>public class</b> FileTest {
+
+  <b>  void</b> readWrite() {
+        <b>try</b> (Scanner scanner = <b>new</b> Scanner(<b>new</b> FileReader(&quot;data.txt&quot;))) {
+            <b>try</b> (PrintWriter pw = <b>new</b> PrintWriter(&quot;results.txt&quot;)) {
+                pw.println(scanner.nextInt() + scanner.nextDouble());
+            }
+        }
+        <b>catch</b> (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+  <b>  public static void</b> main(String[] args) {
+        <b>new</b> FileTest().readWrite();
+    }
+
+}</pre>
+</blockquote>
+<p>Преимуществом такого подхода является возможность произвольного расположения входных данных (не обязательно в одной строке). Как видно из приведенного примера, несколько блоков <code><b>try&nbsp;</b>()</code> могут использовать один блок <code><b>catch</b>&nbsp;()</code>. Альтернативой является размещение нескольких утверждений внутри скобок:</p>
+<blockquote>
+  <pre><b>  try</b> (Scanner scanner = <b>new</b> Scanner(<b>new</b> FileReader(&quot;data.txt&quot;));
+               PrintWriter pw = <b>new</b> PrintWriter(&quot;results.txt&quot;)) {
+      pw.println(scanner.nextInt() + scanner.nextDouble());
+  }
+  <b>catch</b> (IOException ex) {
+      ex.printStackTrace();
+  }</pre>
+</blockquote>
+<p>При работе с классом <code>Scanner</code> можно определить дополнительные параметры, например, установить символ-разделитель (или последовательность символов). При этом можно использовать регулярные выражения. Например, можно перед чтением данных добавить следующую строку:</p>
+<blockquote>
+  <pre>scanner.useDelimiter(&quot;,&quot;);</pre>
+</blockquote>
+<p>Теперь объект-сканер будет воспринимать запятые как разделители (вместо пробелов).</p>
+<h4>1.1.3 Работа с бинарными потоками (потоками байтов)</h4>
+<p>Для работы с нетекстовыми (бинарными) файлами используют потоки, имена которых вместо &quot;<code>Writer</code>&quot; содержат &quot;<code>Stream</code>&quot;, например <code>InputStream</code>, <code>FileInputStream</code>, <code>OutputStream</code>, <code>FileOutputStream</code> т.п. Такие потоки называются потоками байтов. В следующем примере осуществляется копирования двоичного файла <tt>FileCopy.class</tt> в папку проекта с новым именем:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.*;
+
+<b>public class</b> FileCopy {
+
+    <b>public static void</b> copy(String inFile, String outFile) {
+        <b>byte</b>[] buffer = <b>new byte</b>[1024]; // Буфер байтов
+        <b>try</b> (InputStream input = <b>new</b> FileInputStream(inFile);
+                         OutputStream output = <b>new</b> FileOutputStream(outFile)) {
+            <b>int</b> bytesRead;
+            <b>while</b> ((bytesRead = input.read(buffer)) &gt;= 0) {
+                output.write(buffer, 0, bytesRead);
+            }
+        } 
+        <b>catch</b> (IOException ex) {
+            ex.printStackTrace();
+        }    
+    }  
+
+  <b>  public static void</b> main(String[] args) {
+        copy(&quot;out/production/FileCopy/ua/inf/iwanoff/files/FileCopy.class&quot;, &quot;FileCopy.copy&quot;);
+    }
+
+}</pre>
+</blockquote>
+<p>Как видно из приведенного примера, Java позволяет использовать обычную черту (<code>/</code>) вместо обратной. Это &#8211; более универсальный подход, приемлемый для различных операционных систем. Кроме того, обратную черту необходимо было бы записать дважды (<code>\\</code>).</p>
+<p>Для работы с бинарными файлами существуют дополнительные возможности &#8211; использование потоков данных и потоков объектов. Так называемые потоки данных (data streams) поддерживают бинарный ввод/вывод значений примитивных типов данных (<code><b>boolean</b></code>, <code><b>char</b></code>, <code><b>byte</b></code>, <code><b>short</b></code>, <code><b>int</b></code>, <code><b>long</b></code>, <code><b>float</b></code> и <code><b>double</b></code>), а также значений типа <code>String</code>. Все потоки данных реализуют интерфейсы &#8211; <code>DataInput</code> или <code>DataOutput</code>. Для большинства задач достаточно стандартных реализации этих интерфейсов &#8211; <code>DataInputStream</code> и <code>DataOutputStream</code>. Данные в файле хранятся в таком виде, в котором они представлены в оперативной памяти. Для записи строк используют метод <code>writeUTF()</code>. В следующем примере осуществляется запись данных:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.*;
+
+<b>public class</b> DataStreamDemo {
+
+    <b>public static void</b> main(String[] args) {
+        <b>double</b> x = 4.5;
+        String s = &quot;all&quot;;
+        <b>int</b>[] a = { 1, 2, 3 };
+        <b>try</b> (DataOutputStream out = <b>new</b> DataOutputStream(<b>new</b> FileOutputStream(&quot;data.dat&quot;))) {
+            out.writeDouble(x);
+            out.writeUTF(s);
+            <b>for</b> (<b>int</b> k : a) {
+                out.writeInt(k);
+            }
+        }
+        <b>catch</b> (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}</pre>
+</blockquote>
+<p>Теперь данные можно прочитать в другой программе:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.*;
+<b>import</b> java.util.*;
+
+<b>public class</b> DataReadDemo {
+
+    <b>public static void</b> main(String[] args) {
+        <b>try</b> (DataInputStream in = <b>new</b> DataInputStream(<b>new</b> FileInputStream(&quot;data.dat&quot;))) {
+            <b>double</b> x = in.readDouble();
+            String s = in.readUTF();
+            List&lt;Integer&gt; list = <b>new</b> ArrayList&lt;&gt;();
+            <b>try</b> {
+                <b>while</b> (<b>true</b>) {
+                    <b>int</b>  k = in.readInt();
+                    list.add(k);
+                }
+            }
+            <b>catch</b> (Exception e) {
+            }
+            System.out.println(x);
+            System.out.println(s);
+            System.out.println(list);
+        }
+    <b>    catch</b> (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+}</pre>
+</blockquote>
+<p><i>Примечание</i>. В приведенной выше программе выход из цикла осуществляется при возбуждении исключения. Такой подход не является рекомендуемым, поскольку механизм исключений снижает эффективность работы программы. В нашем случае целесообразно было бы отдельно сохранять длину массива перед его элементами, а затем использовать эту длину для организации цикла <code><b>for</b></code> при чтении.</p>
+<p>Для чтения и записи данных может быть также использован класс <code>java.io.RandomAccessFile</code>. Объект этого класса позволяет свободно перемещаться по файлу в прямом и обратном направлении. Основным преимуществом класса <code>RandomAccessFile</code> является возможность читать и записывать данные в произвольное место файла. </p>
+<p>Для того чтобы создать объект класса <code>RandomAccessFile</code>, необходимо вызвать его конструктор с двумя параметрами: именем файла для ввода/вывода и режимом доступа к файлу. В качестве режима можно использовать строки <code>&quot;r&quot;</code> (для чтения), <code>&quot;rw&quot;</code> (для чтения и записи), <code>&quot;rws&quot;</code> (с синхронизацией файла) или <code>&quot;rwd&quot;</code> (с синхронизацией файла и метаданных). Так может выглядеть открытие файла данных:</p>
+<blockquote>
+  <pre class="justified">RandomAccessFile file1 = <b>new</b> RandomAccessFile(&quot;file1.dat&quot;, &quot;r&quot;);  // для чтения 
+RandomAccessFile file2 = <b>new</b> RandomAccessFile(&quot;file2.dat&quot;, &quot;rw&quot;); // для чтения и записи </pre>
+</blockquote>
+<p>После того как файл открыт, можно использовать методы <code>readDouble()</code>, <code>readInt()</code>, <code>readUTF()</code> и т. д. для чтения или <code>writeDouble()</code>, <code>writeInt()</code>, <code>writeUTF()</code> и т. д. для вывода.</p>
+<p>В основе управления файлом лежит текущий указатель на текущую позицию, где происходит чтение или запись данных. В момент создания объекта класса <code>RandomAccessFile</code> указатель устанавливается в начало файла и имеет значение 0. Вызовы методов <code>read...()</code> и <code>write...()</code> смещают позицию текущего указателя на количество прочитанных или записанных байтов. Для произвольного сдвига указателя на некоторое количество байтов можно использовать метод <code>skipBytes()</code>, или же установить указатель в определенное место файла вызовом метода <code>seek()</code>. Для того чтобы узнать текущую позицию, в которой находится указатель, нужно вызвать метод <code>getFilePointer()</code>. Например, в одной программе мы записываем данные в новый файл:</p>
+<blockquote>
+  <pre>RandomAccessFile fileOut = <b>new</b> RandomAccessFile(&quot;new.dat&quot;, &quot;rw&quot;);
+<b>int</b> a = 1, b = 2;
+fileOut.writeInt(a);
+fileOut.writeInt(b);
+fileOut.close();</pre>
+</blockquote>
+<p>В другой программе мы читаем второе целое число:</p>
+<blockquote>
+  <pre>RandomAccessFile fileIn = <b>new</b> RandomAccessFile(&quot;new.dat&quot;, &quot;rw&quot;);
+fileIn.skipBytes(4); // перемещаем файловый указатель ко второму числу 
+<b>int</b> c = fileIn.readInt();
+System.out.println(c);
+fileIn.close();</pre>
+</blockquote>
+<p>Узнать длину файла в байтах можно с помощью функции <code>length()</code>.</p>
+<h3>1.2 Двоичная сериализация</h3>
+<p>Для записи и чтения объектов используют потоки <code>ObjectInputStream</code> и <code>ObjectOutputStream</code>. Наиболее естественным является использование этих потоков для сериализации и десериализации. Механизм сериализации (<i>serialization</i>, размещение в последовательном порядке) предусматривает запись объектов в поток битов для хранения в файле или для передачи через компьютерные сети. Десериализация предполагает чтение потока битов, создание хранимых объектов и воспроизведение их состояния на момент сохранения. Для того, чтобы объекты определенного класса можно было сериализовать, класс должен реализовывать интерфейс <code>java.io.Serializable</code>. Этот интерфейс не определяет методов, его наличие лишь указывает, что объекты этого класса можно сериализовать. Однако гарантированная сериализация и десериализация требует наличия в таких классах специального статического поля <code>serialVersionUID</code>, которое обеспечивает уникальность класса. </p>
+<p>В среде IntelliJ IDEA статическое поле <code>serialVersionUID</code>, можно сгенерировать автоматически, предварительно включив в установках <tt>File | Settings | Editor | Inspections | Java | Serialization issues</tt> опцию <tt>Serializable class without 'serialVersionUID'</tt>. После этого, находясь в редакторе, добавив реализацию интерфейса и выбрав соответствующий класс, можно воспользоваться контекстной подсказкой <tt>Add 'serialVersionUID' field</tt>.</p>
+<p>Классы <code>ObjectOutputStream</code> и <code>ObjectInputStream</code> позволяют осуществлять сериализацию и десериализацию. Они реализуют интерфейсы <code>ObjectOutput</code> и <code>ObjectInput</code> соответственно. Механизмы сериализации и десериализации рассмотрим на следующем примере. Предположим, описан класс <code>Point</code>:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.Serializable;
+
+<b>public class</b> Point <b>implements</b> Serializable {
+    <b>private static final long</b> serialVersionUID = -3861862668546826739L;
+    <b>private double</b> x, y;
+
+    <b>public void</b> setX(<b>double</b> x) {
+        <b>this</b>.x = x;
+    }
+
+    <b>public void</b> setY(<b>double</b> y) {
+        <b>this</b>.y = y;
+    }
+
+    <b>public double</b> getX() {
+        <b>return</b> x;
+    }
+
+    <b>public double</b> getY() {
+        <b>return</b> y;
+    }
+
+}
+</pre>
+</blockquote>
+<p>Также создан класс <code>Line</code>:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.Serializable;
+
+<b>public class</b> Line <b>implements</b> Serializable {
+    <b>private static final long</b> serialVersionUID = -4909779210010719389L;
+    <b>private</b> Point first = <b>new</b> Point(), second = <b>new</b> Point();
+
+    <b>public void</b> setFirst(Point first) {
+        <b>this</b>.first = first;
+    }
+
+    <b>public</b> Point getFirst() {
+        <b>return</b> first;
+    }
+
+    <b>public</b> Point getSecond() {
+        <b>return</b> second;
+    }
+
+    <b>public void</b> setSecond(Point second) {
+        <b>this</b>.second = second;
+    }
+
+}</pre>
+</blockquote>
+<p>В приведенной ниже программе (в том же пакете) осуществляется создание объектов с последующей сериализацией:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.*;
+
+<b>public class</b> SerializationTest {
+
+    <b>public static void</b> main(String[] args) {
+        Line line = <b>new</b> Line();
+        line.getFirst().setX(1);
+        line.getFirst().setY(2);
+        line.getSecond().setX(3);
+        line.getSecond().setY(4);
+        <b>try</b> (ObjectOutputStream out = <b>new</b> ObjectOutputStream(<b>new</b> FileOutputStream(&quot;temp.dat&quot;))) {
+            out.writeObject(line);
+        }
+        <b>catch</b> (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}</pre>
+</blockquote>
+<p>В другой программе можно осуществить десериализацию:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.*;
+
+<b>public class</b> DeserializationTest {
+
+    <b>public static void</b> main(String[] args) <b>throws</b> ClassNotFoundException {
+        <b>try</b> (ObjectInputStream in = <b>new</b> ObjectInputStream(<b>new</b> FileInputStream(&quot;temp.dat&quot;))) {
+            Line line = (Line) in.readObject();
+            System.out.println(line.getFirst().getX() + &quot; &quot; + line.getFirst().getY() + &quot; &quot; +
+                               line.getSecond().getX() + &quot; &quot; + line.getSecond().getY());
+        }
+        <b>catch</b> (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}</pre>
+</blockquote>
+<p>Можно сериализовать объекты, содержащие массивы других объектов:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.*;
+
+<b>class</b> Pair <b>implements</b> Serializable {
+    <b>private static final long</b> serialVersionUID = 6802552080830378203L;
+    <b>double</b> x, y;
+
+    <b>public</b> Pair(<b>double</b> x, <b>double</b> y) {
+        <b>this</b>.x = x;
+        <b>this</b>.y = y;
+    }
+
+}
+
+<b>class</b> ArrayOfPairs <b>implements</b> Serializable {
+    <b>private static final long</b> serialVersionUID = 5308689750632711432L;
+    Pair[] pairs;
+
+    <b>public</b> ArrayOfPairs(Pair[] pairs) {
+        <b>this</b>.pairs = pairs;
+    }
+
+} 
+
+<b>public class</b> ArraySerialization {
+
+    <b>public static void</b> main(String[] args) {
+        Pair[] points = { <b>new</b> Pair(1, 2), <b>new</b> Pair(3, 4), <b>new</b> Pair(5, 6) };
+        ArrayOfPairs arrayOfPoints = <b>new</b> ArrayOfPairs(points);
+        <b>try</b> (ObjectOutputStream out = 
+             <b>new</b> ObjectOutputStream(<b>new</b> FileOutputStream(&quot;temp.dat&quot;))) {
+            out.writeObject(arrayOfPoints);
+        }
+        <b>catch</b> (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}</pre>
+</blockquote>
+<p>Теперь можно осуществить десериализацию:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.*;
+
+<b>public class</b> ArrayDeserialization {
+
+    <b>public static void</b> main(String[] args) <b>throws</b> ClassNotFoundException {
+        <b>try</b> (ObjectInputStream in = <b>new</b> ObjectInputStream(<b>new</b> FileInputStream(&quot;temp.dat&quot;))) {
+            ArrayOfPairs arrayOfPairs = (ArrayOfPairs) in.readObject();
+            <b>for</b> (Pair p : arrayOfPairs.pairs) {
+                System.out.println(p.x + &quot; &quot; + p.y);
+            }
+        }
+        <b>catch</b> (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+}</pre>
+</blockquote>
+<p>Некоторые поля класса, значения которых не влияют на состояние объекта, можно описать с модификатором <b><code>transient</code></b>. например:</p>
+<blockquote>
+  <pre><b>class</b> SomeClass <b>implements</b> Serializable {
+    <b>transient int</b> someUnnecessaryField;
+}</pre>
+</blockquote>
+<p>Такие поля не будут сохраняться в потоке при сериализации и не будут воспроизведены при десериализации.</p>
+<p>Сериализовать можно также объекты обобщенных классов. При десериализации необходимо дополнительно обрабатывать исключение <code>ClassNotFoundException</code>. Кроме того, необходимо подавлять предупреждение &quot;<code>unchecked</code>&quot;.</p>
+<h2>1.3 Работа с архивами</h2>
+<p>Пакет <code>java.util.zip</code> предоставляет возможности работы со стандартными файлами ZIP и GZIP форматов.</p>
+<p>Для записи в архив применяют класс <code>ZipOutputStream</code>. С помощью функции <code>setMethod()</code> этого класса можно определить метод архивации &#8211; <code>ZipOutputStream.DEFLATED</code> (с компрессией) или <code>ZipOutputStream.STORED</code> (без компрессии). Метод <code>setLevel()</code> определяет уровень компрессии (вд 0 до 9, по умолчанию <code>Deflater.DEFAULT_COMPRESSION</code>, обычно максимальная компрессия). Метод <code>setComment()</code> позволяет добавить комментарий к архиву.</p>
+<p>Для каждого файла, который нужно поместить в zip-файл, создается объект <code>ZipEntry</code>. Предполагаемое имя файла передается конструктору <code>ZipEntry</code>. В нем можно отдельно установить аналогичные параметры. Далее с помощью метода <code>putNextEntry()</code> класса <code>ZipOutputStream</code> &quot;раскрывается&quot; соответствующая точка входа в архив. С помощью средств работы с файловыми потоками осуществляется запись данных в архив, затем следует закрыть объект <code>ZipEntry</code> посредством вызова <code>closeEntry()</code>.</p>
+<p>В следующем примере создается архив <tt>Source.zip</tt>, к которому прилагается содержимое исходного файла <tt>ZipCreator.java</tt>:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.*;
+<b>import</b> java.util.zip.*;
+
+<b>public class</b> ZipCreator {
+
+    <b>public static void</b> main(String[] args) {
+        <b>try</b> (ZipOutputStream zOut = <b>new</b> ZipOutputStream(<b>new</b> FileOutputStream(&quot;Source.zip&quot;))) {
+            ZipEntry zipEntry = <b>new</b> ZipEntry(&quot;src/ua/inf/iwanoff/files/ZipCreator.java&quot;);
+            zOut.putNextEntry(zipEntry);
+            <b>try</b> (FileInputStream in = <b>new</b> FileInputStream(&quot;src/ua/inf/iwanoff/files/ZipCreator.java&quot;)) {
+                <b>byte</b>[] bytes = <b>new byte</b>[1024];
+                <b>int</b> length;
+                <b>while</b> ((length = in.read(bytes)) &gt;= 0) {
+                    zOut.write(bytes, 0, length);
+                }
+            } 
+            zOut.closeEntry();
+        }
+        <b>catch</b> (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}</pre>
+</blockquote>
+<p>Вновь созданный архив содержит относительный путь к файлу. Если это не нужно, при создании объекта <code>ZipEntry</code> следует указать только имя без пути:</p>
+<blockquote>
+  <pre>ZipEntry zipEntry = <b>new</b> ZipEntry(&quot;ZipCreator.java&quot;);</pre>
+</blockquote>
+<p>Для того, чтобы прочитать данные из архива, необходимо воспользоваться классом <code>ZipInputStream</code>. В каждом таком архиве всегда нужно просматривать отдельные записи (entries). Метод <code>getNextEntry()</code> возвращает следующую ссылку на объект типа <code>ZipEntry</code>. Метод <code>read()</code> класса <code>ZipInputStream</code> возвращает -1 вконце текущей записи (а не только в конце Zip-файла). Далее вызывается метод <code>closeEntry()</code> для получения возможности перехода к считыванию следующей записи. В следующем примере осуществляется чтение записи <tt>ZipCreator.java</tt> из ранее созданного архива и вывод его содержимого в консольное окно:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.*;
+<b>import</b> java.util.zip.*;
+
+<b>public class</b> ZipExtractor {
+
+    <b>public static void</b> main(String[] args) {
+        <b>try</b> (ZipInputStream zIn = <b>new</b> ZipInputStream(<b>new</b> FileInputStream(&quot;Source.zip&quot;))) {
+            ZipEntry entry;
+            <b>byte</b>[] buffer = <b>new byte</b>[1024];
+            <b>while</b> ((entry = zIn.getNextEntry()) != <b>null</b>) {
+                <b>int</b> bytesRead;
+                System.out.println(&quot;------------&quot; + entry.getName() + &quot;------------&quot;);
+                <b>while</b> ((bytesRead = zIn.read(buffer)) &gt;= 0) {
+                    System.out.write(buffer, 0, bytesRead);
+                }
+                zIn.closeEntry();
+            }
+        }
+        <b>catch</b> (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}</pre>
+</blockquote>
+<p>Аналогично осуществляется работа с архивами формата GZIP. Соответствующие потоки чтения и записи &#8211; <code>GZIPInputStream</code> і <code>GZIPOutputStream</code>.</p>
+<h3>1.4 Работа с файловой системой</h3>
+<h4>1.4.1 Общие концепции</h4>
+<p>Java предоставляет возможность работы не только с содержанием файлов, а также с файловой системой в целом. <i>Файловая система</i> &#8211; это способ организации данных, используемый операционной системой для хранения информации в виде файлов на носителях информации. Также этим понятием обозначают совокупность файлов и каталогов (папок), которые размещаются на логическом или физическом устройстве.</p>
+<p>К типичным функциям взаимодействия с файловой системой относятся:</p>
+<ul>
+  <li>проверка существования файла или каталога</li>
+  <li>получение списка файлов и подкаталогов заданного каталога</li>
+  <li>создание файлов и ссылок на файлы</li>
+  <li>копирование файлов</li>
+  <li>переименование и перемещение файлов</li>
+  <li>управление атрибутами файлов</li>
+  <li>удаление файлов</li>
+  <li>обход дерева подкаталогов</li>
+  <li>отслеживание изменений файлов</li>
+</ul>
+<p>Для работы с файловой системой Java предоставляет два подхода:</p>
+<ul>
+  <li>использование класса <code>java.io.File</code>;</li>
+  <li>использование средств пакета <code>java.nio.file</code>.</li>
+</ul>
+<h4>1.4.2 Использование класса File</h4>
+<p>В версиях Java до 6 включительно для работы с файловой системой предоставлены средства, реализованные классом <code>java.io.File</code>. Для создания объекта этого класса в качестве параметра конструктора следует определить полный или относительный путь к файлу. Например:</p>
+<blockquote>
+  <pre>File dir = <b>new</b> File(&quot;C:\\Users&quot;);
+File currentDir = <b>new</b> File(&quot;.&quot;); // Папка проекта (текущая)</pre>
+</blockquote>
+<p>Класс <code>File</code> содержит методы для получения списка файлов определенной папки (<code>list()</code>, <code>listFiles()</code>), получения и модификации атрибутов файлов (<code>setLastModified()</code>, <code>setReadOnly()</code>, <code>isHidden()</code>, <code>isDirectory()</code> и т.д.), создания нового файла (<code>createNewFile()</code>, <code>createTempFile()</code>), создания папок (<code>mkdir()</code>), удаления файлов и папок (<code>delete()</code>) и многие другие. Работу некоторых из этих методов можно продемонстрировать на следующем примере:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.*;
+<b>import</b> java.util.*;
+
+<b>public class</b> FileTest {
+
+    <b>public static void</b> main(String[] args) <b>throws</b> IOException {
+        Scanner scanner = <b>new</b> Scanner(System.in);
+        System.out.print(&quot;Введите имя папки, которую вы хотите создать:&quot;);
+        String dirName = scanner.next();
+        File dir = <b>new</b> File(dirName);
+    // Создаем новую папку:
+        <b>if</b> (!dir.mkdir()) {
+            System.out.println(&quot;Нельзя создать папку!&quot;);
+      <b>      return</b>;
+        }
+    // Создаем новый файл внутри новой папки: 
+        File file = <b>new</b> File(dir + &quot;\\temp.txt&quot;);
+        file.createNewFile();
+    // Показываем список файлов папки:
+        System.out.println(Arrays.asList(dir.list()));
+        file.delete(); // Удаляем файл
+        dir.delete();  // Удаляем папку
+    }
+
+}</pre>
+</blockquote>
+<p>Функция <code>list()</code> без параметров позволяет получить массив строк &#8211; всех файлов и подкаталогов папки, определенной при создании объекта типа <code>File</code>. Выводятся относительные имена файлов (без пути). В следующем примере мы получаем список файлов и подкаталогов папки, имя которой вводится с клавиатуры:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.File;
+<b>import</b> java.io.FilenameFilter;
+<b>import</b> java.util.Scanner;
+
+<b>public class</b> ListOfFiles {
+
+    <b>public static void</b> main(String[] args) {
+        Scanner scanner = <b>new</b> Scanner(System.in);
+        System.out.print(&quot;Введите имя папки:&quot;);
+        String dirName = scanner.next();
+        File dir = <b>new</b> File(dirName);
+        <b>if</b> (!dir.isDirectory()) {
+            System.out.println(&quot;Неправильное имя папки!&quot;);
+            <b>return</b>;
+        }
+        String[] list = dir.list();
+        <b>for</b>(String name : list) {
+            System.out.println(name);
+        }
+    }
+
+}</pre>
+</blockquote>
+<p>В отличие от <code>list()</code>, функция <code>listFiles()</code> возвращает массив объектов типа <code>File</code>. Это дает дополнительные возможности &#8211; получение имен файлов с полным путем, проверка значений атрибутов файлов, отдельная работа с папками и т.д. Эти дополнительные возможности покажем на следующем примере:</p>
+<blockquote>
+  <pre>    File[] list = dir.listFiles();
+ // Выводятся данные о файлах в форме по умолчанию:
+    <b>for</b>(File file : list) {
+        System.out.println(file);
+    }
+ // Выводится полный путь:
+    <b>for</b>(File file : list) {
+      System.out.println(file.getCanonicalPath());
+    }
+ // Выводятся только подкаталоги:
+    <b>for</b>(File file : list) {
+        <b>if</b> (file.isDirectory()) {
+            System.out.println(file.getCanonicalPath());
+        }
+    }</pre>
+</blockquote>
+<p>Функция <code>getCanonicalPath()</code>, используемая в данном примере, позволяет получить полный путь к файлу. В отличие от <code>getAbsolutePath()</code>, исключаются элементы относительного пути типа &quot;<code>\..\.\</code>&quot;.</p>
+<p>Для определения маски-фильтра необходимо создать объект класса, который реализует интерфейс <code>FilenameFilter</code>. В следующем примере мы получаем список файлов и подкаталогов, имена которых начинаются с буквы <code>s</code>:</p>
+<pre>
+    String[] list = dir.list(<b>new</b> FilenameFilter() {
+        @Override
+        <b>public boolean</b> accept(File dir, String name) {
+            <b>return</b> name.toLowerCase().charAt(0) == 's';
+        }
+    });
+    <b>for</b>(String name : list) {
+        System.out.println(name);
+    }</pre>
+<p>Аналогичный параметр типа <code>FilenameFilter</code> применим к функции <code>listFiles()</code>.</p>
+<h4>1.4.3 Работа с пакетом java.nio</h4>
+<p>Пакет <code>java.nio</code>, появившийся в JDK 1.4, первоначально включал альтернативные средства ввода-вывода. По сравнению с традиционными потоками ввода-вывода, <code>java.nio</code> обеспечивает более высокую эффективность операций ввода-вывода. Это достигается за счет того, что традиционные средства ввода-вывода работают с данными в потоках, в то время как <code>java.nio</code> работает с данными в блоках. Центральными объектами в <code>java.nio</code> являются &quot;Канал&quot; (<code>Channel</code>) и &quot;Буфер&quot; (<code>Buffer</code>). Каналы аналогичны потокам в пакете <code>java.io</code>. Буфер &#8211; это контейнерный объект. Все данные, которые передаются в канал, должны быть сначала помещены в буфер. Любые данные, которые считываются из канала, считываются в буфер. Средства <code>java.nio</code> эффективны при работе с двоичными файлами.</p>
+<p>Версия Java 7 предоставляет альтернативный подход к работе с файловой системой &#8211; набор классов, описанных в пакете <code>java.nio.files</code>. Пакет <code>java.nio.files</code> предоставляет класс <code>Path</code>, обеспечивающий представление пути в файловой системе. Отдельные составляющие этого пути можно представить некоторой коллекцией имен промежуточных подкаталогов и имени самого файла (подкаталога). Получить объект класса <code>Path</code> можно с помощью метода <code>get()</code> класса <code>Paths</code>. Методу <code>get()</code> передается строка &#8211; путь:</p>
+<blockquote>
+  <pre>Path path = Paths.get(&quot;c:/Users/Public&quot;);</pre>
+</blockquote>
+<p>Теперь можно получить информацию про путь:</p>
+<blockquote>
+  <pre>System.out.println(path.toString());      // c:\Users\Public
+System.out.println(path.getFileName());   // Public
+System.out.println(path.getName(0));      // Users
+System.out.println(path.getNameCount());  // 2
+System.out.println(path.subpath(0, 2));   // Users\Public
+System.out.println(path.getParent());     // c:\Users
+System.out.println(path.getRoot());       // c:\</pre>
+</blockquote>
+<p>После того, как объект класса <code>Path</code> создан, можно использовать в качестве аргумента статических функций класса <code>java.nio.files.Files</code>. Для проверки наличия (отсутствия) файла используют соответственно функции <code>exists()</code> и <code>notExists()</code>:</p>
+<blockquote>
+  <pre>Path dir = Paths.get(&quot;c:/Windows&quot;);
+System.out.println(Files.exists(dir));    // скорее всего, true
+System.out.println(Files.notExists(dir)); // скорее всего, false</pre>
+</blockquote>
+<p>Наличие двух отдельных функций связано с возможностью получения неопределенного результата (запрещен доступ к файлу).</p>
+<p> Чтобы убедиться, что программа может получить необходимый доступ к файлу, можно использовать методы <code>isReadable(Path)</code>, <code>isWritable(Path)</code> и <code>isExecutable(Path)</code>. Допустим, создан объект file типа <code>Path</code> и задан путь к файлу. Следующий фрагмент кода проверяет, существует ли конкретный файл, и можно ли загрузить его на выполнение:</p>
+<blockquote>
+  <pre class="justified"><b>boolean</b> isRegularExecutableFile = Files.isRegularFile(file) &amp; 
+                                  Files.isReadable(file) &amp; Files.isExecutable(file);</pre>
+</blockquote>
+<p>Для получения метаданных (данных о файлах и каталогах) класс <code>Files</code> предоставляет ряд статических методов:</p>
+<div align="center">
+  <table class="simple" border="1" cellspacing="0" cellpadding="4">
+    <tr>
+      <th id="h1">Методы</th>
+      <th id="h2">Объяснение</th>
+    </tr>
+    <tr>
+      <td> <code>size(Path)</code></td>
+      <td>Возвращает размер указанного файла в байтах</td>
+    </tr>
+    <tr>
+      <td> <code>isDirectory(Path, LinkOption...)</code></td>
+      <td>Возвращает <strong><code>true</code></strong>, если указанный <code>Path</code> определяет файл, который является каталогом</td>
+    </tr>
+    <tr>
+      <td> <code>isRegularFile(Path, LinkOption...)</code></td>
+      <td>Возвращает <strong><code>true</code></strong>, если указанный <code></code><code>Path</code> указывает на обычный файл</td>
+    </tr>
+    <tr>
+      <td headers="h1"> <code>isHidden(Path)</code></td>
+      <td headers="h2">Возвращает <strong><code>true</code></strong>, если указанный <code></code><code>Path</code> указывает на скрытый файл</td>
+    </tr>
+    <tr>
+      <td headers="h1"> <code>getLastModifiedTime(Path, LinkOption...)</code> <code>setLastModifiedTime(Path, FileTime)</code></td>
+      <td headers="h2">Возвращает или устанавливает время последнего изменения указанного файла</td>
+    </tr>
+    <tr>
+      <td> <code>getOwner(Path, LinkOption...)</code> <code>setOwner(Path, UserPrincipal)</code></td>
+      <td headers="h2">Возвращает или устанавливает владельца файла</td>
+    </tr>
+    <tr>
+      <td> <code>getAttribute(Path, String, LinkOption...)</code><br />
+          <code>setAttribute(Path, String, Object, LinkOption...)</code></td>
+      <td>Возвращает или устанавливает значение атрибута файла</td>
+    </tr>
+  </table>
+</div>
+<p> Для ОС Windows различных версий строка атрибута должна начинаться с префикса &quot;<code>dos:</code>&quot;. Например, так можно установить необходимые атрибуты некоторому файлу:</p>
+<blockquote>
+  <pre>Path file = ...
+Files.setAttribute(file, &quot;dos:archive&quot;, <b>false</b>);
+Files.setAttribute(file, &quot;dos:hidden&quot;, <b>true</b>);
+Files.setAttribute(file, &quot;dos:readonly&quot;, <b>true</b>);
+Files.setAttribute(file, &quot;dos:system&quot;, <b>true</b>);</pre>
+</blockquote>
+<p>Чтение необходимых атрибутов может также осуществляться методом <code>readAttributes()</code>. Его второй параметр &#8211; метаданные о возвращаемом типе, которые могут быть получены через значение поля <code>class</code> (метаданные типов будут рассмотрены позже). Наиболее подходящий тип результата &#8211; класс <code>java.nio.file.attribute.BasicFileAttributes</code>. Например, так можно получить некоторые данные о файле:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.nio.file.*;
+<b>import</b> java.nio.file.attribute.BasicFileAttributes;
+<b>import</b> java.util.Scanner;
+
+<b>public class</b> Attributes {
+
+    <b>public static void</b> main(String[] args) <b>throws</b> Exception {
+        System.out.println(&quot;Введите имя файла или каталога:&quot;);
+        Path path = Paths.get(<b>new</b> Scanner(System.in).nextLine());
+        BasicFileAttributes attr = Files.readAttributes(path, BasicFileAttributes.<b>class</b>);
+        System.out.println(&quot;Время создания: &quot; + attr.creationTime());
+        System.out.println(&quot;Время последнего доступа: &quot; + attr.lastAccessTime());
+        System.out.println(&quot;Время последнего изменения: &quot; + attr.lastModifiedTime());
+        System.out.println(&quot;Каталог: &quot; + attr.isDirectory());
+        System.out.println(&quot;Обычный файл: &quot; + attr.isRegularFile());
+        System.out.println(&quot;Размер: &quot; + attr.size());
+    }
+
+}</pre>
+</blockquote>
+<p>Класс <code>DosFileAttributes</code>, производный от <code>BasicFileAttributes</code>, предоставляет также функции <code>isReadOnly()</code>, <code>isHidden()</code>, <code>isArchive()</code> и <code>isSystem()</code>.</p>
+<p>В отличие от ранее созданных средств для работы с файловой системой, класс <code>java.nio.files.Files</code> предоставляет функцию <code>copy()</code> для копирования файлов. Например:</p>
+<blockquote>
+  <pre>Files.copy(Paths.get(&quot;c:/autoexec.bat&quot;), Paths.get(&quot;c:/Users/autoexec.bat&quot;));
+Files.copy(Paths.get(&quot;c:/autoexec.bat&quot;), 
+           Paths.get(&quot;c:/Users/autoexec.bat&quot;), StandardCopyOption.REPLACE_EXISTING);</pre>
+</blockquote>
+<p>Существуют также опции <code>StandardCopyOption.ATOMIC_MOVE</code> и <code>StandardCopyOption.COPY_ATTRIBUTES</code>. Опции можно перечислять через запятую.</p>
+<p>Для перемещения файлов используют функцию <code>move()</code> (с аналогичными атрибутами или без них). Переименование выполняется той же функцией:</p>
+<blockquote>
+  <pre>Files.move(Paths.get(&quot;c:/Users/autoexec.bat&quot;), Paths.get(&quot;d:/autoexec.bat&quot;));// перемещение
+Files.move(Paths.get(&quot;d:/autoexec.bat&quot;), Paths.get(&quot;d:/unnecessary.bat&quot;));// переименование</pre>
+</blockquote>
+<p>Создание новых каталогов осуществляется с помощью функции <code>createDirectory()</code> класса <code>Files</code>. Параметр функции имеет тип <code>Path</code>.</p>
+<blockquote>
+  <pre>Path dir = Paths.get(&quot;c:/NewDir&quot;);
+Files.createDirectory(dir);</pre>
+</blockquote>
+<p>Для создания каталога нескольких уровней в глубину, когда один или несколько родительских каталогов, возможно, еще не существует, можно использовать метод <code>createDirectories()</code>:</p>
+<blockquote>
+  <pre>Path dir = Paths.get(&quot;c:/NewDir/1/2&quot;);
+Files.createDirectories(dir);</pre>
+</blockquote>
+<p>Для получения списка файлов подкаталога можно воспользоваться классом <code>DirectoryStream</code>.</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.IOException;
+<b>import</b> java.nio.file.*;
+
+<b>public class</b> FileListDemo {
+
+    <b>public static void</b> main(String[] args) {
+        Path dir = Paths.get(&quot;c:/Windows&quot;);
+        <b>try</b> (DirectoryStream&lt;Path&gt; ds = Files.newDirectoryStream(dir)) {
+            <b>for</b> (Path p : ds) {
+                System.out.println(p.getFileName());
+           }
+        } 
+        <b>catch</b> (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}</pre>
+</blockquote>
+<p>Удаление файлов и папок осуществляется с помощью функций <code>delete()</code> и <code>deleteIfExists()</code>:</p>
+<blockquote>
+  <pre>Files.delete(Paths.get(&quot;d:/unnecessary.bat&quot;));
+Files.deleteIfExists(Paths.get(&quot;d:/unnecessary.bat&quot;));</pre>
+</blockquote>
+<p>Для обхода дерева каталогов пакет <code>java.nio.files</code> предоставляет средства, не требующие реализации рекурсивных алгоритмов. Существует метод <code>walkFileTree()</code> класса <code>Files</code>, обеспечивающий обход дерева подкаталогов. В качестве параметров необходимо указать начальный каталог (объект типа <code>Path</code>), , а также объект, реализующий обобщенный интерфейс <code>FileVisitor</code>. </p>
+<p><i>Примечание</i>: существует другой вариант метода, позволяющий задавать также опции обхода каталогов и ограничение на глубину обхода подкаталогов.</p>
+<p>Для реализации интерфейса <code>FileVisitor</code> нужно определить методы <code>preVisitDirectory()</code>, <code>postVisitDirectory()</code>, <code>visitFile()</code> и <code>visitFileFailed()</code>. Результат этих функций &#8211; перечисление типа <code>FileVisitResult</code>. Возможные значения этого перечисления &#8211; <code>CONTINUE</code> (продолжать поиск), <code>TERMINATE</code> (продолжать поиск), <code>SKIP_SUBTREE</code> (пропустить поддерево) и <code>SKIP_SIBLINGS</code> (пропустить элементы того же уровня).</p>
+<p>Чтобы каждый раз не реализовывать все методы интерфейса <code>FileVisitor</code>, можно воспользоваться обобщенным классом <code>SimpleFileVisitor</code>. Этот клас предоставляет реализацию функций интерфейса по умолчанию. В этом случае необходимо только перекрыть нужные функции. В следующем примере осуществляется поиск всех файлов заданного каталога и его подкаталогов:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.IOException;
+<b>import</b> java.nio.file.*;
+<b>import</b> java.nio.file.attribute.BasicFileAttributes;
+<b>import</b> java.util.Scanner;
+
+<b>public class</b> FindAllFiles {
+
+    <b>private static class</b> Finder <b>extends</b> SimpleFileVisitor&lt;Path&gt; {
+
+        @Override
+        <b>public</b> FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
+                                                            <b>throws</b> IOException {
+            System.out.println(file);
+            <b>return</b> FileVisitResult.CONTINUE;
+        }
+
+        @Override
+        <b>public</b> FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
+                                                            <b>throws</b> IOException {
+            System.out.println(&quot;----------------&quot; + dir + &quot;----------------&quot;);
+            <b>return</b> FileVisitResult.CONTINUE;
+        }
+
+    }
+
+    <b>public static void</b> main(String[] args) {
+        String dirName = <b>new</b> Scanner(System.in).nextLine();
+        <b>try</b> {
+            Files.walkFileTree(Paths.get(dirName), <b>new</b> Finder()); // Текущий каталог
+        }
+        <b>catch</b> (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}</pre>
+</blockquote>
+<p>Для поиска файлов можно пользоваться масками (так называемые &quot;glob&quot;-маски), активно применяемых во всех операционных системах. Примеры таких масок &#8211; &quot;<code>a*.*</code>&quot; (имена файлов начинаются на букву <code>a</code>), &quot;<code>*.txt</code>&quot; (файлы с расширением <code>*.txt</code>) и т. д. Допустим, строка <code>pattern</code> содержит такую маску. Далее создается объект <code>PathMatcher</code>:</p>
+<blockquote>
+  <pre class="justified">PathMatcher matcher = FileSystems.getDefault().getPathMatcher(&quot;glob:&quot; + pattern);</pre>
+</blockquote>
+<p>В следующем примере в заданном каталоге осуществляется поиск файлов по указанной маске:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.IOException;
+<b>import</b> java.nio.file.*;
+<b>import</b> java.util.Scanner;
+
+<b>public class</b> FindMatched {
+
+    <b>public static void</b> main(String[] args) {
+        Scanner scanner = <b>new</b> Scanner(System.in);
+        String dirName = scanner.nextLine();
+        String pattern = scanner.nextLine();
+        Path dir = Paths.get(dirName);
+        PathMatcher matcher = FileSystems.getDefault().getPathMatcher(&quot;glob:&quot; + pattern);
+        <b>try</b> (DirectoryStream&lt;Path&gt; ds = Files.newDirectoryStream(dir)) {
+            <b>for</b> (Path file : ds) {
+                <b>if</b> (matcher.matches(file.getFileName())) {
+                    System.out.println(file.getFileName());
+                }
+            }
+        } 
+    <b>    catch</b> (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}</pre>
+</blockquote>
+<p>Маски могут сочетаться с обходом дерева каталогов.</p>
+<p>Одна из задач файловой системы &#8211; отслеживание состояния указанного каталога. Например, программа должна обновлять данные о файлах и подкаталогах некоторого каталога, если другие процессы или потоки управления обусловили появление, изменение, удаление файлов и папок и т. д. Пакет <code>java.nio.files</code> предоставляет средства для регистрации таких каталогов и отслеживания их состояния. Для отслеживания изменений можно реализовать интерфейс <code>WatchService</code>. Подходящую реализацию можно получить с помощью функции <code>FileSystems.getDefault().newWatchService()</code>. Класс <code>StandardWatchEventKinds</code> предоставляет необходимые константы для возможных событий.</p>
+<p>Сначала необходимо зарегистрировать необходимый каталог, а потом в бесконечном цикле читать информацию о событиях связанных с его изменениями. Интерфейс <code>WatchEvent</code> предоставляет описание возможного события. Например, можно предложить следующую программу:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.nio.file.*;
+<b>import</b> java.util.Scanner;
+<b>import static</b> java.nio.file.StandardWatchEventKinds.*;
+
+<b>public class</b> WatchDir {
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    <b>public static void</b> main(String[] args) <b>throws</b> Exception {
+        System.out.println(&quot;Введите имя каталога:&quot;);
+        Path dir = Paths.get(<b>new</b> Scanner(System.in).nextLine());
+    // Создаем объект WatchService
+        WatchService watcher = FileSystems.getDefault().newWatchService();
+    // Регистрируем отслеживаемые события:
+        WatchKey key = dir.register(watcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
+        <b>while</b> (<b>true</b>) { // бесконечный цикл
+            key = watcher.take(); // ожидаем следующий набор событий
+            <b>for</b> (WatchEvent&lt;?&gt; event: key.pollEvents()) {
+                WatchEvent&lt;Path&gt; ev = (WatchEvent&lt;Path&gt;)event;
+                System.out.printf(&quot;%s: %s\n&quot;, ev.kind().name(), dir.resolve(ev.context()));
+            }
+            key.reset(); // сбрасываем состояние набора событий
+        }
+    }
+
+}</pre>
+</blockquote>
+<p>Библиотека <code>java.nio.files</code> поддерживает работу как с <i>символьными ссылками</i> (symlinks, soft links), так и с <i>жесткими ссылками</i> (hard links). Метод <code>createSymbolicLink(новая_ссылка, существующий_объект)</code> класса <code>Files</code> создает символьную ссылку, метод <code>createLink(новая_ссылка, существующий_файл)</code> создает жесткую ссылку. Метод <code>isSymbolicLink()</code> возвращает <code><strong>true</strong></code>, если переданный ему объект &#8211; символьная ссылка. Метод <code>readSymbolicLink()</code> позволяет найти объект, на который ссылается символьная ссылка.</p>
+<h2>2 Примеры программ</h2>
+<h3>2.1 Построчное копирование текстовых файлов<b></b></h3>
+<p>Предположим, необходимо создать программу, которая осуществляет построчное копирование текстовых файлов. Имена файлов задаются аргументами командной строки. Текст программы будет иметь следующий вид:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.*;
+
+<b>public class</b> TextFileCopy {
+
+    <b>public static void</b> main(String[] args) {
+        <b>if</b> (args.length &lt; 2) {
+            System.out.println(&quot;Нужны аргументы!&quot;);
+      <b>      return</b>;
+        }
+    <b>    try</b> (BufferedReader <b>in</b> = <b>new</b> BufferedReader(<b>new</b> FileReader(args[0]));
+             PrintWriter out = <b>new</b> PrintWriter(<b>new</b> FileWriter(args[1]))) {
+            String line;
+      <b>      while</b> ((line = <b>in</b>.readLine()) != <b>null</b>) {
+                out.println(line);
+            }
+        }
+    <b>    catch</b> (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}
+</pre>
+</blockquote>
+<h3>2.2 Сериализация и десериализация данных<b></b></h3>
+<p>Предположим, необходимо создать классы Страна (<code>Country</code>) и Континент (<code>Continent</code>), создать объект типа <code>Continent</code>, осуществить его сериализацию и десериализацию. Класс <code>Country</code> будет таким:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.Serializable;
+
+<b>public class</b> Country <b>implements</b> Serializable {
+    <b>private static final long</b> serialVersionUID = -6755942443306500892L;
+    <b>private</b> String name;
+    <b>private double</b> area;
+    <b>private int</b> population;
+
+    <b>public</b> Country(String name, <b>double</b> area, <b>int</b> population) {
+        <b>this</b>.name = name;
+        <b>this</b>.area = area;
+        <b>this</b>.population = population;
+   }
+
+    <b>public</b> String getName() {
+        <b>return</b> name;
+    }
+
+    <b>public void</b> setName(String name) {
+        <b>this</b>.name = name;
+    }
+
+    <b>public double</b> getArea() {
+        <b>return</b> area;
+    }
+
+    <b>public void</b> setArea(<b>double</b> area) {
+        <b>this</b>.area = area;
+    }
+
+    <b>public int</b> getPopulation() {
+        <b>return</b> population;
+    }
+
+    <b>public void</b> setPopulation(<b>int</b> population) {
+        <b>this</b>.population = population;
+    }
+
+}</pre>
+</blockquote>
+<p>Класс <code>Continent</code> может быть таким:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.Serializable;
+
+<b>public class</b> Continent <b>implements</b> Serializable {
+    <b>private static final long</b> serialVersionUID = 8433147861334322335L;
+    <b>private</b> String name;
+    <b>private</b> Country[] countries;
+
+    <b>public</b> Continent(String name, Country... countries) {
+        <b>this</b>.name = name;
+        <b>this</b>.countries = countries;
+    }
+
+    <b>public</b> String getName() {
+        <b>return</b> name;
+    }
+
+    <b>public void</b> setName(String name) {
+        <b>this</b>.name = name;
+    }
+
+    <b>public</b> Country[] getCountries() {
+        <b>return</b> countries;
+    }
+
+    <b>public void</b> setCountries(Country[] countries) {
+        <b>this</b>.countries = countries;
+    }
+
+}</pre>
+</blockquote>
+<p>Приведенная ниже программа осуществляет создание и сериализацию объекта <code>Continent:</code></p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.*;
+
+<b>public class</b> DataSerialization {
+
+    <b>public static void</b> main(String[] args) {
+        Continent c = <b>new</b> Continent(&quot;Европа&quot;, 
+            <b>new</b> Country(&quot;Украина&quot;, 603700, 46314736),
+            <b>new</b> Country(&quot;Франция&quot;, 547030, 61875822),
+            <b>new</b> Country(&quot;Германия&quot;, 357022, 82310000)
+        );
+        <b>try</b> (ObjectOutputStream out = <b>new</b> ObjectOutputStream(<b>new</b> FileOutputStream(&quot;Countries.dat&quot;))) {
+            out.writeObject(c);
+        }
+        <b>catch</b> (IOException e) {
+            e.printStackTrace();
+        };
+    }
+
+}</pre>
+</blockquote>
+<p>Так можно осуществить десериализацию:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.*;
+
+<b>public class</b> DataDeserialization {
+
+    <b>public static void</b> main(String[] args) <b>throws</b> ClassNotFoundException {
+        <b>try</b> (ObjectInputStream in = <b>new</b> ObjectInputStream(<b>new</b> FileInputStream(&quot;Countries.dat&quot;))) {
+            Continent continent = (Continent) in.readObject();
+            <b>for</b> (Country c : continent.getCountries()) {
+                System.out.println(c.getName() + &quot; &quot; + c.getArea() + &quot; &quot; + c.getPopulation());
+            }
+        }
+    <b>    catch</b> (IOException e) {
+            e.printStackTrace();
+        };
+    }
+
+}</pre>
+</blockquote>
+<h3>2.3 Сериализация и десериализация объектов обобщенных классов<b></b></h3>
+<p>Допустим, мы создали обобщенный класс <code>Triple</code> (тройка).</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.*;
+
+<b>class</b> Triple&lt;T&gt; <b>implements</b> Serializable {
+    <b>private static final long</b> serialVersionUID = 7512336951571111736L;
+    T x, y, z;
+
+    Triple(T x, T y, T z) {
+        <b>this</b>.x = x;
+        <b>this</b>.y = y;
+        <b>this</b>.z = z;
+    }
+}</pre>
+</blockquote>
+<p>Можно создать объекты с различными параметрами обобщения и осуществить сериализацию:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.*;
+
+<b>public class</b> GenericsSerialization {
+
+    <b>public static void</b> main(String[] args) {
+        Triple&lt;Integer&gt; t1 = <b>new</b> Triple&lt;&gt;(1, 2, 3);
+        <b>try</b> (ObjectOutputStream out = <b>new</b> ObjectOutputStream(<b>new</b> FileOutputStream(&quot;Integers.dat&quot;))) {
+            out.writeObject(t1);
+        }
+        <b>catch</b> (IOException e) {
+            e.printStackTrace();
+        };
+        Triple&lt;String&gt; t2 = <b>new</b> Triple&lt;&gt;(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;);
+        <b>try</b> (ObjectOutputStream out = <b>new</b> ObjectOutputStream(<b>new</b> FileOutputStream(&quot;Strings.dat&quot;))) {
+            out.writeObject(t2);
+        }
+        <b>catch</b> (IOException e) {
+            e.printStackTrace();
+        };
+    }
+
+}</pre>
+</blockquote>
+<p>Можно осуществить десериализацию:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.*;
+
+<b>public class</b> GenericsDeserialization {
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    <b>public static void</b> main(String[] args) <b>throws</b> ClassNotFoundException {
+        <b>try</b> (ObjectInputStream in = <b>new</b> ObjectInputStream(<b>new</b> FileInputStream(&quot;Integers.dat&quot;))) {
+            Triple&lt;Integer&gt; t1 = (Triple&lt;Integer&gt;) in.readObject();
+            System.out.printf(&quot;%d %d %d%n&quot;, t1.x, t1.y, t1.z);
+        }
+        <b>catch</b> (IOException e) {
+            e.printStackTrace();
+        };
+        <b>try</b> (ObjectInputStream in = <b>new</b> ObjectInputStream(<b>new</b> FileInputStream(&quot;Strings.dat&quot;))) {
+            Triple&lt;String&gt; t2 = (Triple&lt;String&gt;) in.readObject();
+            System.out.printf(&quot;%s %s %s%n&quot;, t2.x, t2.y, t2.z);
+        }
+        <b>catch</b> (IOException e) {
+            e.printStackTrace();
+        };
+    }
+
+}</pre>
+</blockquote>
+<p>Как видно из примера, для сериализации и десериализации можно использовать классы с пакетной видимостью.</p>
+<h3>2.4 Работа с архивом<b></b></h3>
+<p>Данные об объектах из примера 2.2 можно сохранить в архиве. Приведенная ниже программа осуществляет создание объекта <code>Continent</code> и сохранение данных в архиве. Каждой стране соответствует своя точка входа <code>ZipEntry</code>:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.*;
+<b>import</b> java.util.zip.*;
+
+<b>public class</b> StoreToZip {
+
+    <b>public static void</b> main(String[] args) {
+
+        Continent continent = <b>new</b> Continent(&quot;Европа&quot;, 
+            <b>new</b> Country(&quot;Украина&quot;, 603700, 46314736),
+            <b>new</b> Country(&quot;Франция&quot;, 547030, 61875822),
+            <b>new</b> Country(&quot;Германия&quot;, 357022, 82310000)
+        );
+        <b>try</b> (ZipOutputStream zOut = <b>new</b> ZipOutputStream(<b>new</b> FileOutputStream(&quot;Continent.zip&quot;));
+            DataOutputStream out = <b>new</b> DataOutputStream(zOut)) {
+            <b>for</b> (Country country : continent.getCountries()) {
+                ZipEntry zipEntry = <b>new</b> ZipEntry(country.getName());
+                zOut.putNextEntry(zipEntry);    
+                out.writeDouble(country.getArea());
+                out.writeInt(country.getPopulation());
+                zOut.closeEntry();
+            }
+        }
+        <b>catch</b> (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}</pre>
+</blockquote>
+<p>Так можно осуществить чтение из архива:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.*;
+<b>import</b> java.util.zip.*;
+
+<b>public class</b> ReadFromZip {
+
+    <b>public static void</b> main(String[] args) {
+        <b>try</b> (ZipInputStream zIn = <b>new</b> ZipInputStream(<b>new</b> FileInputStream(&quot;Continent.zip&quot;));
+                                  DataInputStream in = <b>new</b> DataInputStream(zIn)) {
+            ZipEntry entry;
+            <b>while</b> ((entry = zIn.getNextEntry()) != <b>null</b>) {
+                System.out.println(&quot;Страна: &quot; + entry.getName());
+                System.out.println(&quot;Территория: &quot; + in.readDouble());
+                System.out.println(&quot;Население: &quot; + in.readInt());
+                System.out.println();
+                zIn.closeEntry();
+            }
+        }
+        <b>catch</b> (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}</pre>
+</blockquote>
+<h3>2.5 Обход дерева файлов с использованием средств класса File</h3>
+<p>Предположим, необходимо создать программу, которая осуществляет поиск файлов с длиной не меньше заданной во всех подкаталогах, начиная с некоторого каталога. Можно использовать класс <code>java.io.File</code>. Программа будет иметь следующий вид:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.File;
+<b>import</b> java.io.IOException;
+<b>import</b> java.util.Scanner;
+
+<b>public class</b> FindWithIO {
+
+    <b>public static void</b> showList(File dir, <b>int</b> len) <b>throws</b> IOException {
+        <b>for</b> (File f : dir.listFiles()) {
+            <b>if</b> (!f.isDirectory()) {
+        <b>        if</b> (f.length() &gt; len) {
+                    System.out.println(f.getCanonicalPath() + &quot;   &quot; + f.length());
+                }
+            }
+        }
+    <b>    for</b> (File f : dir.listFiles()) {
+      <b>      if</b> (f.isDirectory()) {
+                showList(f, len);
+            }
+        }
+    }
+
+    <b>public static void</b> main(String[] args) <b>throws</b> IOException {
+        Scanner scanner = <b>new</b> Scanner(System.in);
+        System.out.print(&quot;Введите имя папки:&quot;);
+        String dirName = scanner.next();
+        File dir = <b>new</b> File(dirName);
+        <b>if</b> (!dir.isDirectory()) {
+            System.out.println(&quot;Неправильное имя папки!&quot;);
+            <b>return</b>;
+        }
+        System.out.print(&quot;Введите минимальную длину файла:&quot;);
+        <b>int</b> len = scanner.nextInt();
+        showList(dir, len);
+    }
+
+}</pre>
+</blockquote>
+<h3>2.6 Обход дерева файлов с использованием средств <b>пакета java.nio.file</b></h3>
+<p>Предыдущую задачу можно решить с использованием средств пакета <code>java.nio.file</code>. Программа будет иметь следующий вид:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.files;
+
+<b>import</b> java.io.IOException;
+<b>import</b> java.nio.file.*;
+<b>import</b> java.nio.file.attribute.BasicFileAttributes;
+<b>import</b> java.util.Scanner;
+
+<b>public class</b> FindWithNIO {
+
+    <b>private static class</b> Finder <b>extends</b> SimpleFileVisitor&lt;Path&gt; {
+        <b>private int</b> len;
+
+        Finder(<b>int</b> len) {
+            <b>this</b>.len = len;
+        }
+
+        @Override
+        <b>public</b> FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
+                                                      <b>throws</b> IOException {
+            <b>if</b> (Files.size(file) &gt;= len) {
+                System.out.println(file + &quot;   &quot; + Files.size(file));
+            }
+            <b>return</b> FileVisitResult.CONTINUE;
+        }
+
+    }
+
+    <b>public static void</b> main(String[] args) {
+        Scanner scanner = <b>new</b> Scanner(System.in);
+        System.out.print(&quot;Введите имя папки:&quot;);
+        String dirName = scanner.nextLine();
+        System.out.print(&quot;Введите минимальную длину файла:&quot;);
+        <b>int</b> len = scanner.nextInt();
+        <b>try</b> {
+            Files.walkFileTree(Paths.get(dirName), <b>new</b> Finder(len)); // Текущий каталог
+        }
+        <b>catch</b> (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}
+</pre>
+</blockquote>
+<h2>3 Задания на самостоятельную работу</h2>
+<h3>3.1 Работа с текстовыми файлами</h3>
+<p>Разработать программу, которая осуществляет копирование из одного текстового файла в другой. Осуществить копирование только тех строк, длина которых не превосходит введенного значения.</p>
+<h3>3.2 Текстовые файлы с числовыми данными</h3>
+<p>Разработать программу, которая осуществляет чтение из текстового файла действительных значений (до конца файла), находит произведение модулей ненулевых элементов и выводит в другой текстовый файл.</p>
+<h3>3.3 Работа с несколькими файлами*</h3>
+<p>Разработать программу, которая осуществляет чтение из текстового файла целых чисел и сохранение в двух файлах данных (<code>DataOutputStream</code>) соответственно четных и нечетных чисел. В другой программе прочитать данные из двух файлов данных (<code>DataInputStream</code>) и записать их в новый текстовый файл в порядке убывания. Использовать <code>PriorityQueue</code> для обеспечения упорядоченности чисел. </p>
+<h3>3.4 Реализация сериализации и десериализации*</h3>
+<p>Описать классы Студент и Академическая группа (с массивом студентов в качестве поля). Создать объекты, осуществить их сериализацию и десериализацию.</p>
+<h3>3.5 Сериализация и десериализация объектов обобщенных классов*</h3>
+<p>Описать классы &quot;Учебное заведение&quot; и &quot;Массив&quot; (обобщенный класс). Создать массив объектов &quot;Учебное заведение&quot;, осуществить сериализацию и десериализацию. </p>
+<h3>3.6 Работа с ZIP-архивом*</h3>
+<p>Описать классы Студент и Академическая группа (с массивом студентов в качестве поля). Создать объекты Студент и Академическая группа, осуществить запись данных о студентах академической группы в архив (ZIP). В другой программе осуществить чтение из архива.</p>
+<h3>3.7 Архивация нескольких файлов*</h3>
+<p>Реализовать две программы, одна из которых осуществляет архивацию нескольких указанных файлов, а другая &#8211; извлечение их из архива.</p>
+<h3>3.8 Реализация алгоритма Хаффмана (задача повышенной трудности)</h3>
+<p>Разработать программу, которая осуществляет архивацию текстового файла с использованием <a href="http://ru.wikipedia.org/wiki/&#1050;&#1086;&#1076;_&#1061;&#1072;&#1092;&#1092;&#1084;&#1072;&#1085;&#1072;">алгоритма Хаффмана</a>, а также извлечение данных из архива.</p>
+<h3>3.9 Работа с классом File<b>*</b></h3>
+<p>Создать новый файл в корневой папке проекта. Вывести список файлов и папок корневой папки проекта. Удалить только что созданный файл. Использовать класс <code>java.io.File</code>. </p>
+<h3>3.10 Получение информации об атрибутах файлов*</h3>
+<p>Разработать программу, которая для заданного файла (каталога) выдает информацию об его атрибутах. Использовать класс <code>DosFileAttributes</code>.</p>
+<h3>3.11 Копирование файлов*</h3>
+<p>До начала выполнения программы создать каталог с несколькими файлами. В программе создать новый каталог и скопировать туда файлы из ранее созданного. Удалить ранее созданный каталог. Использовать класс <code>java.io.File</code>. </p>
+<h3>3.12 Перемещение файлов</h3>
+<p>Решить предыдущую задачу с использованием средств перемещения (переименования) файлов. </p>
+<h3>3.13 Обход дерева каталогов*</h3>
+<p>Ввести имя подкаталога и осуществить поиск всех скрытых файлов во всех подкаталогах, начиная с некоторого каталога. Реализовать два подхода &#8211; с использованием класса <code>java.io.File</code> и с использованием средств пакета <code>java.nio.file</code>.</p>
+<h3>3.14 Отслеживание состояния каталога*</h3>
+<p>Реализовать программу отслеживания появления, изменения и удаления в заданном каталоге файлов с расширением <code>.txt</code>. Использовать средства пакета <code>java.nio.file</code>.</p>
+<h2>4 Контрольные вопросы</h2>
+<ol>
+  <li>В чем отличие текстовых и двоичных файлов?</li>
+  <li>Чем отличаются потоки байтов от потоков символов по области применения?</li>
+  <li>В чем смысл явного закрытия файлов?</li>
+  <li>Можно ли одновременно открыть несколько потоков ввода/вывода?</li>
+  <li>Каким образом можно обеспечить автоматическое закрытие потоков?</li>
+  <li>Какие классы обеспечивают работу с текстовыми файлами и бинарными файлами?</li>
+  <li>В чем преимущества использования класса <code>RandomAccessFile</code>?</li>
+  <li>Каково использование файлов данных <code>DataOutputStream</code> и <code>DataInputStream</code>? Какие у них преимущества и недостатки?</li>
+  <li>В чем назначение сериализации?</li>
+  <li>В чем есть преимущества и недостатки сериализации?</li>
+  <li>Какие функции следует определить для реализации интерфейса <code>java.io.Serializable</code>?</li>
+  <li>Для чего используют модификатор <code><b>transient</b></code>?</li>
+  <li>Как в Java осуществляется работа с архивами?</li>
+  <li>Можно ли создать архив с несколькими файлами внутри?</li>
+  <li>Как определить понятие &quot;файловая система&quot;?</li>
+  <li>Какие можно назвать типовые функции для работы с файловой системой?</li>
+  <li>Какие средства предоставляет Java для работы с файловой системой?</li>
+  <li>Как получить атрибуты файла с помощью средств класса <code>java.io.File</code>?</li>
+  <li>Чем отличаются функции <code>list()</code> и <code>listFiles()</code>?</li>
+  <li>Как осуществить копирование файлов?</li>
+  <li>Как осуществить переименование и перемещение файлов?</li>
+  <li>Как осуществить управление атрибутами файлов?</li>
+  <li>Как осуществить удаление файлов?</li>
+  <li>Как осуществить поиск файлов?</li>
+  <li>Как осуществить обход дерева каталогов?</li>
+  <li>Как осуществить отслеживание изменений каталогов и файлов?</li>
+</ol>
+<p>&nbsp;</p>
+    <div class="w3-clear nextprev">
+        <a class="btn btn-info float-left" href="topic_2_03.html">Предыдущая</a>
+        <a class="btn btn-info float-left" href="topic_2_05.html">Следующая</a>
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+<a href="#top" id="up">up</a>
+<footer class="container-fluid text-center">
+    <p>&copy; 2003-2019 Л.В.Иванов</p>
+</footer>
+<script>
+    $(document).ready(function () {
+        // Add smooth scrolling to all links in navbar + footer link
+        $("a[href='#top']").on('click', function (event) {
+
+            // Make sure this.hash has a value before overriding default behavior
+            if (this.hash !== "") {
+
+                // Prevent default anchor click behavior
+                event.preventDefault();
+
+                // Store hash
+                var hash = this.hash;
+
+                // Using jQuery's animate() method to add smooth page scroll
+                // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+                $('html, body').animate({
+                    scrollTop: $(hash).offset().top
+                }, 900, function () {
+
+                    // Add hash (#) to URL when done scrolling (default click behavior)
+                    window.location.hash = hash;
+                });
+            } // End if
+        });
+        var offset = 200;
+        var duration = 300;
+        $('#up').fadeOut(0);
+        $(window).scroll(function () {
+            var winTop = $(window).scrollTop();
+            if (winTop > offset) {
+                $('#up').css("opacity", "0.8");
+                $('#up').fadeIn(duration);
+            } else {
+                $('#up').fadeOut(duration);
+            }
+        });
+    })
+</script>
+
+</body>
+</html>

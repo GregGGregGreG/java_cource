@@ -1,0 +1,1118 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>2.03 - Работа с текстовыми данными. Локализация</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background: #dfdfdf;
+        }
+
+        /* Remove the navbar's default margin-bottom and rounded borders */
+        .jumbotron {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        #header {
+            background-color: #445566;
+        }
+
+        #header h2, #header h4, #header h3, #header h5, #header p {
+            margin-left: -10px;
+            color: #ededed;
+        }
+
+        #header h2 {
+            font-weight: bold;
+        }
+
+        #header h4 {
+            font-size: 1.5em;
+        }
+
+        #content {
+            background: white;
+            padding-right: 9%;
+            box-sizing: border-box;
+        }
+
+        p {
+            text-align: justify;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        ul.nav, ul.side_menu {
+            list-style-type: none;
+            margin-left: -20px;
+        }
+
+        .navbar {
+            margin-bottom: 0;
+            border-radius: 0;
+        }
+
+        .navbar-inverse {
+            background-color: #445566;
+            border: none;
+            border-top: 1px solid white;
+        }
+
+        .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > li > a:hover {
+            background-color: #293b4c;
+        }
+
+        /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+        .row.content {
+            height: 450px
+        }
+
+        /* Set gray background color and 100% height */
+        .sidenav {
+            padding-top: 20px;
+            height: 100%;
+        }
+
+        .btn-info {
+            color: #fff;
+            background-color: #445566;
+            border: none;
+            border-radius: 0;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .btn-info:hover {
+            background-color: #293b4c;
+        }
+
+        .navbar-inverse .navbar-toggle:hover {
+            background-color: #293b4c;
+        }
+
+        .hide {
+            visibility: hidden;
+        }
+
+        .disa {
+            cursor: default;
+            opacity: 0.6;
+
+        }
+
+        .disa:hover {
+            background-color: #445566;
+        }
+
+        /* Set black background color, white text and some padding */
+        footer {
+            background-color: #293b4c;
+            color: white;
+            padding: 15px;
+        }
+
+        #up {
+            color: #fff;
+            position: fixed;
+            display: block;
+            background: #293b4c;
+            width: 40px;
+            height: 40px;
+            bottom: 64px;
+            right: 30px;
+            opacity: 0;
+            border-radius: 50%;
+            padding-left: 12px;
+            padding-top: 8px;
+            box-sizing: border-box;
+        }
+
+        /* On small screens, set height to 'auto' for sidenav and grid */
+        @media screen and (max-width: 990px) {
+            #content {
+                padding-right: 10px;
+            }
+
+            #up {
+                display: none !important;
+            }
+        }
+
+        /* On small screens, set height to 'auto' for sidenav and grid */
+        @media screen and (max-width: 767px) {
+            .sidenav {
+                height: auto;
+                padding: 15px;
+            }
+
+            .row.content {
+                height: auto;
+            }
+        }
+
+        @media only screen and (max-width: 600px) {
+            img.small_img {
+                width: 40%;
+                height: auto;
+            }
+
+            img.big_img {
+                width: 90%;
+                height: auto;
+            }
+        }
+
+        .justified {
+            text-align: justify;
+            font-weight: normal
+        }
+
+        tt {
+            color: #446699;
+        }
+    </style>
+</head>
+<body id="top">
+<div class="container-fluid text-left" id="header">
+    <div class="container text-left col-md-3 col-sm-12">
+        <img src="Images/icon-java.png" style="padding-top: 15px; box-sizing: border-box;">
+    </div>
+    <div class="container text-left col-md-9 col-sm-12">
+        <h2>Язык программирования и технологии Java</h2>
+        <h5>Разработчик курса Л. В. Иванов</h5>
+        <h4>Модуль 1 Объектно-ориентированное программирование и язык Java</h4>
+
+    </div>
+</div>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <!--div class="col-sm-12 col-md-3 sidenav">
+            </div-->
+
+            <ul class="nav navbar-nav">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="topic_1_01.html">Объектно-ориентированное программирование и язык Java</a>
+                </li>
+                <li class="active"><a href="">Платформа Java SE</a></li>
+                <li><a href="">Разработка приложений JAVA EE</a></li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid text-left">
+    <div class="row content">
+        <div class="col-sm-12 col-md-3 sidenav">
+            <ul class="side_menu">
+                <li>1 Объектно-ориентированное программирование и язык Java
+                    <ul class="side_menu">
+                        <li><a href="topic_1_01.html">01 Парадигмы программирования. Основы объектно-ориентированного
+                            подхода</a></li>
+                        <li><a href="topic_1_02.html">02 Язык программирования Java и Java-платформа</a></li>
+                        <li><a href="topic_1_03.html">03 Синтаксические конструкции языка Java</a></li>
+                        <li><a href="topic_1_04.html">04 Ссылочные типы. Массивы. Строки и классы-оболочки</a></li>
+                        <li><a href="topic_1_05.html">05 Определение классов.  Наследование и полиморфизм</a></li>
+                        <li><a href="topic_1_06.html">06 Вложенные типы. Интерфейсы. Лямбда-выражения и ссылки на методы</a></li>
+                        <li><a href="topic_1_07.html">07 Перечисления. Исключения. Использование обобщений</a></li>
+                        <li><a href="topic_1_08.html">08 Понятие паттернов проектирования. Порождающие паттерны</a></li>
+                    </ul>
+                </li>
+                <li>2 Платформа Java SE
+                  <ul class="side_menu">
+                        <li><a href="topic_2_01.html">01 Платформа Java SE и ее составляющие</a></li>
+                        <li><a href="topic_2_02.html">02 Работа с коллекциями в Java 7</a></li>
+                        <li>03 Работа с текстовыми данными. Локализация</li>
+                        <li><a href="topic_2_04.html">04 Работа с потоками ввода-вывода и файловой системой</a></li>
+                        <li><a href="topic_2_05.html">05 Работа с XML. XML-сериализация</a></li>
+                        <li>06 Тестирование и управление сборкой. Ведение системного журнала</li>
+                        <li>07 Работа с потоками выполнения</li>
+                        <li>08 Работа с контейнерами Java 8. Stream API</li>
+                        <li>09 Поддержка сетевого взаимодействия</li>
+                        <li>10 Работа с базами данных</li>
+                        <li>11 Использование RTTI и рефлексии. Метапрограммирование. Аннотации</a></li>
+                        <li>12 </a>Использование структурных паттернов</li>
+                  </ul>
+                </li>
+                <li>3 Основы разработки приложений Java EE
+                    <ul class="side_menu">
+                        <li>01 Платформа Java EE. Web-приложения. Создание сервлетов</li>
+                        <li>02 Основы создания страниц JSP</li>
+                        <li>03 Работа с EJB. Создание Web-сервисов</li>
+                        <li>04 Использование Spring Framework</li>
+                        <li>05 Использование паттернов поведения и распределения ответственности </li>
+                        <li>06 Дополнительные возможности Java 11</li>
+                    </ul>
+                </li>
+            </ul>
+      </div>
+        <div class="col-sm-12 col-md-9 text-left" id="content">
+            <div class="w3-clear nextprev">
+                <a class="btn btn-info float-left" href="topic_2_02.html">Предыдущая</a>
+                <a class="btn btn-info float-left" href="topic_2_04.html">Следующая</a>
+            </div>
+            <h1>Работа с текстовыми данными. Локализация</h1>
+<h2>1 Теоретическая часть</h2>
+<h3>1.1 Локализация</h3>
+<p><i>Интернационализация</i> (internationalization, i18n) &#8211; это процесс проектирования программного обеспечения таким образом, чтобы оно могло быть адаптировано к различным языкам и регионам без конструктивных изменений. <i>Локализация</i> (localization, l10n) &#8211; это процесс адаптации программного обеспечения к национальным стандартам и правилам, которые определяют язык, формат представления чисел, даты и времени, валюты, направление написания текста и т.п.</p>
+<p>В Java для установки и хранения информации о локализации используются объекты класса <code>java.util.Locale</code>. Для определения языков и стран класс <code>Locale</code> использует идентификаторы в соответствии со стандартом BCP 47 (IETF BCP 47, &quot;Теги для идентификации Языка&quot;). Для создания объекта типа <code>Locale</code> существует несколько вариантов. Можно получить локализацию, которая определена для виртуальной машины Java по умолчанию:</p>
+<blockquote>
+  <pre>Locale locale = Locale.getDefault();</pre>
+</blockquote>
+<p>Можно определить локализацию с помощью конструкторов, например:</p>
+<blockquote>
+  <pre>Locale Locale1 = <b>new</b> Locale(&quot;en&quot;, &quot;US&quot;);
+Locale Locale2 = <b>new</b> Locale(&quot;en&quot;, &quot;GB&quot;);
+Locale Locale3 = <b>new</b> Locale(&quot;ru&quot;);</pre>
+</blockquote>
+<p>Можно также воспользоваться статическим методом <code>forLanguageTag()</code>, например:</p>
+<blockquote>
+  <pre>Locale Locale4 = Locale.forLanguageTag(&quot;en-US&quot;);    </pre>
+</blockquote>
+<p>Можно &quot;построить&quot; объект с помощью вложенного класса <code>Locale.Builder</code>:</p>
+<blockquote>
+  <pre>Locale Locale5 = <b>new</b> Locale.Builder().setLanguage(&quot;en&quot;).setRegion(&quot;US&quot;).build();    </pre>
+</blockquote>
+<p>Платформа Java не требует использования только одной локализации для всей программы. Такая гибкость позволяет разрабатывать многоязычные приложения. Для некоторых стран региональные параметры устанавливаются с помощью констант, например: <code>Locale.US</code>, <code>Locale.FRANCE</code>, <code>Locale.CANADA</code>. Для других стран объект <code>Locale</code> нужно создавать с помощью конструктора, например, <code>new Locale(&quot;ua&quot;, &quot;UA&quot;)</code>.
+<p>Для локализации, определенной как <code> new Locale(&quot;en&quot;, &quot;US&quot;)</code> следующий код позволяет получить информацию о регионе:</p>
+<blockquote>
+  <pre>Locale currentLocale = new Locale(&quot;en&quot;, &quot;US&quot;);
+currentLocale.getCountry();//код региона
+currentLocale.getDisplayCountry();//название региона
+currentLocale.getLanguage();//код языка региона
+currentLocale.getDisplayLanguage();//название языка региона</pre>
+</blockquote>
+<p>Класс <code>SimpleTimeZone</code>, реализующий абстрактный <code>TimeZone,</code> позволяет работать с часовыми поясами Григорианском календаре. Этот класс учитывает летнее время.
+<p>Класс <code>GregorianCalendar</code> имеет конструкторы, позволяющие определить календарь по часовому поясу и локализации:</p>
+<blockquote>
+  <pre>GregorianCalendar(Locale locale) 
+GregorianCalendar(TimeZone timeZone) 
+GregorianCalendar(TimeZone timeZone, Locale locale)</pre>
+</blockquote>
+<h3>1.2 Использование пакета java.text. Сортировка строк</h3>
+<p>Пакет <code>java.text</code> предоставляет классы и интерфейсы для обработки текста, дат и числовых значений независимо от языка и других национальных особенностей. Это означает, что приложение может быть написано для независимой от языка работы, а ресурсы, которые определяют индивидуальную локализацию, могут подключаться динамически. Это позволяет гибко добавлять новые локализации приложения позже. </p>
+<p>Классы этого пакета предназначены для форматирования дат, чисел и сообщений, анализа, поиска и сортировки строк, а также итеративного следования символов, слов, предложений и строк. Этот пакет содержит три основные группы классов и интерфейсов, которые в соответствии решают следующие группы задач:</p>
+<ul>
+  <li>сортировка строк</li>
+  <li>форматирование и разбор на лексемы</li>
+  <li>итерация по тексту</li>
+</ul>
+<p>Работу сортировки обеспечивает класс <code>Collator</code> (&quot;сравнитель&quot;). С помощью экземпляра класса <code>Collator</code> можно осуществлять сортировку строк с динамическим определением локализации. Например, если осуществлять сортировку текстов на украинском языке обычными средствами, возникает проблема со специфическими украинскими буквами, такими как ґ, є, і и ї, поскольку их коды расположены отдельно от кодов других символов украинского алфавита. Для корректной сортировки массивов строк с украинским текстом необходимо создать экземпляр класса <code>Collator</code> с помощью функции <code>getInstance()</code>, параметром которой является необходимая локализация. </p>
+<p>Следующий пример демонстрирует сортировку массива строк сначала без использования класса <code>Collator</code>, а затем с созданием объекта типа <code>Collator</code>, учитывающий украинскую локализацию. Для определения порядка сортировки создаем безымянный внутренний класс.</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.text;
+
+<b>import</b> java.text.Collator;
+<b>import</b> java.util.Arrays;
+<b>import</b> java.util.Comparator;
+<b>import</b> java.util.Locale;
+
+<b>public</b> <b>class</b> SortDemo {
+
+  <b>  public</b> <b>static</b> <b>void</b> main(String[] args) {
+        String[] words = { &quot;воля&quot;, &quot;воїн&quot;, &quot;возити&quot; };
+        // Осуществляем сортировку по умолчанию:
+        Arrays.sort(words);
+        System.out.println(Arrays.asList(words)); // [возити, воля, воїн]
+        // Осуществляем сортировку с учетом локализации:
+        Arrays.sort(words, <b>new</b> Comparator&lt;String&gt;() {
+            Collator collator = Collator.getInstance(<b>new</b> Locale(&quot;uk&quot;));
+            
+            @Override
+            <b>public</b> <b>int</b> compare(String s1, String s2) {
+                <b>return</b> collator.compare(s1, s2);
+            }
+        });
+        System.out.println(Arrays.asList(words)); // [возити, воїн, воля]
+    }
+
+}</pre>
+</blockquote>
+<h3>1.3 Форматирование</h3>
+<p>Форматирование данных с учетом локализации обеспечивает абстрактный класс <code>java.text.Format</code>. Потомки класса <code>Format</code> &#8211; <code>NumberFormat</code>, <code>DateFormat</code> и <code>MessageFormat</code>. Они позволяют осуществлять форматирование чисел, дат и сообщений соответственно. В классе <code>Formatter</code> объявлен метод <code>format()</code>, который преобразует переданные в него параметры в строку заданного формата и сохраняет в объекте типа <code>Formatter</code>.</p>
+<p>Следующий пример демонстрирует вывода значения типа <code><b>double</b></code> с учетом указанной локализации:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.text;
+
+<b>import</b> java.text.NumberFormat;
+<b>import</b> java.util.Locale;
+<b>import</b> java.util.Scanner;
+
+<b>public</b> <b>class</b> NumberPrinter {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        NumberFormat form = NumberFormat.getInstance(<b>new</b> Locale(&quot;uk&quot;));
+        Scanner scan = <b>new</b> Scanner(System.in);
+        <b>double</b> x = scan.nextDouble();
+        System.out.println(form.format(x));
+    }
+
+}
+</pre>
+</blockquote>
+<p>Для форматирования целых можно получить объект с помощью метода <code>getIntegerInstance()</code>. Аналогично можно получить <code>getCurrencyInstance()</code> для вывода денежных сумм, <code>getPercentInstance()</code> для вывода процентов и т.д..</p>
+<p>Чтобы конвертировать информацию в региональные стандарты, следует создать объект класса <code>NumberFormat</code> с конструктором, принимающим в качестве параметра объект класса <code>Locale</code>, или с конструктором без параметров (с локализацией, установленной по умолчанию):</p>
+<blockquote>
+  <pre>NumberFormat nf = NumberFormat.getInstance(<b>new</b> Locale(&quot;RU&quot;));
+NumberFormat nf = NumberFormat.getInstance();    </pre>
+</blockquote>
+<p>Следующий код демонстрирует преобразование строки, содержащей число, в различные региональные стандарты.</p>
+<blockquote>
+  <pre><b>import</b> java.text.NumberFormat;
+<b>import</b> java.text.ParseException;
+<b>import</b> java.util.Locale;
+
+<b>public</b> <b>class</b> DemoNumberFormat {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        NumberFormat nfGe = NumberFormat.getInstance(Locale.GERMAN);
+        NumberFormat nfUs = NumberFormat.getInstance(Locale.US);
+        NumberFormat nfFr = NumberFormat.getInstance(Locale.FRANCE);
+        NumberFormat nfUa = NumberFormat.getInstance(<b>new</b> Locale(&quot;ua&quot;, &quot;UA&quot;));
+        <b>double</b> iGe = 0, iUs = 0, iFr = 0, iUa = 0;
+        String str = &quot;1.245,999&quot;;
+        <b>try</b> {
+            //преобразование строки в германский стандарт:
+            System.out.println(iGe = nfGe.parse(str).doubleValue());
+            //преобразование строки в американский стандарт:
+            System.out.println(iUs = nfUs.parse(str).doubleValue());
+            //преобразование строки во французский стандарт:
+            System.out.println(iFr = nfFr.parse(str).doubleValue());
+            //преобразование строки в украинский стандарт: 
+            System.out.println(iUa = nfUa.parse(str).doubleValue());  
+        }
+        <b>catch</b> (ParseException e) {
+            e.printStackTrace();
+        }
+        System.out.println();
+        String sUs = nfUs.format(iGe);//преобразование числа из германского в американский стандарт    
+        String sFr = nfFr.format(iGe);//преобразование числа из германского во французский стандарт
+        String sUa = nfUa.format(iGe);//преобразование числа из германского в украинский стандарт
+        System.out.println(sUs + &quot;\n&quot; + sFr + &quot;\n&quot; + sUa);
+    }
+
+}</pre>
+</blockquote>
+<p>Здесь для преобразования строки в число и обратно используются методы <code>NumberFormat parse(String source)</code> и <code>String format(double number) </code>соответственно.
+<p>Задачу поддержки национальных особенностей в отображении даты и времени в различных странах и регионах мира помогает решить класс <code>java.text.DateFormat</code>. При создании объекта данного класса может быть задана конкретная локализация, либо использована локализация для данной среды по умолчанию:</p>
+<blockquote>
+  <pre>
+DateFormat df = DateFormat.getDateInstance( DateFormat.MEDIUM, new Locale("Ua"));
+DateFormat df = DateFormat.getDateInstance();    </pre>
+</blockquote>
+<p>Абстрактный класс <code>DateFormat</code> его подкласс <code>SimpleDateFormat</code> пакета <code>java.text</code> содержат методы, позволяющие осуществлять различные способы форматирования представления даты и времени. Класс <code>DateFormat</code> предлагает следующие стили представления даты и времени: </p>
+<ul>
+  <li>стиль <code>SHORT</code> представляет дату и время в коротком числовом виде: <code>27.04.01 17:32</code>; </li>
+  <li>стиль <code>MEDIUM</code> задает год четырьмя цифрами и показывает секунды: <code>27.04.2001 17:32:45</code>; </li>
+  <li>стиль <code>LONG</code> представляет месяц словом и добавляет часовой пояс: <code>27 апрель 2001 г. 17:32:45 GMT+03.-00</code>; </li>
+  <li>стиль <code>FULL</code> совпадает со стилем <code>LONG</code>;</li>
+  <li> стиль <code>DEFAULT</code> совпадает со стилем <code>MEDIUM</code>. </li>
+</ul>
+<p> Например, следующий код создает форматированную строку даты с форматом для текущего региона по умолчанию:</p>
+<blockquote>
+  <pre>DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.DEFAULT);
+Date today = <b>new</b> Date();
+String formattedDate = dateFormatter.format(today);
+System.out.println(formattedDate);    </pre>
+</blockquote>
+<p> Кроме метода <code>DateFormat.getDateInstance()</code> могут быть использованы методы <code>DateFormat.getTimeInstance()</code> и <code>DateFormat.getDateTimeInstance()</code> для форматирования времени, а также для форматирования и даты, и времени.</p>
+<p>Дочерний класс <code>SimpleDateFormat</code> абстрактного класса <code>DateFormat</code> может быть использован для определения собственных форматов пользователя. При создании объекта класса <code>SimpleDateFormat</code> можно задать в конструкторе шаблон, определяющий какой-либо другой формат, например:</p>
+<blockquote>
+  <pre>SimpleDateFormat sdf = <b>new</b> SimpleDateFormat(&quot;dd-MM-yyyy hh mm&quot;);
+System.out.println(sdf.format(<b>new</b> Date()));    </pre>
+</blockquote>
+<p>В шаблоне буква <code>d</code> означает цифру дня месяца, <code>M</code> &#8211; цифру месяца, <code>у</code> &#8211; цифру года, <code>h</code> &#8211; цифру часа, <code>m</code> &#8211; цифру минут.
+<p>Например, следующий код выведет дату в формате &quot;<code>04/29/2013</code>&quot;:</p>
+<blockquote>
+  <pre>Date today = <b>new</b> Date();
+SimpleDateFormat formatter = <b>new</b> SimpleDateFormat(&quot;MM/dd/yyyy&quot;);
+String formattedDate = formatter.format(today);
+System.out.println(formattedDate);    </pre>
+</blockquote>
+<p>Шаблон <code>&quot;EEEE d MMMM yyyy&quot;</code> задаст формат вывода даты как <code>&quot;четверг 16 мая 2011&quot;.</code>
+<p>Для настройки символов для любого компонента даты или времени используется класс <code>DateFormatSymbols</code>:</p>
+<blockquote>
+  <pre>DateFormatSymbols symbols = <b>new</b> DateFormatSymbols();
+String[] oddMonthAbbreviations = <b>new</b> String[] {&quot;Ja&quot;,&quot;Fe&quot;,&quot;Mh&quot;,&quot;Ap&quot;,&quot;My&quot;,&quot;Jn&quot;,&quot;Jy&quot;,&quot;Au&quot;,&quot;Se&quot;,&quot;Oc&quot;,&quot;No&quot;,&quot;De&quot; };
+symbols.setShortMonths(oddMonthAbbreviations);
+formatter = <b>new</b> SimpleDateFormat(&quot;MMM dd, yyyy&quot;, symbols);
+formattedDate = formatter.format(today);
+System.out.println(formattedDate);    </pre>
+</blockquote>
+<p>Конструктор <code>SimpleDateFormat</code> принимает строку шаблона и объект <code>DateFormatSymbols</code>.
+<p>Получить представление текущей даты во всех возможных региональных стандартах можно следующим образом:</p>
+<blockquote>
+  <pre>Date d = <b>new</b> Date();
+Locale[] locales = DateFormat.getAvailableLocales();
+<b>for</b> (Locale loc : locales) {
+    DateFormat df = DateFormat.getDateInstance(DateFormat.FULL, loc);
+    System.out.println(loc.toString() + &quot;-&gt; &quot; + df.format(d));
+}</pre>
+</blockquote>
+<p>Пример вывода даты в формате, заданном пользователем:</p>
+<blockquote>
+  <pre><b>import</b> java.util.Calendar;
+<b>import</b> java.util.Date;
+<b>import</b> java.util.Locale;
+<b>import</b> java.text.*;
+
+<b>public</b> <b>class</b> Task {
+
+  <b>  public</b> <b>static</b> <b>void</b> main(String args[]) {
+        <b>try</b> {
+            String[] months = { &quot;января&quot;, &quot;февраля&quot;, &quot;марта&quot;, &quot;апреля&quot;, &quot;мая&quot;, &quot;июня&quot;,
+                     &quot;июля&quot;, &quot;августа&quot;, &quot;сентября&quot;, &quot;октября&quot;, &quot;ноября&quot;, &quot;декабря&quot; };
+            DateFormatSymbols dfs = <b>new</b> DateFormatSymbols(<b>new</b> Locale(&quot;ru&quot;));
+            dfs.setMonths(months);
+            SimpleDateFormat sdf = <b>new</b> SimpleDateFormat(&quot;d MMMM yyyy 'г.'&quot;, dfs);
+            System.out.println(&quot;Сегодня: &quot; +  sdf.format(<b>new</b> Date()));
+            Calendar c = Calendar.getInstance();
+            c.set(2011, 5, 1);
+            System.out.println(&quot;Начало лета: &quot; + sdf.format(c.getTime()));
+        }
+        <b>catch</b> (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+}</pre>
+</blockquote>
+<p>Класс <code>java.util.Formatter</code> отвечает за форматирование на уровне представления данных с точки зрения ширины поля вывода, выравнивание, наличии знака + перед числами и т.п. </p>
+<p>Статический метод <code>format</code> класса <code>String</code> позволяет получить строку, представляющий данные в соответствии с форматом, например:</p>
+<pre><b>    double</b> d = 3.5;
+    <b>int</b> i = 12;
+    String result = String.format(&quot;%f %d%n&quot;, d, i);
+    System.out.print(result);</pre>
+<p>Аналогичный метод объявлен у классов <code>PrintStream</code> и <code>PrintWriter</code>. Кроме того, у этих классов объявлен метод <code>printf() </code>с параметрами, идентичными параметрам метода <code>format()</code>, который осуществляет форматированный вывод в поток. Следующим образом можно получить непосредственное форматирование вывода данных с помощью функции <code>System.out.printf()</code>:</p>
+<pre>    <b>double</b> d = 3.5;
+    <b>int</b> i = 12;
+    System.out.printf(&quot;%f %d%n&quot;, d, i);    </pre>
+<p>При форматировании используются следующие спецификаторы формата:
+<p>
+<div>
+  <table width="60%" class="simple" border="1" cellspacing="0" cellpadding="3">
+    <tr>
+      <th>Спецификатор формата</th>
+      <th>Выполняемое форматирование</th>
+    </tr>
+    <tr>
+      <td>
+        <div align="center">%a</div></td>
+      <td>
+        <p>Шестнадцатеричное значение с плавающей точкой</p></td>
+    </tr>
+    <tr>
+      <td>
+        <div align="center">%b</div></td>
+      <td>
+        <p>Логическое (булево) значение аргумента</p></td>
+    </tr>
+    <tr>
+      <td>
+        <div align="center">%c</div></td>
+      <td>
+        <p>Символьное представление аргумента</p></td>
+    </tr>
+    <tr>
+      <td>
+        <div align="center">%d</div></td>
+      <td>
+        <p>Десятичное целое значение аргумента</p></td>
+    </tr>
+    <tr>
+      <td>
+        <div align="center">%h</div></td>
+      <td>
+        <p>Хэш-код аргумента</p></td>
+    </tr>
+    <tr>
+      <td>
+        <div align="center">%e</div></td>
+      <td>
+        <p>Экспоненциальное представление аргумента</p></td>
+    </tr>
+    <tr>
+      <td>
+        <div align="center">%f</div></td>
+      <td>
+        <p>Десятичное значение с плавающей точкой</p></td>
+    </tr>
+    <tr>
+      <td>
+        <div align="center">%g</div></td>
+      <td>
+        <p>Выбирает более короткое представление из двух: %е или %f</p></td>
+    </tr>
+    <tr>
+      <td>
+        <div align="center">%o</div></td>
+      <td>
+        <p>Восьмеричное целое значение аргумента</p></td>
+    </tr>
+    <tr>
+      <td>
+        <div align="center">%n</div></td>
+      <td>
+        <p>Вставка символа новой строки</p></td>
+    </tr>
+    <tr>
+      <td>
+        <div align="center">%t</div></td>
+      <td>
+        <p>Время и дата</p></td>
+    </tr>
+    <tr>
+      <td>
+        <div align="center">%x</div></td>
+      <td>
+        <p>Шестнадцатеричное целое значение аргумента</p></td>
+    </tr>
+    <tr>
+      <td>
+        <div align="center">%%</div></td>
+      <td>
+        <p>Вставка знака %</p></td>
+    </tr>
+  </table>
+</div>
+<p>&nbsp;</p>
+<p>Также возможны спецификаторы с заглавными буквами: <code>%A</code> (эквивалентно <code>%a</code>). Форматирование с их помощью обеспечивает перевод символов в верхний регистр.</p>
+<blockquote>
+  <pre><b>import</b> java.util.Formatter;
+
+<b>public</b> <b>class</b> SimpleFormatString {
+
+  <b>  public</b> <b>static</b> <b>void</b> main(String[] args) {
+        Formatter f = <b>new</b> Formatter(); 
+        f.format(&quot;%s %c %nОсновы разработки приложений Java %S &quot;, &quot;Модуль&quot;,'2',&quot;se&quot;);  
+        System.out.print(f); 
+    }
+
+}    </pre>
+</blockquote>
+<p>Для данных с плавающей точкой (спецификаторы <code>%f</code>, <code>%е</code>, <code>%g</code>), а также для строк (спецификатор <code>%s</code>) может быть применен спецификатор точности. Он задает количество выводимых символов. Например, спецификатор <code>%10.3f</code> выводит число с шириной поля 10 символов и с тремя десятичными знаками (принятая по умолчанию точность равна шести десятичным знакам). Примененный к строкам спецификатор точности задает максимальную длину поля вывода. Например, <code>%.15s</code> выводит строку длиной 15 символов, спецификатор <code>%3.7s</code> &#8211; строку длиной не менее трех и не более семи символов. Если строка длиннее, конечные символы отбрасываются. Возможно задание флагов, позволяющих осуществить дополнительные возможности форматирования:</p>
+<blockquote>
+  <pre><b>import</b> java.util.Formatter;
+
+<b>public</b> <b>class</b> SimpleFormatString {
+
+  <b>  public</b> <b>static</b> <b>void</b> main(String[] args) {
+        Formatter f = <b>new</b> Formatter(); 
+        f.format(&quot;|%10.2f|&quot;, 123.123);  // выравнивание вправо 
+        System.out.println(f);
+        f = <b>new</b> Formatter();            // выравнивание влево
+        f.format(&quot;|%-10.2f|&quot;, 123.123); // применение флага '-' 
+        System.out.println(f);
+        f = <b>new</b> Formatter();
+        f.format(&quot;%,.2f&quot;, 123456789.34);// применение флага ',' 
+        System.out.println(f);
+        f = <b>new</b> Formatter();
+        f.format(&quot;%.4f&quot;, 1111.1111111); // задание точности представления для чисел 
+        System.out.println(f);
+        f = <b>new</b> Formatter();
+        f.format(&quot;%.6s&quot;, &quot;Работа с текстовыми данными.&quot;); // задание точности представления для строк 
+        System.out.println(f);
+    }
+
+}</pre>
+</blockquote>
+<p>Существуют также спецификаторы для форматирования даты и времени, которые могут употребляться только для типов <strong><code>long</code></strong>, <code>Long</code>, <code>Calendar</code>, <code>Date</code>, например:</p>
+<blockquote>
+  <pre><b>import</b> java.util.*;
+
+<b>public</b> <b>class</b> Time {
+
+  <b>public</b> <b>static</b> <b>void</b> main(String args[]) {
+    Formatter f = <b>new</b> Formatter();
+    Calendar calendar = Calendar.getInstance(); 
+    f.format(&quot;%tr&quot;, calendar);// вывод в 12-часовом временном формате 
+    System.out.println(f); 
+    f = <b>new</b> Formatter();
+    f.format(&quot;%tc&quot;, calendar);// полноформатный вывод времени и даты 
+    System.out.println(f); 
+    f = <b>new</b> Formatter();
+    f.format(&quot;%tl:%tM&quot;, calendar, calendar);// вывод текущего часа и минуты 
+    System.out.println(f); 
+    f = <b>new</b> Formatter();
+    f.format(&quot;%tB %tb %tm&quot;, calendar, calendar, calendar);// различные варианты вывода месяца 
+    System.out.println(f);
+  }
+
+}</pre>
+</blockquote>
+<h3>1.4 Итерация по символам строки</h3>
+<p>Интерфейс <code>java.text.CharacterIterator</code> предоставляет средства для двунаправленного прохождения строки с помощью итератора. Класс <code>StringCharacterIterator</code> реализует интерфейс <code>java.text.CharacterIterator</code>. Методы <code>getBeginIndex()</code> и <code>getEndIndex()</code> позволяют вернуть индексы первого и последнего символов строки. Индекс текущего символа можно получить с помощью метода <code>getIndex()</code>. Вызов метода <code>setIndex(int index)</code> перемещает итератор в новое положение. С помощью методов <code>previous()</code> и <code>next()</code> можно перемещать итератор на предыдущую и следующую позиции, при достижении границ диапазона эти методы вернут <code>DONE</code>. Методы <code>first()</code> и <code>last()</code> установят итератор на первую и последнюю позиции соответственно, вернув символ, находящийся на этой позиции. В следующем примере используется итератор <code>CharacterIterator</code> класса <code>StringCharacterIterator</code> для прохождения строки от начального индекса к концу строки. </p>
+<blockquote>
+  <pre><b>import</b> java.text.CharacterIterator;
+<b>import</b> java.text.StringCharacterIterator;
+
+<b>public</b> <b>class</b> StringCharacterExample {
+    <b>private</b> <b>static</b> final String text = &quot;Jackdaws love my big sphinx of quartz&quot;;
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        CharacterIterator it = <b>new</b> StringCharacterIterator(text);
+    <b>    for</b> (<b>char</b> ch = it.first(); ch != CharacterIterator.DONE; ch = it.next()) {
+            System.out.print(ch);
+        }
+    }
+
+}</pre>
+</blockquote>
+<p>Поскольку класс <code>Character</code> учитывает локализацию его целесообразно использовать вместо <code><b>char</b></code> в приложениях, рассчитанных на интернационализацию и локализацию.</p>
+<h3>1.5 Регулярные выражения</h3>
+<p><i>Регулярные выражения</i> представляют собой способ описания множества строк на основе общих характеристик. Регулярные выражения могут быть использованы для поиска, редактирования или работы с текстом и данными. Синтаксис регулярных выражений единый в различных языках программирования.</p>
+<p>В Java работа с регулярными выражениями реализована в пакете <code>java.util.regex</code>, в частности, классами <code>Pattern</code> и <code>Matcher</code>. Также определен специфический класс-исключение &#8211; <code>PatternSyntaxException</code>.</p>
+<p>Объект <code>Pattern</code> &#8211; это скомпилированное представление регулярных выражений. У этого класса нет открытых конструкторов. Чтобы создать объект типа <code>Pattern</code>, необходимо сначала вызвать один из статических методов <code>compile()</code>, каждый из которых создает объект <code>Pattern</code> и возвращает ссылку на него. Эти методы принимают регулярное выражение в качестве первого аргумента. Например:</p>
+<blockquote>
+  <pre>Pattern pattern = Pattern.compile(ex); // ex - строка, определяющая регулярное выражение</pre>
+</blockquote>
+<p>После создания объекта <code>Pattern</code> его используют при инициализации объекта <code>Matcher</code>:</p>
+<blockquote>
+  <pre>Matcher matcher = pattern.matcher(s); // s - строка, подлежащая проверке</pre>
+</blockquote>
+<p>Далее можно использовать функции класса <code>Matcher</code> для сопоставления строк (<code>matches()</code>), поиска подстроки (<code>find()</code>) и т.д.</p>
+<p>В простейшем случае регулярное выражение &#8211; это строка, содержащая последовательность символов. Это означает, что при сопоставлении строк проверяется их эквивалентность, а при поиске осуществляется нахождение полного текста регулярного выражения. Результатом приведенной ниже программы является вывод в консольное окно значения <b><code>true</code></b>:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.text;
+
+<b>import</b> java.util.regex.*;
+
+<b>public</b> <b>class</b> FirstRegex {
+
+  <b>  public</b> <b>static</b> <b>void</b> main(String[] args) {
+        Pattern pattern = Pattern.compile(&quot;text&quot;);
+        Matcher matcher = pattern.matcher(&quot;text&quot;);
+        System.out.println(matcher.matches());
+    }
+
+}
+</pre>
+</blockquote>
+<p>Если вторая строка будет отличаться длиной, или хотя бы одним из символов, результатом будет <code><b>false</b></code>. </p>
+<p>Вместо сопоставления можно осуществлять поиск первого вхождения шаблона в строку. Например:</p>
+<pre>    Pattern pattern = Pattern.compile(&quot;text&quot;);
+    Matcher matcher = pattern.matcher(&quot;textual&quot;);
+    System.out.println(matcher.find());    </pre>
+<p>Теперь мы получим <code><b>true</b></code>. Также результатом будет <b><code>true</code></b>, если мы будем проверять такие строки, как <code>&quot;the text&quot;</code>, <code>&quot;context&quot;</code> и т.п.</p>
+<p>Для того, чтобы последовательно найти все вхождения подстроки, можно воспользоваться таким циклом:</p>
+<pre>    <b>while</b> (matcher.find()) {
+        System.out.printf(&quot;Найден текст&quot; + &quot; \&quot;%s\&quot;, начиная с позиции&quot;
+                  + &quot;%d и заканчивая позицией %d.%n&quot;, matcher.group(),
+                  matcher.start(), matcher.end());
+    }</pre>
+<p>В приведенном примере функция <code>group()</code> возвращает последовательность символов, которые удовлетворяют условиям поиска, функции <code>start()</code> и <code>end()</code> возвращают позиции начала и конца найденной последовательности в выходной строке.</p>
+<p>К регулярным выражениям можно добавлять управляющие последовательности, которые начинаются с обратной косой черты (<code>\ - </code>обратный слеш, backslash). Например, можно определять символы по их коду:</p>
+<div>
+  <table class="simple" width="60%" border="1" cellpadding="4" cellspacing="0">
+    <tr>
+      <th width="23%">Представление</th>
+      <th width="49%">Объяснение</th>
+      <th width="28%">Кодирование</th>
+    </tr>
+    <tr>
+      <td width="23%"><code>\0<i>n</i></code></td>
+      <td width="49%"><i>n</i> &#8211; восьмеричное число от 0 до 377</td>
+      <td rowspan="2" width="28%">8-битное</td>
+    </tr>
+    <tr>
+      <td width="23%"><code>\x<i>dd</i></code></td>
+      <td rowspan="2" width="49%"><i>d</i> &#8211; шестнадцатеричная цифра</td>
+    </tr>
+    <tr valign="top">
+      <td width="23%"><code>\u<i>dddd</i></code></td>
+      <td width="28%">16-битное (Юникод)</td>
+    </tr>
+  </table>
+</div>
+<p> Можно также использовать управляющие символы:</p>
+<div>
+  <table class="simple" width="60%" border="1" cellpadding="4" cellspacing="0">
+    <tr valign="top">
+      <th width="23%">Представление</th>
+      <th width="77%">Символ</th>
+    </tr>
+    <tr valign="top">
+      <td width="23%"><code>\t</code></td>
+      <td width="77%">Табуляция</td>
+    </tr>
+    <tr valign="top">
+      <td width="23%"><code>\v</code></td>
+      <td width="77%">Вертикальная табуляция</td>
+    </tr>
+    <tr valign="top">
+      <td width="23%"><code>\r</code></td>
+      <td width="77%">Возврат каретки</td>
+    </tr>
+    <tr valign="top">
+      <td width="23%"><code>\n</code></td>
+      <td width="77%">Перевод строки</td>
+    </tr>
+    <tr valign="top">
+      <td width="23%"><code>\f</code></td>
+      <td width="77%">Конец страницы</td>
+    </tr>
+    <tr valign="top">
+      <td width="23%"><code>\a</code></td>
+      <td width="77%">Звонок</td>
+    </tr>
+    <tr valign="top">
+      <td width="23%"><code>\e</code></td>
+      <td width="77%">Escape-символ</td>
+    </tr>
+    <tr valign="top">
+      <td width="23%"><code>\b</code></td>
+      <td width="77%">Забой (backspace)
+          <p></p>
+          <p><i>Примечание</i>: Должен находиться внутри квадратных скобок (иначе интерпретируется как граница слова).</p></td>
+    </tr>
+    <tr valign="top">
+      <td width="23%"><code>\cA</code> &#8230; <code>\cZ</code></td>
+      <td width="77%"><code>Ctrl+A ... Ctrl+Z</code>
+          <p>Эквивалентно <code>\x01 ... \x1A </code>(<code>\cA = \001</code>, <code>\cZ = \032</code>)</p></td>
+    </tr>
+  </table>
+</div>
+<p>Для создания сложных регулярных выражений используют так называемые метасимволы &#8211; специальные символы, которые можно использовать для образования символьных классов, квантификаторов, управляющих последовательностей т.д. Это следующие символы:</p>
+<div align="center">
+  <pre>[ ] \ ^ $ . | ? * + ( ) { }</pre>
+</div>
+<p>Значение символов зависит от их положения в выражении. Для того, чтобы получить отображение метасимвола как обычного символа текста, ему должен предшествовать обратный слеш (<code>\</code>). Чтобы получить непосредственно символ <code>\</code>, нужно использовать два символа обратной косой черты подряд (<code>\\</code>). </p>
+<p>Набор символов в квадратных скобках <code>[ ]</code> &#8211; это так называемый <i>символьный класс</i>. Он позволяет указать, что на этом месте в строке может стоять один из перечисленных символов. Например, <code>[abc]</code> задает возможность появления в тексте одного из трех указанных символов <code>[1234567890]</code> определяет соответствие одной из цифр. Возможно указание диапазонов символов: например, <code>[A-Za-z]</code> соответствует всем буквам латинского алфавита. Если нужно указать символы, не входящие в указанный набор, то используют символ <code>^</code> внутри квадратных скобок. Например, <code>[^0-9]</code> означает любой символ, кроме цифр.</p>
+<p>Пример использования выражения <code>[ ]</code>: <code>&quot;[bcr]at&quot;</code> соответствуют строки <code>&quot;bat&quot;</code>, <code>&quot;cat&quot;</code> и <code>&quot;rat&quot;</code>; выражению<code> &quot;[^bcr]at&quot;</code> эти строки отвечать не будут, а строка <code>&quot;hat&quot;</code> &#8211; будет.</p>
+<p>Для создания единого символьного класса, который объединяет два или более различных символьных классов, используется <i>объединение</i>. Для создания объединения один класс вкладывается внутрь другого: <code>[0-3[7-9]]</code>, что соответствует цифрам 0, 1, 2, 3, 7, 8, 9.</p>
+<p>Возможно создание <i>пересечения</i> &#8211; единственного символьного класса, который определяет определяет строки, подходящие обоим вложенным классам, например, выражение <code>[0-9&amp;&amp;[234]]</code> соответствует цифрам 2, 3 и 4.</p>
+<p><i>Вычитание</i> используется для отрицания одного или нескольких символов класса, например выражение <code>[0-9&amp;&amp;[^345]]</code> создает класс, который соответствует цифрам от 0 до 9, исключая числа 3, 4 и 5.</p>
+<p>Для обозначения некоторых символьных классов также используют управляющие последовательности:</p>
+<div>
+  <table class="simple" width="60%" border="1" cellpadding="4" cellspacing="0">
+    <tr>
+      <th>Представление</th>
+      <th>Эквивалент</th>
+      <th>Значение</th>
+    </tr>
+    <tr valign="top">
+      <td><code>\d</code></td>
+      <td><code>[0-9]</code></td>
+      <td>Цифра</td>
+    </tr>
+    <tr valign="top">
+      <td><code>\D</code></td>
+      <td><code>[^\d]</code></td>
+      <td>Любой символ, кроме цифры</td>
+    </tr>
+    <tr valign="top">
+      <td><code>\w</code></td>
+      <td><code>[A-Za-zа-Яа-Я0-9_]</code></td>
+      <td>Символы, образующие &quot;слово&quot; (буквы, цифры и символ подчеркивания)<sup id="cite_ref-1" class="reference"></sup></td>
+    </tr>
+    <tr valign="top">
+      <td><code>\W</code></td>
+      <td><code>[^\w]</code></td>
+      <td>Символы, не образующие &quot;слова&quot;</td>
+    </tr>
+    <tr valign="top">
+      <td><code>\s</code></td>
+      <td><code>[ \t\v\r\n\f]</code></td>
+      <td>Пробельный символ</td>
+    </tr>
+    <tr valign="top">
+      <td><code>\S</code></td>
+      <td><code>[^\s]</code></td>
+      <td>Непробельний символ</td>
+    </tr>
+  </table>
+</div>
+<p>В фигурных скобках можно определять количество повторения символов, например, <code>{2}</code> (именно два символа), <code>{2, 4}</code> (от двух до четырех), <code>{1,}</code> (один или более). Точка &#8211; именно один (любой) символ, <code>*</code> &#8211; ноль или более <code>+</code> &#8211; один или более, <code>?</code> &#8211; ноль или один.</p>
+<p>Например, выражение <code> &quot;A*&quot;</code> соответствует любому количеству последовательно расположенных символов <code>A</code>. Такому шаблону будет соответствовать и пустая строка. Выражение <code>&quot;A+&quot;</code> соответствует строке с как минимум одним символом <code>A</code>. Выражение <code>&quot;A {1,4}&quot;</code> соответствует строкам <code>&quot;A&quot;</code>, <code>&quot;AA&quot;</code>, <code>&quot;AAA&quot;</code>, <code>&quot;AAAA&quot;</code>. Выражения <code>&quot;AB?&quot;</code> будут соответствовать строкам <code>&quot;A&quot;</code> и <code>&quot;AB&quot;</code>. Выражению <code>&quot;.&quot;</code> соответствует любая строка, состоящая из одного символа. Выражение <code>&quot;.+&quot; </code>будет соответствовать любому тексту (один или более любых символов). Выражению <code> &quot;A.+&quot;</code> соответствует любая строка, которая начинается на букву <code>&quot;А&quot;</code>.</p>
+<p>Существуют специальные символы, которые соответствуют не какому-либо проверяемому символу в строке, а некоторому месту в этой строке. Символом <code>^</code> определяется начало строки символом <code>$</code> &#8211; конец строки. Например, выражение <code>&quot;^this&quot;</code> соответствует строке, которая начинается на <code>&quot;this&quot;</code>.</p>
+<p>Последовательность <code>\b</code> указывает на границу слова, то есть на место между словом и пробелом. Выражение <code>&quot;\bis&quot;</code> соответствует второму <code>is</code> в строке <code>&quot;this is&quot;</code>. Выражение <code>&quot;\b\w\w\w\w\b&quot;</code> соответствует слову из четырех букв. Последовательность <code>&quot;\B&quot;</code> соответствует всем местам, кроме границы слова. Выражение <code>&quot;\Bis&quot;</code> соответствует первому is в <code>&quot;this is&quot;</code>.</p>
+<p>Используется также символ &quot;|&quot; &#8211; изображение логического &quot;или&quot;, который используется, когда нужно задать несколько вариантов, которым может соответствовать строка:</p>
+<blockquote>
+  <pre>  Pattern pattern = Pattern.compile(&quot;Ivanov|Petrov&quot;);
+  Matcher matcher = pattern.matcher(&quot;These are Ivanov and Petrov and another Ivanov&quot;);
+  <strong>while</strong> (matcher.find()) {
+      System.out.printf( &quot;\&quot;%s\&quot;&quot;, matcher.group());
+  }</pre>
+</blockquote>
+<p>В приведенном примере будут найдены соответствия каждому из вариантов (&quot;Ivanov&quot; &quot;Petrov&quot; &quot;Ivanov&quot;).</p>
+<p>Если символ &quot;|&quot; используется не отдельно, а в сочетании с другими элементами, то выражение с этим символом нужно брать в круглые скобки.</p>
+<p>Некоторые функции класса <code>String</code> используют регулярные выражения. Например, функции <code>replaceFirst()</code> и <code>replaceAll()</code> возвращают строки, для которых поиск и замена реализованы регулярными выражениями.</p>
+<p>Например, нужно удалить пробелы в начале и в конце строки:</p>
+<blockquote>
+  <pre>  Pattern p = Pattern.compile(&quot;^\\s+&quot;); // все пробелы в начале строки
+  String s = p.matcher(&quot;  These are Ivanov and Petrov and another Ivanov  &quot;).replaceFirst(&quot;&quot;);
+  p = Pattern.compile(&quot;\\s+$&quot;);         // все пробелы в конце строки
+  s = p.matcher(s).replaceAll(&quot;&quot;);
+  System.out.println(s);</pre>
+</blockquote>
+<h3>1.6 Разделение строки на лексемы</h3>
+<p><i>Лексема</i> (token) &#8211; это последовательность символов, имеющих определенное совокупное значение. Между отдельными лексемами располагают разделители &#8211; пробел, табуляция, новая строка и т.д.. Задача разделения строки на лексемы возникает очень часто &#8211; при создании трансляторов, в задачах компьютерного перевода, проверки орфографии и т.д.</p>
+<p>Для разделения на лексемы используют несколько способов:</p>
+<ul>
+  <li>использование класса <code>java.util.StringTokenizer</code></li>
+  <li>использование метода <code>split()</code> класса <code>String</code></li>
+  <li>использование методов класса <code></code><code>java.text.BreakIterator</code>.</li>
+</ul>
+<p>Традиционный путь &#8211; создание объекта класса <code>java.util.StringTokenizer</code>. Объект этого класса создается с помощью конструктора с параметром типа <code>String</code>, который определяет строку, подлежащую разделению на лексемы:</p>
+<blockquote>
+  <pre>StringTokenizer st = <b>new</b> StringTokenizer(someString);</pre>
+</blockquote>
+<p>После создания объекта можно получить общее количество лексем с помощью метода <code>countTokens()</code>. Класс реализует внутренний &quot;текущий указатель&quot;, который указывает на следующее слово. Функция <code>nextToken()</code> возвращает следующую лексему из строки. С помощью функции <code>hasMoreTokens()</code> можно проверить, есть ли еще лексемы.</p>
+<p>Метод <code>split()</code> класса <code>String</code> позволяет получить массив строк. </p>
+<blockquote>
+  <pre>String[] words = someString.split(&quot;\\s&quot;);</pre>
+</blockquote>
+<p>Класс <code>java.text.BreakIterator</code> реализует методы нахождения местоположения границ в тексте.</p>
+<blockquote>
+  <pre>BreakIterator boundary = BreakIterator.getWordInstance();
+boundary.setText(someString);</pre>
+</blockquote>
+<p>Работа этого класса будет рассмотрена ниже в примерах программ.</p>
+<h2>2 Примеры программ</h2>
+<h3>2.1 Просмотр доступных локализаций<b></b></h3>
+<p>Метод <code>getAvailableLocales()</code> позволяет просмотреть доступные локализации. Метод <code>toString()</code> возвращает сокращенное представление локализации. С помощью функции <code>getDisplayName()</code> можно получить более детальную информацию:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.text;
+
+<b>import</b> java.util.Locale;
+<b>import</b> java.text.NumberFormat;
+
+<b>public</b> <b>class</b> AvailableLocales {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        Locale list[] = NumberFormat.getAvailableLocales();
+        <b>for</b> (Locale locale : list) {
+            System.out.printf(&quot;%-25s %s%n&quot;, locale.toString(), locale.getDisplayName());
+        }
+    }
+
+}</pre>
+</blockquote>
+<h3>2.2 Первая подстрока, которая удовлетворяет шаблону<b></b></h3>
+<p>Следующая программа находит первую подстроку, которая удовлетворяет шаблону.</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.text;
+
+<b>import</b> java.util.Scanner;
+<b>import</b> java.util.regex.Pattern;
+<b>import</b> java.util.regex.Matcher;
+
+<b>public</b> <b>class</b> RegexTest {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        Scanner scan = <b>new</b> Scanner(System.in);
+        System.out.printf(&quot;%nВведите регулярное выражение: &quot;);
+        String ex = scan.nextLine();
+        Pattern pattern = Pattern.compile(ex);
+        System.out.printf(&quot;Введите строку для поиска: &quot;);
+        Matcher matcher = pattern.matcher(scan.nextLine());
+        <b>if</b> (matcher.find()) {
+            System.out.printf(&quot;Найден текст&quot; + &quot; \&quot;%s\&quot;, начиная с позиции&quot;
+                       + &quot;%d и заканчивая позицией %d.%n&quot;, matcher.group(),
+                       matcher.start(), matcher.end());
+        }
+    }
+
+}</pre>
+</blockquote>
+<h3>2.3 Проверка формата телефонного номера</h3>
+<p>Предположим, необходимо написать программу, которая проверяет введенную строку на соответствие формату номера стационарного телефона. Считать, что номера должны быть записаны в виде групп цифр, разделенных дефисами. Телефонный номер может быть семизначным и начинаться на 57, или шестизначным и начинаться на 572. Обязательно должны быть введены только последние шесть или семь цифр. Учесть, что номер может содержать код города в скобках (три цифры), со знаком &quot;+&quot; в начале, или без знака &quot;+&quot;.</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.text;
+
+<b>import</b> java.util.Scanner;
+<b>import</b> java.util.regex.Pattern;
+<b>import</b> java.util.regex.Matcher;
+
+<b>public</b> <b>class</b> RegexTest {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        Scanner scan = <b>new</b> Scanner(System.in);
+        System.out.printf(&quot;%nВведите номер телефона: &quot;);
+        String phone = scan.nextLine();
+        Pattern p = Pattern.compile(&quot;\\+?(380-)?((57-)?\\d{3}|(572-)?\\d{2})-\\d{2}-\\d{2}$&quot;);
+        Matcher m = p.matcher(phone);
+        <b>if</b> (m.matches()) {
+            System.out.println(&quot;\&quot;&quot; + phone + &quot;\&quot; - правильный формат номера&quot;);
+        }
+        <b>else</b> {
+            System.out.println(&quot;\&quot;&quot; + phone + &quot;\&quot; - неправильный формат номера&quot;);
+        }
+    }
+ 
+}</pre>
+</blockquote>
+<h3>2.4 Вывод слов предложения<b></b></h3>
+<p>Предположим, необходимо осуществить ввод предложения с клавиатуры и вывода его слов в отдельных строчках. Можно предложить три варианта:</p>
+<h4>2.4.1 Использование класса StringTokenizer<b></b></h4>
+<p>Первый (традиционный) вариант построен на использовании класса <code>StringTokenizer</code>:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.text;
+
+<b>import</b> java.util.Scanner;
+<b>import</b> java.util.StringTokenizer;
+
+<b>public</b> <b>class</b> UsingStringTokenizer {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        Scanner scan = <b>new</b> Scanner(System.in);
+        String sentence = scan.nextLine();
+        StringTokenizer st = <b>new</b> StringTokenizer(sentence);
+        <b>while</b> (st.hasMoreTokens()) {
+            System.out.println(st.nextToken());
+        }
+    }
+
+}</pre>
+</blockquote>
+<h4>2.4.2 Использование класса String<b></b></h4>
+<p>Второй вариант использует метод <code>split()</code> класса <code>String</code>:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.text;
+
+<b>import</b> java.util.Scanner;
+
+<b>public</b> <b>class</b> UsingSplit {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        Scanner scan = <b>new</b> Scanner(System.in);
+        String sentence = scan.nextLine();
+        String[] words = sentence.split(&quot;\\s&quot;);
+        <b>for</b> (String word : words) {
+            System.out.println(word);
+        }
+    }
+
+}</pre>
+</blockquote>
+<p>При вызове метода <code>split()</code> указывается регулярное выражение, которое определяет разделитель между словами.</p>
+<h4>2.4.3 Использование класса BreakIterator<b></b></h4>
+<p>Последний вариант построен на использовании класса <code>BreakIterator</code>, который ищет разделители:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.text;
+
+<b>import</b> java.text.BreakIterator;
+<b>import</b> java.util.Scanner;
+
+<b>public</b> <b>class</b> UsingBreakIterator {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        Scanner scan = <b>new</b> Scanner(System.in);
+        String sentence = scan.nextLine();
+        BreakIterator boundary = BreakIterator.getWordInstance();
+        boundary.setText(sentence);
+        <b>int</b> start = boundary.first();
+        <b>for</b> (<b>int</b> end = boundary.next(); end != BreakIterator.DONE; 
+                                start = end, end = boundary.next()) {
+            System.out.println(sentence.substring(start, end));
+        }
+    }
+
+}</pre>
+</blockquote>
+<p>В этом варианте в отдельных строчках выводятся не только слова, но и разделители.</p>
+<h2>3 Задания на самостоятельную работу</h2>
+<h3>3.1 Вывод значения с учетом всех возможных локализаций</h3>
+<p>Ввести с клавиатуры действительное значение, вывести его в консольное окно с учетом всех доступных локализаций.</p>
+<h3>3.2 Вывод слов предложения в обратном порядке</h3>
+<p>Ввести с клавиатуры предложение с помощью функции <code>nextLine()</code> объекта типа <code>Scanner</code>. Вывести в консольное окно слова предложения в обратном порядке. Использовать функцию <code>split()</code>.</p>
+<h3>3.3 Прохождение строки в обратном порядке*</h3>
+<p>Осуществить с помощью итератора прохождение строки от заданного индекса к началу строки. </p>
+<h3>3.4 Форматированный вывод числа</h3>
+<p>Вывести число 100 в шестнадцатеричном и восьмеричном представлении. Вывести числа в диапазоне от 100000 до 10000000 с шагом 100000 в формате, выбирающем более короткое представление. Вывести 5 вещественных чисел, выровняв их по левому краю и задав ширину поля вывода 12, а точность &#8211; 4 знака после запятой.</p>
+<h3>3.5 Нахождение всех подстрок, удовлетворяющих определенным требованиям*</h3>
+<p>Ввести строку, найти и вывести на экран, вывести все подстроки, которые соответствуют шаблону.</p>
+<h3>3.6 Маска файла*</h3>
+<p>Вывести имена файлов, удовлетворяющих маске файла. Файл должен начинаться на определенное сочетание букв, первая буква должна быть задана как вариант из двух букв, длина имени не определена, расширение файла задать как одно из трех возможных вариантов. Имя папки файла задать точно.</p>
+<h3>3.7 Замена шаблона</h3>
+<p>Заменить в тексте все шаблоны типа <code>%user%Nick%/user%</code> на <code>&lt;a href=&quot;http://www.my.by/search.htm?param=Nick&quot;&gt;Nick&lt;/a&gt;</code>.</p>
+<h3>3.8 Проверка формы адреса е-mail*</h3>
+<p>Написать программу, которая проверяет введенную строку на соответствие формату адреса электронной почты. Формат адреса должен соответствовать следующим правилам. Первым должно идти имя учетной записи. Оно начинается с буквы латинского алфавита, после которой могут следовать другие символы латинского алфавита, цифры, знак подчеркивания, затем символ &quot;@&quot;, после него имя сервера. Имя сервера должно состоять из нескольких частей (минимум двух), разделенных точками. Последняя часть имени сервера &#8211; это имя домена первого уровня. Оно может состоять только из букв латинского алфавита.</p>
+<h3>3.9 Форматированный вывод</h3>
+<p>Создать класс Person с полями name (имя), surname (фамилия), country (страна), language (язык), date (дату выступления). Создать класс Conference (Конференция) с полями persons (список лиц), topic (тема), city (город). Создать метод, выводящий информацию о каждом участнике конференции в соответствии с локализацией, заданной с его страной. Использовать класс <code>SimpleDateFormat</code> для задания пользовательского формата.</p>
+<h2>4 Контрольные вопросы</h2>
+<ol>
+  <li>Какая разница между интернационализацией и локализацией?</li>
+  <li>Какое общее назначение пакета <code>java.text</code>?</li>
+  <li>В чем преимущества сортировки с помощью класса <code>Collator</code>?</li>
+  <li>Как осуществляется форматирование данных с учетом локализации?</li>
+  <li>В чем заключается форматирование данных?</li>
+  <li>Какие дополнительные возможности предоставляет функция <code>printf()</code>?</li>
+  <li>Как исползуется <code>CharacterIterator</code>?</li>
+  <li>Что такое регулярное выражение?</li>
+  <li>Как в Java осуществляется работа с регулярными выражениями?</li>
+  <li>Какие существуют способы разделения текста на лексемы?</li>
+  <li>В чем преимущесва использования метода <code>split()</code> по сравнению со средствами <code>StringTokenizer</code>?</li>
+  <li>Как использовать класс <span class="justified"><code>BreakIterator</code></span> для разбиения строки на лексемы? </li>
+</ol>
+<p>&nbsp;</p>
+    <div class="w3-clear nextprev">
+        <a class="btn btn-info float-left" href="topic_2_02.html">Предыдущая</a>
+        <a class="btn btn-info float-left" href="topic_2_04.html">Следующая</a>
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+<a href="#top" id="up">up</a>
+<footer class="container-fluid text-center">
+    <p>&copy; 2003-2019 Л.В.Иванов</p>
+</footer>
+<script>
+    $(document).ready(function () {
+        // Add smooth scrolling to all links in navbar + footer link
+        $("a[href='#top']").on('click', function (event) {
+
+            // Make sure this.hash has a value before overriding default behavior
+            if (this.hash !== "") {
+
+                // Prevent default anchor click behavior
+                event.preventDefault();
+
+                // Store hash
+                var hash = this.hash;
+
+                // Using jQuery's animate() method to add smooth page scroll
+                // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+                $('html, body').animate({
+                    scrollTop: $(hash).offset().top
+                }, 900, function () {
+
+                    // Add hash (#) to URL when done scrolling (default click behavior)
+                    window.location.hash = hash;
+                });
+            } // End if
+        });
+        var offset = 200;
+        var duration = 300;
+        $('#up').fadeOut(0);
+        $(window).scroll(function () {
+            var winTop = $(window).scrollTop();
+            if (winTop > offset) {
+                $('#up').css("opacity", "0.8");
+                $('#up').fadeIn(duration);
+            } else {
+                $('#up').fadeOut(duration);
+            }
+        });
+    })
+</script>
+
+</body>
+</html>

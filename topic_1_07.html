@@ -1,0 +1,1441 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>1.07 - Перечисления. Исключения. Использование обобщений</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background: #dfdfdf;
+        }
+
+        /* Remove the navbar's default margin-bottom and rounded borders */
+        .jumbotron {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        #header {
+            background-color: #445566;
+        }
+
+        #header h2, #header h4, #header h3, #header h5, #header p {
+            margin-left: -10px;
+            color: #ededed;
+        }
+
+        #header h2 {
+            font-weight: bold;
+        }
+
+        #header h4 {
+            font-size: 1.5em;
+        }
+
+        #content {
+            background: white;
+            padding-right: 9%;
+            box-sizing: border-box;
+        }
+
+        p {
+            text-align: justify;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        ul.nav, ul.side_menu {
+            list-style-type: none;
+            margin-left: -20px;
+        }
+
+        .navbar {
+            margin-bottom: 0;
+            border-radius: 0;
+        }
+
+        .navbar-inverse {
+            background-color: #445566;
+            border: none;
+            border-top: 1px solid white;
+        }
+
+        .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > li > a:hover {
+            background-color: #293b4c;
+        }
+
+        /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+        .row.content {
+            height: 450px
+        }
+
+        /* Set gray background color and 100% height */
+        .sidenav {
+            padding-top: 20px;
+            height: 100%;
+        }
+
+        .btn-info {
+            color: #fff;
+            background-color: #445566;
+            border: none;
+            border-radius: 0;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .btn-info:hover {
+            background-color: #293b4c;
+        }
+
+        .navbar-inverse .navbar-toggle:hover {
+            background-color: #293b4c;
+        }
+
+        .hide {
+            visibility: hidden;
+        }
+
+        .disa {
+            cursor: default;
+            opacity: 0.6;
+
+        }
+
+        .disa:hover {
+            background-color: #445566;
+        }
+
+        /* Set black background color, white text and some padding */
+        footer {
+            background-color: #293b4c;
+            color: white;
+            padding: 15px;
+        }
+
+        #up {
+            color: #fff;
+            position: fixed;
+            display: block;
+            background: #293b4c;
+            width: 40px;
+            height: 40px;
+            bottom: 64px;
+            right: 30px;
+            opacity: 0;
+            border-radius: 50%;
+            padding-left: 12px;
+            padding-top: 8px;
+            box-sizing: border-box;
+        }
+
+        /* On small screens, set height to 'auto' for sidenav and grid */
+        @media screen and (max-width: 990px) {
+            #content {
+                padding-right: 10px;
+            }
+
+            #up {
+                display: none !important;
+            }
+        }
+
+        /* On small screens, set height to 'auto' for sidenav and grid */
+        @media screen and (max-width: 767px) {
+            .sidenav {
+                height: auto;
+                padding: 15px;
+            }
+
+            .row.content {
+                height: auto;
+            }
+        }
+
+        @media only screen and (max-width: 600px) {
+            img.small_img {
+                width: 40%;
+                height: auto;
+            }
+
+            img.big_img {
+                width: 90%;
+                height: auto;
+            }
+        }
+
+        .justified {
+            text-align: justify;
+            font-weight: normal
+        }
+
+        tt {
+            color: #446699;
+        }
+    </style>
+</head>
+<body id="top">
+<div class="container-fluid text-left" id="header">
+    <div class="container text-left col-md-3 col-sm-12">
+        <img src="Images/icon-java.png" style="padding-top: 15px; box-sizing: border-box;">
+    </div>
+    <div class="container text-left col-md-9 col-sm-12">
+        <h2>Язык программирования и технологии Java</h2>
+        <h5>Разработчик курса Л. В. Иванов</h5>
+        <h4>Модуль 1 Объектно-ориентированное программирование и язык Java</h4>
+
+    </div>
+</div>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <!--div class="col-sm-12 col-md-3 sidenav">
+            </div-->
+
+            <ul class="nav navbar-nav">
+                <li><a href="index.html">Главная</a></li>
+                <li class="active"><a href="topic_1_01.html">Объектно-ориентированное программирование и язык Java</a>
+                </li>
+                <li><a href="topic_2_01.html">Платформа Java SE</a></li>
+                <li><a href="">Разработка приложений JAVA EE</a></li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid text-left">
+    <div class="row content">
+        <div class="col-sm-12 col-md-3 sidenav">
+            <ul class="side_menu">
+                <li>1 Объектно-ориентированное программирование и язык Java
+                    <ul class="side_menu">
+                        <li><a href="topic_1_01.html">01 Парадигмы программирования. Основы объектно-ориентированного подхода</a></li>
+                        <li><a href="topic_1_02.html">02 Язык программирования Java и Java-платформа</a></li>
+                        <li><a href="topic_1_03.html">03 Синтаксические конструкции языка Java</a></li>
+                        <li><a href="topic_1_04.html">04 Ссылочные типы. Массивы. Строки и классы-оболочки</a></li>
+                        <li><a href="topic_1_05.html">05 Определение классов.  Наследование и полиморфизм</a></li>
+                        <li><a href="topic_1_06.html">06 Вложенные типы. Интерфейсы. Лямбда-выражения и ссылки на методы</a></li>
+                        <li>07 Перечисления. Исключения. Использование обобщений</li>
+                        <li><a href="topic_1_08.html">08 Понятие паттернов проектирования. Порождающие паттерны</a></li>
+                    </ul>
+                </li>
+                <li>2 Платформа Java SE
+                  <ul class="side_menu">
+                        <li><a href="topic_2_01.html">01 Платформа Java SE и ее составляющие</a></li>
+                        <li><a href="topic_2_02.html">02 Работа с коллекциями в Java 7</a></li>
+                        <li><a href="topic_2_03.html">03 Работа с текстовыми данными. Локализация</a></li>
+                        <li><a href="topic_2_04.html">04 Работа с потоками ввода-вывода и файловой системой</a></li>
+                        <li><a href="topic_2_05.html">05 Работа с XML. XML-сериализация</a></li>
+                        <li>06 Тестирование и управление сборкой. Ведение системного журнала</li>
+                        <li>07 Работа с потоками выполнения</li>
+                        <li>08 Работа с контейнерами Java 8. Stream API</li>
+                        <li>09 Поддержка сетевого взаимодействия</li>
+                        <li>10 Работа с базами данных</li>
+                        <li>11 Использование RTTI и рефлексии. Метапрограммирование. Аннотации</a></li>
+                        <li>12 </a>Использование структурных паттернов</li>
+                  </ul>
+                </li>
+                <li>3 Основы разработки приложений Java EE
+                    <ul class="side_menu">
+                        <li>01 Платформа Java EE. Web-приложения. Создание сервлетов</li>
+                        <li>02 Основы создания страниц JSP</li>
+                        <li>03 Работа с EJB. Создание Web-сервисов</li>
+                        <li>04 Использование Spring Framework</li>
+                        <li>05 Использование паттернов поведения и распределения ответственности </li>
+                        <li>06 Дополнительные возможности Java 11</li>
+                    </ul>
+                </li>
+            </ul>
+      </div>
+        <div class="col-sm-12 col-md-9 text-left" id="content">
+            <div class="w3-clear nextprev">
+                <a class="btn btn-info float-left" href="topic_1_06.html">Предыдущая</a>
+                <a class="btn btn-info float-left" href="topic_1_08.html">Следующая</a>
+            </div>
+            <h1>Перечисления. Исключения. Использование обобщений</h1>
+<h2>1 Теоретическая часть</h2>
+<h3>1.1 Перечисления</h3>
+<p>В Java 1.5 и последующих версиях поддерживается новый тип классов - перечисления. <i>Перечисление</i> задает список возможных значений, которые может получать переменная этого типа. В простейшей своей форме перечисления Java аналогичны соответствующим конструкциям C++ и C#.</p>
+<blockquote>
+  <pre>  <b>enum</b> DayOfWeek {
+      SUNDAY,
+      MONDAY,
+      TUESDAY,
+      WEDNESDAY,
+      THURSDAY,
+      FRIDAY,
+      SATURDAY
+  }
+  ...
+
+  DayOfWeek d = DayOfWeek.WEDNESDAY;</pre>
+</blockquote>
+<p>В общем случае перечисления Java предоставляют возможности по определению и перегрузке методов, созданию дополнительных полей и т. д.</p>
+<p>Перечисленные константы считаются открытыми. Тип <b><code>enum</code></b>, как и класс, может быть открытым или пакетным. Для имен возможных значений используют заглавные буквы, поскольку фактически это константы. С константами связаны целые значения, в следующем примере - соответственно от 0 до 6. Получать эти целые значения с помощью функции <code>ordinal()</code>, имя константы - с помощью метода <code>name()</code>. Например:</p>
+<blockquote>
+  <pre>  DayOfWeek d = DayOfWeek.WEDNESDAY;
+  System.out.println(d.name() + &quot; &quot; + d.ordinal());    </pre>
+</blockquote>
+<p>С помощью статической функции <code>values()</code> можно получить массив элементов перечисления:</p>
+<blockquote>
+  <pre><b>  for</b> (<b>int</b> i = 0; i &lt; DayOfWeek.values().length; i++) {
+      System.out.println(DayOfWeek.values()[i]);
+  }</pre>
+</blockquote>
+<p>Статическая функция <code>valueOf()</code> позволяет получить элемент перечисления по его имени. Например, нам необходимо получить целое значение, связанное с определенным элементом:</p>
+<blockquote>
+  <pre>  System.out.println(DayOfWeek.valueOf(&quot;FRIDAY&quot;).ordinal());</pre>
+</blockquote>
+<p>В общем случае перечисления Java предоставляют возможности по определению и перегрузке методов, созданию дополнительных полей и т.д. Например, в перечисление <code>DayOfWeek</code> можно добавить статическую функцию <code>printAll()</code>:</p>
+<blockquote>
+  <pre><b>  static void</b> printAll() {
+      <b>for</b> (DayOfWeek d : values())
+          System.out.println(d);
+  }</pre>
+</blockquote>
+<p>Можно перегрузить вывод перечисления через определение функции <code>toString()</code>:</p>
+<blockquote>
+  <pre><b>enum</b> Gender {
+    MALE, FEMALE;
+
+    @Override
+    <b>public</b> String toString() {
+        <b>switch</b> (<b>this</b>) {
+            <b>case</b> MALE:   
+                <b>return</b> &quot;мужской пол&quot;;
+            <b>case</b> FEMALE:   
+                <b></b><b>return</b> &quot;женский пол&quot;;
+        }
+    <b>    return</b> &quot;что-то невозможное!&quot;;
+    }
+
+}
+
+<b>public class</b> GenderTest {
+
+  <b>  public static void</b> main(String[] args) {
+        Gender g = Gender.FEMALE;
+        System.out.println(g);
+    }
+
+}
+</pre>
+</blockquote>
+<p>Константы можно связать с соответствующими значениями. Например, перечисление &quot;Спутник Марса&quot; содержит поле &quot;Расстояние от центра Марса&quot;. В нашем примере необходимо добавить конструктор и дополнительные элементы:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.seventh;
+<b>
+enum</b> MoonOfMars {
+    PHOBOS(9377), DEIMOS(23460);
+
+    <b>private double</b> distance;
+
+    <b>private</b> MoonOfMars(<b>double</b> distance) {
+        <b>this</b>.distance = distance;
+    }
+
+    <b>double</b> getDistance() {
+        <b>return</b> distance;
+    }
+
+    @Override
+    <b>public</b> String toString() {
+        <b>return</b> name() + &quot;. &quot; + distance + &quot; km from Mars&quot;;
+    }
+
+}
+<b>
+public class</b> MoonsOfMarsTest {
+
+    <b>public static void</b> main(String[] args) {
+        MoonOfMars m = MoonOfMars.PHOBOS;
+        System.out.println(m); // PHOBOS. 9377.0 km from Mars
+    }
+
+}</pre>
+</blockquote>
+<p>Как видно из текста, наличие конструктора обусловливает описание констант с определением фактических параметров.</p>
+<h3>1.2 Генерация и обработка исключений</h3>
+<h4>1.2.1 Основные концепции</h4>
+<p>Использование механизма обработки исключений является очень важной составной частью практики программирования на Java. Почти каждая программа на Java содержит определенные части этого механизма. Объекты-исключения позволяют программисту отделить точки возникновения ошибок времени выполнения от кода, который эти ошибки должен обработать. Это позволяет создавать более надежно работающие универсальные классы и библиотеки.</p>
+<p><i>Исключение</i> представляет собой событие, которое возникает при выполнении программы и нарушает нормальное выполнение инструкций кода. Исключения в Java делятся на синхронные (ошибка времени выполнения, ситуация, сгенерированная с помощью <b><code>throw</code></b>) и асинхронные (системные, сбои виртуальной машины Java). Место возникновения последних выявить достаточно сложно.</p>
+<p>По сравнению с C++ и C#, Java реализует наиболее строгий механизм работы с исключениями.</p>
+<h4>1.2.2 Синтаксис генерации исключений</h4>
+<p>Для генерации исключения используется утверждение <b><code>throw</code></b>. После ключевого слова <b><code>throw</code></b> должен следовать объект класса <code>java.lang.Throwable</code> или классов, производных от него. Для программных исключений обычно используется класс <code>java.lang.Exception</code> (производный от <code>Throwable</code>) или классы, произведенные от <code>Exception</code>. Такие производные классы обычно отражают специфику конкретной программы. </p>
+<blockquote>
+  <pre><b>class</b> SpecificException <b>extends</b> Exception {
+}</pre>
+</blockquote>
+<p>Имеется также базовый класс для генерации системных ошибок - класс <code>Error</code>. Классы <code>Exception</code> и <code>Error</code> имеют общий базовый класс - <code>Throwable</code>.</p>
+<p>В большинстве случаев объект-исключение создается в точке генерации исключения с помощью оператора <b><code>new</code></b>. Например, типичное утверждение <b><code>throw</code></b> может выглядеть так:</p>
+<blockquote>
+  <pre><b>void</b> f() . . .
+    . . .
+<b>    if</b> (/* ошибка */) {
+<b>        throw new</b> SpecificException();
+    }</pre>
+</blockquote>
+<p>В заголовке функции необходимо специфицировать все типы исключений, генерируемые данной функцией. Это делается с помощью ключевого слова <b><code>throws</code></b>:</p>
+<blockquote>
+  <pre><b>void</b> f() <b>throws</b> SpecificException, AnotherException {
+    . . .
+<b>    if</b> (/* ошибка */) 
+<b>        throw new</b> SpecificException();
+    <b>if</b> (/* другая ошибка */) 
+<b>        throw new</b> AnotherException();</pre>
+</blockquote>
+<p>В следующем примере функция <code>reciprocal()</code> генерирует исключение в случае деления на ноль. </p>
+<blockquote>
+  <pre><b>class</b> DivisionByZero <b>extends</b> Exception {
+
+}
+
+<b>class</b> Test {<b>
+
+    double</b> reciprocal(<b>double</b> x) <b>throws</b> DivisionByZero {
+        <b>if</b> (x == 0) {
+            <b>throw new</b> DivisionByZero();
+        }
+        <b>return</b> 1 / x;
+    }
+
+}</pre>
+</blockquote>
+<p>В отличие от C++, Java не допускает создания исключений примитивных типов. Разрешены только объектные типы, принадлежащие иерархии исключений (потомки <code>Exception</code> или <code>Throwable</code>).</p>
+<p>При наследовании для перекрытых функций список исключений должен сохраняться. </p>
+<h4>1.2.3 Синтаксис обработки исключений</h4>
+<p>Исключение, которое было сгенерировано в определенной части кода, должно быть перехвачено в другой части. Например, если мы хотим обратиться к функции, которая потенциально может сгенерировать исключение, вызов этой функции помещают в блок <b><code>try { }</code></b>:</p>
+<blockquote>
+  <pre><b>double </b>x, y;
+. . .
+<b>try</b> {
+    y = reciprocal(x);
+}</pre>
+</blockquote>
+<p>После блока <b><code>try</code></b> должен следовать один или несколько обработчиков (блоков <b><code>catch</code></b>). Каждый такой обработчик соответствует определенному типу исключения:</p>
+<blockquote>
+  <pre><b>catch</b> (DivisionByZero d) {
+    // обработка исключения
+}<b>
+catch</b> (Exception ex)  {
+    // обработка исключения
+}<b></b></pre>
+</blockquote>
+<p></p>
+<p>Классы исключений образуют иерархию. При сопоставлении типов исключений обработчик базового типа воспринимает также исключения всех произведенных от него типов. Отсюда следует, что обработчики производных типов следует размещать до обработчиков базовых типов. Допустим, например, имеется такая иерархия классов исключений:</p>
+<blockquote>
+  <pre><b>class</b> BaseException <b>extends</b> Exception {
+}
+
+<b>class</b> FileException <b>extends</b> BaseException {
+}
+
+<b>class</b> FileNotFoundException <b>extends</b> FileException {
+}
+
+<b>class</b> WrongFormatException <b>extends</b> FileException {
+}
+
+<b>class</b> MathException <b>extends</b> BaseException {
+}
+
+<b>class</b> DivisionByZero <b>extends</b> MathException {
+}
+
+<b>class</b> WrongArgument <b>extends</b> MathException {
+}
+</pre>
+</blockquote>
+<p>Имеется некоторая функция, которая может сгенерировать все типы исключений:</p>
+<blockquote>
+  <pre><b>public class</b> Exceptions {
+
+    <b>public static void</b> badFunc() <b>throws</b> BaseException {
+        // могут возникнуть различные исключения
+    }
+
+}</pre>
+</blockquote>
+<p>В зависимости от логики программы различные типы исключений можно обрабатывать более детально:</p>
+<blockquote>
+  <pre><b>try</b> {
+    Exceptions.badFunc();
+}
+<b>catch</b> (FileNotFoundException ex) {
+    // файл не найден
+}
+<b>catch</b> (WrongFormatException ex) {
+    // неправильный формат
+}
+<b>catch</b> (FileException ex) {
+    // прочие ошибки, связанные с файлами
+}
+<b>catch</b> (MathException ex) {
+    // все математические ошибки обрабатываем вместе
+}
+<b>catch</b> (BaseException ex) {
+    // подбираем все оставшиеся исключения функции badFunc()
+}
+<b>catch</b> (Exception ex) {
+    // на всякий случай
+}
+</pre>
+</blockquote>
+<p>После последнего блока <b><code>catch</code></b> можно поместить блок <b><code>finally</code></b>. Этот код всегда выполняется не зависимо от того, возникло исключение или нет, даже если в каком-то из блоков был осуществлен выход из функции.</p>
+<blockquote>
+  <pre><b>try</b> {
+    openFile();
+    // другие действия
+}
+<b>catch</b> (FileError f) {
+    // обработка исключения
+}<b>
+catch</b> (Exception ex) {
+    // обработка исключения
+}<b>
+finally </b>{
+    closeFile();
+}</pre>
+</blockquote>
+<p>Для перехвата любого исключения используются типы <code>Exception</code> или <code>Throwable</code>:</p>
+<blockquote>
+  <pre><b>catch</b> (Exception ex) {
+    // Обработка исключения
+}<b></b></pre>
+</blockquote>
+<p>или</p>
+<blockquote>
+  <pre><b>catch</b> (Throwable ex) {
+    // Обработка исключения
+}<b></b></pre>
+</blockquote>
+<p>Типичная реализация обработчика исключения - вызов метода <code>printStackTrace()</code> класса <code>Throwable</code>:</p>
+<blockquote>
+  <pre><b>catch</b> (Throwable ex)  {
+    ex.printStackTrace();
+}<b></b></pre>
+</blockquote>
+<p>Этот метод осуществляет вывод информации о трассировке стека в стандартный поток сообщений об ошибках <code>System.err</code>. Ниже приведен пример работы функции <code>printStackTrace()</code>: </p>
+<blockquote>
+  <pre>java.lang.NullPointerException
+        at SomeClass.g(SomeClass.java:9)
+        at SomeClass.f(SomeClass.java:6)
+        at SomeClass.main(SomeClass.java:3)</pre>
+</blockquote>
+<p>Вызов функции, которая может сгенерировать исключение, вне блока <b><code>try</code></b> приводит к ошибке компиляции. Проверка должна обязательно производиться:</p>
+<blockquote>
+  <pre><b>double</b> f(<b>double</b> x) {
+    <b>double</b> y = 0;
+    <b>try</b> {
+        y = (<b>new</b> Test()).reciprocal(x);
+    }<b>
+    catch</b> (DivisionByZero ex) {
+        ex.printStackTrace();
+    }<b>
+    return </b>y;
+}</pre>
+</blockquote>
+<p>Неперехваченное исключение может быть передано внешнему обработчику с использованием ключевого слова <b><code>throws</code></b>:</p>
+<blockquote>
+  <pre><b>double</b> g(<b>double</b> x) <b>throws</b> DivisionByZero {
+    <b>double</b> y;
+    y = reciprocal(x);<b>
+    return </b>y;
+}</pre>
+</blockquote>
+<p>Это правило обязательно для всех исключений Java кроме объектов класса <code>RuntimeException</code> или его потомков, а также для ошибок типа <code>Error</code>. Генерацию таких исключений не нужно оговаривать в заголовке функции. Программист может обрабатывать или игнорировать такие исключения по своему усмотрению. Типичный класс исключений такого вида - <code>NullPointerException</code>.</p>
+<p>В версии Java 7 к синтаксису исключений добавлены новые конструкции, которые делают работу с исключениями более удобной. Например, можно создать обработчик событий различных типов с использованием побитовой операции &quot;ИЛИ&quot;:</p>
+<blockquote>
+  <pre><b>public void</b> newMultiCatch() {
+  <b>  try</b> {
+        methodThatThrowsThreeExceptions();
+    } 
+    <b>catch</b> (ExceptionOne | ExceptionTwo | ExceptionThree e) {
+        // обработка всех исключений
+    }
+}</pre>
+</blockquote>
+<p>Другие дополнительные возможности связаны с так называемым блоком управления ресурсами (&quot;try-with-resources&quot;). Для объектов классов, реализующих интерфейс <code>java.lang.AutoCloseable</code> можно поместить создание объекта непосредственно после <b><code>try</code></b>. Метод <code>close()</code>, предусмотренный этим интерфейсом, будет гарантированно вызван при выходе из блока. (аналогично выполнению кода в <b><code>finally</code></b>):</p>
+<blockquote>
+  <pre><b>try</b> (ClassThatImplementsAutoCloseable sc) {
+    // действия, которые могут привести к исключению
+}
+<b>catch</b> (Exception f) {
+    // обработка исключения
+}   // автоматический вызов sc.close()</pre>
+</blockquote>
+<p>Чаще всего данную конструкцию используют в сочетании с файловыми потоками:</p>
+<blockquote>
+  <pre><b>public void</b> newTry() {
+    <b>try</b> (FileOutputStream fos = <b>new</b> FileOutputStream(&quot;movies.txt&quot;)) {
+        // Работа с файловыми потоками
+    } 
+    <b>catch</b> (IOException e) {
+        // сообщение об ошибке
+    } // автоматическое закрытие файла
+}</pre>
+</blockquote>
+<p>Файловые потоки будут гарантированно закрыты.</p>
+<p>Среда IntelliJ IDEA позволяет автоматизировать процесс создания блоков перехвата и обработки исключений. Если в тексте функции пометить блок и использовать функцию <tt>Code | Surround With... | try / catch</tt>, помеченный блок будет расположен в блоке перехвата исключений (<code><b>try</b> { }</code>), а дальше будут добавлены <b><code>catch</code></b>-блоки, содержащие стандартную обработку всех возможных исключений.</p>
+<h3>1.3 Обобщенное программирование в Java</h3>
+<h4>1.3.1 Концепция обобщенного программирования</h4>
+<p>Часто возникает необходимость в создании так называемых классов-контейнеров - таких, которые содержат объекты произвольных типов. При этом над элементами контейнеров необходимо выполнять некоторые однотипные действия. Код для обработки объектов различных типов выглядит практически одинаково. Это особенно справедливо, если для разных типов данных требуется реализовать алгоритмы наподобие быстрой сортировки либо способы обработки таких структур данных, как связанный список или двоичное дерево. В таких случаях код одинаков для всех используемых типов объектов.</p>
+<p>Парадигма <em>обобщенного программирования</em> предполагает описание правил хранения данных и алгоритмов в общем виде независимо от конкретных типов данных. Конкретные типы данных, над которыми выполняются действия, специфицируются позже. Механизмы разделения структур данных и алгоритмов, а также формулирование абстрактных описаний требований к данным, определяются по-разному в различных языках программирования. Вначале возможности обобщенного программирования были предоставлены в семидесятые годы XX столетия языками CLU и Ада (обобщенные функции), позже были реализованы в языке ML (параметрический полиморфизм).</p>
+<p>Наиболее полно и гибко идея обобщенного программирования реализована в языке C++ через механизм шаблонов. Шаблон (template) в C++ представляет собой фрагмент кода, обобщенно описывающий работу с некоторым абстрактным типом, заданным как <em>параметр</em> шаблона. Этот фрагмент кода (класс или функция) окончательно компилируется только при <em>инстанцировании</em> шаблона конкретным типом, то есть при подстановке конкретного типа вместо параметра. На использовании шаблонных функций и параметризированных классов построена Стандартная библиотека шаблонов (STL), являющаяся в настоящее время частью Стандартной библиотеки C++. STL включает описание стандартных контейнерных классов и независимых от них алгоритмов.</p>
+<p>Для реализации обобщенного программирования в Java используются обобщения - специальная языковая конструкция, появившаяся в синтаксисе языка начиная с версии Java 5.</p>
+<h4>1.3.2 Проблемы создания универсальных контейнеров в Java 2</h4>
+<p>Очень часто возникает необходимость в создании так называемых классов-контейнеров - таких, которые содержат объекты произвольных типов. Например, иногда возникает необходимость хранить пару объектов одного типа. Можно предложить класс <code>Pair</code> (пара). Он содержит две ссылки на класс <code>Object</code>: </p>
+<blockquote>
+  <pre><b>public class</b> Pair {
+    Object first, second;
+
+    <b>public</b> Pair(Object first, Object second) {
+        <b>this</b>.first = first;
+        <b>this</b>.second = second;
+    }
+
+}</pre>
+</blockquote>
+<p>Поскольку класс<code> Object</code> является базовым для всех ссылочных типов, новый класс можно, например, применить для хранения пары строк:</p>
+<blockquote>
+  <pre>Pair p = <b>new</b> Pair(&quot;Фамилия&quot;, &quot;Имя&quot;);    </pre>
+</blockquote>
+<p>Такой подход имеет определенные недостатки:</p>
+<ul>
+  <li>Для чтения объектов необходимо применить явное преобразование типов:</li>
+  <pre>    String s = (String) p.first; // вместо String s = p.first;</pre>
+  <li>Нет уверенности, что в паре хранятся объекты именно того типа, который нас интересует:</li>
+  <pre>    Integer i = (Integer) p.second; // Ошибка времени выполнения</pre>
+  <li>Нельзя гарантировать, что оба поля будут одного типа:</li>
+  <pre>    Pair p1 = <b>new</b> Pair(&quot;Фамилия&quot;, <b>new</b> Integer(2)); // Ни одного сообщения об ошибке</pre>
+</ul>
+<p><span class="justified">Аналогичные проблемы в Java 2 возникали со стандартными контейнерными классами. Следствием реализованного таким образом подхода стали потенциальные ошибки времени выполнения, которые не могли быть детектированы при компиляции кода.</span></p>
+<h4>1.3.3 Обобщения (Generics)</h4>
+<p>Указанные ранее проблемы решает появившаяся в Java 5 синтаксическая конструкция, так называемое <i>обобщение</i> - конструкция, включающая в себя параметр класса или функции, который содержит дополнительную информацию о типе элементов и других данных. Этот параметр берут в угловые скобки. Обобщение предоставляют возможность создания и использования структур данных, безопасных с точки зрения типов. Классы, описание которых содержит такой параметр, называются <i>обобщенными</i>. При создании объекта обобщенного типа в угловых скобках указывают имена реальных типов. Можно использовать только типы ссылок. Предыдущий пример можно реализовать с применением обобщений. </p>
+<blockquote>
+  <pre><b>public class</b> Pair&lt;T&gt; {
+    T first, second;
+
+    <b>public</b> Pair(T first, T second) {
+        <b>this</b>.first = first;
+        <b>this</b>.second = second;
+    }
+
+    <b>public static void</b> main(String[] args) {
+        Pair&lt;String&gt; p = <b>new</b> Pair&lt;String&gt;(&quot;Фамилия&quot;, &quot;Имя&quot;);
+        String s = p.first; // Получаем строку без приведения типов
+        Pair&lt;Integer&gt; p1 = <b>new</b> Pair&lt;Integer&gt;(1, 2); // Можно использовать целые константы
+        <b>int</b> i = p1.second;  // Получаем целое значение без приведения типов
+    }
+}    </pre>
+</blockquote>
+<p><i>Примечание</i>: Java 7 позволяет не повторять фактический параметр обобщения после имени конструктора. Например: </p>
+<blockquote>
+  <pre>Pair&lt;Integer&gt; p1 = <b>new</b> Pair&lt;&gt;(1, 2);</pre>
+</blockquote>
+<p> Если мы пытаемся добавить к паре данные различных типов, компилятор сгенерирует ошибку. Ошибочной является также попытка явно преобразовать тип:</p>
+<blockquote>
+  <pre>Pair&lt;String&gt; p = <b>new</b> Pair&lt;String&gt;(&quot;1&quot;, &quot;2&quot;);
+Integer i = (Integer) p.second; // ошибка компиляции</pre>
+</blockquote>
+<p> Тип данных с параметром в угловых скобках (например, <code>Pair&lt;String&gt;</code>) называется <i>параметризованным типом</i>. </p>
+<p>Обобщения реально существуют только на уровне исходного кода. Фактически в полях класса хранятся ссылки на <code>Object</code>. Информация о типе используется компилятором для контроля и автоматического приведения типов в исходном тексте.</p>
+<p>Кроме обобщенных классов, можно создавать <i>обобщенные интерфейсы</i>. Параметр может быть использован в описании функций, объявленных в интерфейсе. При их реализации вместо параметра обобщения используют некоторый ссылочный тип. Например: </p>
+<blockquote>
+  <pre><b>interface</b> Function&lt;T&gt; {
+    T func(T x);
+}
+
+<b>class</b> DoubleFunc <b>implements</b> Function&lt;Double&gt; {
+
+    @Override
+    <b>public</b> Double func(Double x) {
+        <b>return</b> x * 1.5;
+    }
+}
+
+<b>class</b> IntFunc <b>implements</b> Function&lt;Integer&gt; {
+
+    @Override
+    <b>public</b> Integer func(Integer x) {
+        <b>return</b> x % 2;
+    }
+}</pre>
+</blockquote>
+<p>Java также позволяет создавать <i>обобщенные функции</i> внутри как обобщенных, так и обычных (необобщенных) классов:</p>
+<blockquote>
+  <pre><b>public class</b> ArrayPrinter {
+
+  <b>  public static</b>&lt;T&gt; <b>void</b> printArray(T[] a) {
+        <b>for</b> (T x : a) {
+            System.out.print(x + &quot;\t&quot;);
+        }
+        System.out.println();
+    }
+
+  <b>  public static void</b> main(String[] args) {
+        String[] as = {&quot;First&quot;, &quot;Second&quot;, &quot;Third&quot;};
+        printArray(as);
+        Integer[] ai = {1, 2, 4, 8};
+        printArray(ai);
+    }
+}</pre>
+</blockquote>
+<p>Как видно из примера, вызов обобщенной функции не требует явного определения типа. Иногда такое определение необходимо, например, когда в функции нет параметров обобщенного типа. Если это статическая функция, необходимо явно указывать ее класс. Например:</p>
+<blockquote>
+  <pre><b>public class</b> TypeConverter {
+
+    <b>public static</b>&lt;T&gt; T convert(Object object) {
+        <b>return</b> (T) object;
+    }
+
+    <b>public static void</b> main(String[] args) {
+        Object o = &quot;Some Text&quot;;
+        String s = TypeConverter.&lt;String&gt;convert(o);
+        System.out.println(s);
+    }
+
+}</pre>
+</blockquote>
+<p>Рекомендованными именами формальных параметров являются имена из одной большой буквы. Обобщение может иметь два и более параметров. В следующем примере пара может содержать ссылки на объекты разных типов:</p>
+<blockquote>
+  <pre><b>public class</b> PairOfDifferentObjects&lt;T, E&gt; {
+    T first;
+    E second;
+
+    <b>public</b> PairOfDifferentObjects(T first, E second) {
+        <b>this</b>.first = first;
+        <b>this</b>.second = second;
+    }
+
+    <b>public static void</b> main(String[] args) {
+        PairOfDifferentObjects&lt;Integer, String&gt; p = <b>
+            new</b> PairOfDifferentObjects&lt;Integer, String&gt;(1000, &quot;thousand&quot;);
+        PairOfDifferentObjects&lt;Integer, Integer&gt; p1 = <b>
+            new</b> PairOfDifferentObjects&lt;Integer, Integer&gt;(1, 2);
+        //...
+    }
+
+}    </pre>
+</blockquote>
+<p>Над данными типа параметра обобщения можно осуществлять только действия, разрешенные для объектов класса <code>Object</code>. Иногда для расширения функциональности желательным является конкретизация типа. Например, мы хотим вызвать методы, объявленные в определенном классе или интерфейсе. Тогда можно применить следующий синтаксис описания параметра: <code>&lt;T <b>extends</b> SomeBaseType&gt;</code> или <code>&lt;T <b>extends</b> FirstType &amp; SecondType&gt;</code> и т.д. Слово <code> <b>extends</b></code> используется как для классов, так и для интерфейсов.</p>
+<p>Например, можно создать обобщенную функцию вычисления среднего арифметического в массиве некоторых числовых значений. Стандартные классы <code>Double</code>, <code>Float</code>, <code>Integer</code>, <code>Long</code> и другие классы-оболочки числовых данных имеют общий абстрактный базовый класс - <code>java.lang.Number</code>, декларирующий, в частности, метод <code>doubleValue()</code>, позволяющий, получить хранящееся в объекте число в виде значения типа <strong><code>double</code></strong>. Этот факт можно использовать при вычислении среднего арифметического. Созданная функция может работать с массивами чисел различных типов:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.seventh;
+
+<b>public class</b> AverageTest {
+
+    <b>public static</b>&lt;E <b>extends</b> Number&gt; <b>double</b> average(E[] arr) {
+        <b>double</b> result = 0;
+        <b>for</b> (E elem : arr) {
+            result += elem.doubleValue();
+        }
+        <b>return</b> result / arr.length;
+    }
+
+    <b>public static void</b> main(String[] args) {
+        Double[] doubles = { 1.0, 1.1, 1.5 };
+        System.out.println(average(doubles)); // 1.2
+        Integer[] ints = { 10, 20, 3, 4 };
+        System.out.println(average(ints));    // 9.25
+    }
+}</pre>
+</blockquote>
+<p>Приведем пример создания обобщенного класса, который хранит массив элементов определенного типа:</p>
+<blockquote>
+  <pre><b>public class</b> MyArray&lt;T&gt; {
+    <b>private</b> T[] arr;
+
+    <b>public</b> MyArray(T... arr) {
+        <b>this</b>.arr = arr;
+    }
+
+    <b>public int</b> size() {
+        <b>return</b> arr.length;
+    }
+
+    <b>public</b> T get(<b>int</b> i) {
+        <b>return</b> arr[i];
+    }
+
+    <b>public void</b> set(<b>int</b> i, T t) {
+        arr[i] = t;
+    }
+  
+    <b>public void</b> printAll() {
+        <b>for</b> (<b>int</b> i = 0; i &lt; arr.length; i++) {
+            System.out.print(arr[i] + &quot; &quot;);
+        }
+        System.out.println();
+    }
+
+}</pre>
+</blockquote>
+<p>В другом классе осуществляем тестирование:</p>
+<blockquote>
+  <pre><b>public class</b> TestClass {
+
+    <b>public static void</b> main(String[] args) {
+        MyArray&lt;String&gt; a = <b>new</b> MyArray&lt;&gt;(<b>new</b> String[]{ &quot;1&quot;, &quot;2&quot; });
+        String s = a.get(a.size() - 1);
+        System.out.println(s);     // 2
+        a.set(1, &quot;New&quot;);    
+        a.printAll();              // 1 New
+    }
+
+}</pre>
+</blockquote>
+<p>Нельзя создавать объекты и массивы обобщенных типов:</p>
+<blockquote>
+  <pre>T arr = <b>new</b> T[10]; // ошибка!</pre>
+</blockquote>
+<p>В нашем примере эту проблему можно решить с помощью ссылок на класс <code>Object</code>. Кроме того, для удобства использования конструктор можно реализовать как функцию с переменным числом параметров. Полезной также будет функция добавления элемента в конец массива. Альтернативная реализация может быть следующей:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.seventh;
+
+<b>public class</b> MyArray&lt;T&gt; {
+    <b>private</b> Object[] arr = {};
+
+    <b>public</b> MyArray(T... arr) {
+        <b>this</b>.arr = arr;
+    }
+
+    <b>public</b> MyArray(<b>int</b> size) {
+        arr = <b>new</b> Object[size];
+    }
+
+    <b>public int</b> size() {
+        <b>return</b> arr.length;
+    }
+
+    <b>public</b> T get(<b>int</b> i) {
+        <b>return</b> (T)arr[i];
+    }
+
+    <b>public void</b> set(<b>int</b> i, T t) {
+        arr[i] = t;
+    }
+
+    <b>public void</b> add(T t) {
+        Object[] temp = <b>new</b> Object[arr.length + 1];
+        System.arraycopy(arr, 0, temp, 0, arr.length);
+        arr = temp;
+        arr[arr.length - 1] = t;
+    }
+
+    <b>public void</b> printAll() {
+        <b>for</b> (<b>int</b> i = 0; i &lt; arr.length; i++) {
+            System.out.print(arr[i] + &quot; &quot;);
+        }
+        System.out.println();
+    }
+
+}</pre>
+</blockquote>
+<p>В другом классе осуществляем тестирование:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.seventh;
+
+<b>public class</b> TestClass {
+
+    <b>public static void</b> main(String[] args) {
+        MyArray&lt;String&gt; a = <b>new</b> MyArray&lt;&gt;(&quot;1&quot;, &quot;2&quot;);
+        String s = a.get(a.size() - 1);
+        System.out.println(s);     // 2
+        a.set(1, &quot;New&quot;);    
+        a.printAll();              // 1 New
+        MyArray&lt;Double&gt; b = <b>new</b> MyArray&lt;&gt;(3);
+        b.set(0, 1.0);
+        b.set(1, 2.0);
+        b.set(2, 4.0);  
+        b.add(8.0);  
+        b.printAll();    
+    }
+
+}</pre>
+</blockquote>
+<p>Функциональность класса можно расширить методами добавления нового элемента внутри массива, удаления существующего и т.д.</p>
+<p>Синтаксис обобщений предполагает использование так называемых <i>масок</i> (wildcard, символ '?'). Маска применяется, например, для описания ссылок на пока неизвестный тип. Использование масок делает обобщенные классы и функции более совместимыми. Маска предоставляет альтернативный способ создания обобщенных функций.</p>
+<p>В следующем примере используется ранее созданный класс <code>MyArray</code>, в частности, его конструктор с переменным числом параметров:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.seventh;
+
+<b>public class</b> GenericArrayPrinter {
+
+    <b>public static void</b> printGenericArray(MyArray&lt;?&gt; a) {
+        <b>for</b> (<b>int</b> i = 0; i &lt; a.size(); i++) {
+            System.out.print(a.get(i) + &quot;\t&quot;);
+        }
+        System.out.println();
+    }
+
+    <b>public static void</b> main(String[] args) {
+        MyArray&lt;String&gt; arr1 = <b>new</b> MyArray(&quot;First&quot;, &quot;Second&quot;, &quot;Third&quot;);
+        printGenericArray(arr1);
+        MyArray&lt;?&gt; arr2 = <b>new</b> MyArray(1, 2, 3); // MyArray&lt;?&gt; вместо MyArray&lt;Integer&gt;
+        printGenericArray(arr2);
+    }
+    
+}</pre>
+</blockquote>
+<p>Можно ограничить использование типа параметра функции определенными производными классами, например, <code>MyArray&lt;? <b>super</b> String&gt;</code>. Тогда использование <code>MyArray&lt;Integer&gt;</code> невозможно.</p>
+<p>Классы-исключения не могут быть обобщенными, поскольку нельзя создать обобщенный класс, производный от <code>Exception</code>. Но можно создать обобщенный конструктор или обобщенную функцию доступа к элементам.</p>
+<h3>1.4 Сортировка массивов</h3>
+<p>В простейшем случае сортировки всего массива по возрастанию осуществляется с помощью функции <code>sort()</code> с одним параметром - ссылкой на соответствующий массив. Статическая функция <code>sort()</code> класса <code>java.util.Array</code> реализована для массивов всех примитивных типов. Аналогично можно реализовать сортировку объектов классов, для которых определено натуральное сравнение, т.е. реализован интерфейс <code>Comparable</code>. Единственный метод этого интерфейса<code> - compareTo()</code>:</p>
+<blockquote>
+  <pre><b>public int</b> compareTo(Object o)</pre>
+</blockquote>
+<p>Метод должен вернуть отрицательное значение (например, -1), если объект, для которого вызван метод, меньше объекта <code>o</code>, нулевое значение, если объекты равны, и положительное значение в противном случае.</p>
+<p>Классы, реализующие интерфейс <code>Comparable</code>, - это классы-оболочки <code>Double</code>, <code>Integer</code>, <code>Long</code> и т.д., а также <code>String</code>. Например, таким образом можно рассортировать массив объектов типа <code>Integer</code>:</p>
+<blockquote>
+  <pre><b>public class</b> SortIntegers {
+
+    <b>public static void</b> main(String[] args) {
+        Integer[] a = {7, 8, 3, 4, -10, 0};
+        java.util.Arrays.sort(a);
+        System.out.println(java.util.Arrays.toString(a));
+    }
+
+}</pre>
+</blockquote>
+<p>В Java 5 <code>Comparable</code> <code>-</code> это обобщенный интерфейс. Если использовать обобщения, функция <code>compareTo()</code> должна принимать аргумент типа параметра обобщения.</p>
+<p>Можно самостоятельно создать класс, реализующий интерфейс <code>Comparable</code>. Например, массив прямоугольников сортируется по площади:</p>
+<blockquote>
+  <pre><b>class</b> Rectangle <b>implements</b> Comparable&lt;Rectangle&gt; {
+    <b>double</b> width, height;
+
+    <b>public</b> Rectangle(<b>double</b> width, <b>double</b> height) {
+        <b>this</b>.width = width;
+        <b>this</b>.height = height;
+    }
+
+    <b>public double</b> area() {
+        <b>return</b> width * height;
+    }
+
+    <b>public</b> double perimeter() {
+        <strong>return</strong>&#32;( width&#32;+&#32;height )&#32;*&#32;2;
+    }
+
+    <b>public int</b> compareTo(Rectangle rect) {
+        <b>return</b> Double.compare(area(), rect.area());
+    }
+
+    <b>public</b> String toString() {
+        <b>return</b> "\n ["&#32;+&#32;width&#32;+&#32;",&#32;"&#32;+&#32;height&#32;+&#32;",&#32;area&#32;=&#32;"&#32;+&#32;area()&#32;+&#32;",&#32;
+                                       perimeter&#32;=&#32;"&#32;+&#32;perimeter()&#32;+&#32;"]";
+    }
+
+}
+<b>
+public class</b> SortRectangles {
+
+    <b>public static void</b> main(String[] args) {
+        Rectangle[] a = { <b>
+            new</b> Rectangle(2, 7),
+            <b>new</b> Rectangle(5, 3),
+            <b>new</b> Rectangle(3, 4)
+        };
+        java.util.Arrays.sort(a);
+        System.out.println(java.util.Arrays.toString(a));
+    }
+
+}</pre>
+</blockquote>
+<p>В приведенном примере используется статическая функция <code>compare()</code> класса <code>Double</code>. Эта функция возвращает значение, необходимое методу <code>sort()</code>.</p>
+<p>Если мы не хотим (или не можем) определить функцию <code>compareTo()</code>, можно создать класс, реализующий интерфейс <code>Comparator</code>. Ссылка на объект такого класса передается в качестве у второго (четвертого) параметру функции <code>sort()</code>:</p>
+<blockquote>
+  <pre><b>public static void</b> sort(T[] a, Comparator&lt;? <b>super</b> T&gt; c)
+<b>public static void</b> sort(T[] a, <b>int</b> fromIndex, <b>int</b> toIndex, Comparator&lt;? <b>super</b> T&gt; c)</pre>
+</blockquote>
+<p>Интерфейс <code>Comparator</code> содержит описание метода <code>compare()</code> с двумя параметрами. Функция должна вернуть отрицательное число, если первый объект при сортировке необходимо считать меньшим, чем другой, значение 0, если объекты эквивалентны, и положительное число в противном случае.</p>
+<p>Начиная с Java 5 <code>Comparator</code> <code>-</code> это также обобщенный интерфейс. Если использовать обобщения, функция <code>compare()</code> должна принимать два аргумента типа параметра обобщения. Например:</p>
+<blockquote>
+  <pre><b>import</b> java.util.Comparator;
+<b>
+class</b> Rectangle {
+    <b>double</b> width, height;
+
+    <b>public</b> Rectangle(<b>double</b> width, <b>double</b> height) {
+        <b>this</b>.width = width;
+        <b>this</b>.height = height;
+    }
+
+    <b>public double</b> area() {
+        <b>return</b> width * height;
+    }
+
+    <b>public</b> double perimeter() {
+        <strong>return</strong>&#32;(width&#32;+&#32;height)&#32;*&#32;2;
+    }
+
+    <b>public</b> String toString() {
+        <b>return</b> "\n ["&#32;+&#32;width&#32;+&#32;",&#32;"&#32;+&#32;height&#32;+&#32;",&#32;area&#32;=&#32;"&#32;+&#32;area()&#32;+&#32;",&#32;
+                                       perimeter&#32;=&#32;"&#32;+&#32;perimeter()&#32;+&#32;"]";
+    }
+}
+<b>
+class</b> CompareByArea <b>implements</b> Comparator&lt;Rectangle&gt;
+{
+
+    @Override
+    <b>public int</b> compare(Rectangle r1, Rectangle r2) {
+        <b>return</b> Double.compare(r1.area(), r2.area());
+    }
+
+}
+<b>
+public class</b> SortRectangles {
+
+    <b>public static void</b> main(String[] args) {
+        Rectangle[] a = {<b>new</b> Rectangle(2, 7), <b>new</b> Rectangle(5, 3), <b>new</b> Rectangle(3, 4)};
+        java.util.Arrays.sort(a, <b>new</b> CompareByArea());
+        System.out.println(java.util.Arrays.toString(a));
+    }
+
+}
+</pre>
+</blockquote>
+<p>Для создания объектов, реализующих интерфейс <code>Comparator</code>, очень часто используют безымянные классы. Например: </p>
+<blockquote>
+  <pre>Integer[] arr = <b>new</b> Integer[] { 3, 4, 1, 2, 5 };
+Arrays.sort(arr, <b>new</b> Comparator&lt;Integer&gt;() {
+    @Override
+    <b>public int</b> compare(Integer o1, Integer o2) {
+        <b>return</b> -Integer.compare(o1, o2);
+    }
+}); 
+System.out.println(Arrays.toString(arr));//[5, 4, 3, 2, 1]</pre>
+</blockquote>
+<p>Интерфейс <code>Comparator</code> - функциональный, следовательно, для задания признака упорядочения можно использовать лямбда-выражения или ссылки на методы. Например, так через лямбда-выражения можно задать признаки сортировки по площади и по периметру:</p>
+<pre>    Rectangle[] a = {<b>new</b> Rectangle(2, 7), <b>new</b> Rectangle(5, 3), <b>new</b> Rectangle(3, 4)};
+    // Сортировка по площади:
+    java.util.Arrays.sort(a, (r1, r2) -&gt; Double.compare(r1.area(), r2.area()));
+    System.out.println(java.util.Arrays.toString(a));
+    // Сортировка по периметру:
+    java.util.Arrays.sort(a, (r1, r2) -&gt; Double.compare(r1.perimeter(), r2.perimeter()));
+    System.out.println(java.util.Arrays.toString(a));</pre>
+<p>Начиная с Java 8, интерфейс <code>Comparator</code> предлагает стандарнтые статические функции, которые создают и возвращают объекты классов, реализующих этот интерфейс. Это, например, <code>naturalOrder()</code>, <code>reverseOrder()</code> и т. д. Существует набор функций с реализацией по умолчанию, например, <code>reversed()</code>, <code>thenComparing()</code> и т.д.</p>
+<h2>2 Примеры программ</h2>
+<h3>2.1 Описание и использование перечисления</h3>
+<p>Предположим, необходимо создать перечисление, описывающее дни недели. Ранее был приведен пример такого перечисления. К нему следует добавить функцию получения следующего дня, причем после субботы вновь должно быть воскресенье т.д. Кроме того, требуется проверить, относится день к уикенду. При выводе также необходимо получать номер дня (0 - воскресенье, 1 - понедельник и т. д.). В функции <code>main()</code>, начиная с понедельника необходимо пройтись по дням недели, вывести данные о дне, а также проверить, уикенд это или нет. Программа будет выглядеть так:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.seventh;
+
+<b>enum</b> DayOfWeek {
+    SUNDAY,
+    MONDAY,
+    TUESDAY,
+    WEDNESDAY,
+    THURSDAY,
+    FRIDAY,
+    SATURDAY;
+
+    @Override
+    <b>public</b> String toString() { 
+        <b>return</b> name() + &quot; &quot; + ordinal(); 
+    }
+
+    DayOfWeek next() {
+        DayOfWeek day = values()[(ordinal() + 1) % values().length];
+        <b>return</b> day;
+    }
+
+    <b>boolean</b> isWeekend() {
+        <b>switch</b> (<b>this</b>) {
+            <b>case</b> SATURDAY: 
+            <b>case</b> SUNDAY: 
+                <b>return true</b>;
+            <b>default</b>: 
+                <b>return false</b>;
+        }
+    }
+
+}
+
+<b>public class</b> EnumTest {
+
+    <b>public static void</b> main(String[] args) {
+        DayOfWeek d = DayOfWeek.MONDAY;
+        <b>for</b> (<b>int</b> i = 0; i &lt; 7; i++) {
+            d = d.next();
+            System.out.println(d + &quot; &quot; + d.isWeekend());
+        }
+    }
+
+}
+</pre>
+</blockquote>
+<p>Как и в других случаях, формой вывода данных управляет перекрытый метод <code>toString()</code>.</p>
+<h3>2.2 Решение уравнения</h3>
+<p>Примеры из предыдущей работы не проверяют возможных ошибок, связанных с решением уравнения. Эту ситуацию можно исправить, добавив механизм генерации и обработки исключений. Уравнение не может быть решено в следующих случаях:</p>
+<ul>
+  <li>левая граница интервала больше или равна правой; </li>
+  <li>функция не меняет знака на предложенном интервале.</li>
+</ul>
+<p>Для того чтобы сократить количество файлов в проекте, класс-исключение, как и интерфейс <code>Function</code>, можно вложить в класс <code>Solver</code>. Теперь мы можем проверить эти ситуации и сгенерировать исключения:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.seventh;
+
+<b>public class</b> Solver {
+
+    <b>public interface</b> Function {
+        <b>double</b> f(<b>double</b> x);
+    }
+
+    <b>public static class</b> EquationError <b>extends</b> Exception {
+        <b>public void</b> printError() {
+            System.out.println(&quot;Wrong data!&quot;);
+            System.exit(1);
+        }
+    }
+
+    <b>static double</b> solve(<b>double</b> a, <b>double</b> b, <b>double</b> eps, Function func) <b>
+                                                    throws</b> EquationError {
+        <b>if</b> (a &gt;= b || func.f(a) * func.f(b) &gt; 0) {
+            <b>throw new</b> EquationError();
+        }
+        <b>double</b> x = (a + b) / 2;
+    <b>    while</b> (Math.abs(b - a) &gt; eps) {
+      <b>      if</b> (func.f(a) * func.f(x) &gt; 0) {
+                a = x;
+            }
+          <b>  else</b> {
+                b = x;
+            }
+            x = (a + b) / 2;
+        }
+        <b>return</b> x;
+    }
+
+}</pre>
+</blockquote>
+<p>В код класса <code>InterfaceTest</code> тоже следует внести изменения. Необходимо перехватывать исключения:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.seventh;
+
+<b>public class</b> InterfaceTest {
+
+    <b>public static void</b> main(String[] args) {
+        <b>try</b> {
+            System.out.println(Solver.solve(0, 2, 0.000001, <b>new</b> Solver.Function() {
+                <b>public double</b> f(<b>double</b> x) {
+                    <b>return</b> x * x - 2;
+                }
+            }));
+        }
+        <b>catch</b> (Solver.EquationError err) {
+            err.printError();
+        }
+    }
+
+}</pre>
+</blockquote>
+<h3>2.3 Реализация интерфейса AutoCloseable </h3>
+<p>Допустим, мы вычисляем сумму введенных чисел и должны ее вывести, даже если возникло исключение. Можно предложить следующий класс, реализующий интерфейс <code>java.lang.AutoCloseable</code>, и в методе разместить некоторую полезную работу, которая выполнится во всех случаях. Создаем класс:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.seventh;
+
+<b>public class</b> SumFinder <b>implements</b> AutoCloseable {
+    <b>private double</b> sum;
+
+    <b>public void</b> add(<b>double</b> value) {
+        sum += value;
+    }
+
+    @Override
+    <b>public void</b> close() <b>throws</b> Exception {
+        System.out.println(sum);
+    }
+}</pre>
+</blockquote>
+<p>Тестируем класс:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.seventh;
+
+<b>import</b> java.util.Scanner;
+
+<b>public class</b> ClosableTest {
+
+    <b>public static void</b> main(String[] args) {
+        Scanner scanner = <b>new</b> Scanner(System.in);
+        <b>try</b> (SumFinder finder = <b>new</b> SumFinder()) {
+            <b>double</b> x;
+            <b>do</b> {
+                x = scanner.nextDouble();
+                finder.add(x);
+            }
+            <b>while</b> (x != 0);
+        }
+        <b>catch</b> (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+}</pre>
+</blockquote>
+<p>Теперь сумма будет выведена во всех случаях. Из примера также видно, что сначала выполняется код метода <code>close()</code>, а потом блока <strong><code>catch</code></strong>. </p>
+<h3>2.4 Обобщенная функция поиска определенного элемента<b></b></h3>
+<p>Допустим, необходимо реализовать статическую обобщенную функцию получения индекса первого вхождения элемента с определенным значением. Функция должна возвращать индекс этого элемента или -1, если элемент отсутствует. Класс с необходимой функцией будет выглядеть так:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.seventh;
+<b>
+public class</b> ElementFinder {
+
+    <b>public static</b> &lt;E&gt;<b>int</b> indexOf(E[] arr, E elem) {
+        <b>for</b> (<b>int</b> i = 0; i &lt; arr.length; i++) {
+            <b>if</b> (arr[i].equals(elem)) {
+                <b>return</b> i;
+            }
+        }
+        <b>return</b> -1;
+    }
+
+    <b>public static void</b> main(String[] args) {
+        Integer[] a = {1, 2, 11, 4, 5};
+        System.out.println(indexOf(a, 11));    // 2
+        System.out.println(indexOf(a, 12));    // -1
+        String[] b = {&quot;one&quot;, &quot;two&quot;};
+        System.out.println(indexOf(b, &quot;one&quot;)); // 0
+    }
+
+}</pre>
+</blockquote>
+<p>Для сравнения значений объектов следует использовать метод <code>equals()</code> вместо <code>==</code>.</p>
+<h3>2.5 Нахождение минимального элемента массива чисел <b></b></h3>
+<p>Следующая программа осуществляет тестирование функции нахождения минимального элемента массива на массивах двух различных типов.</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.seventh;
+
+<b>public class</b> MinFinder {
+
+    <b>public static</b> &lt;T <b>extends</b> Number&gt; T min(T[] arr) {
+        T result = arr[0];
+        <b>for</b> (T t : arr) {
+            <b>if</b> (t.doubleValue() &lt; result.doubleValue()) {
+                result = t;
+            }
+        }
+        <b>return</b> result;
+    }
+    
+    <b>public static void</b> main(String[] args) {
+        Integer [] a = { 3, 1, 2 };
+        <b>int</b> minA = min(a);
+        System.out.println(minA);
+        Double[] b = { 0.3, 0.2, 0.1 };
+        <b>double</b> minB = min(b);
+        System.out.println(minB);
+    }
+
+}</pre>
+</blockquote>
+<h3>2.6 Добавление целых в обобщенный массив чисел</h3>
+<p>Предположим, необходимо добавлять в конец обобщенного массива <code>MyArray</code> числа от 1 до 5. Можно реализовать отдельную функцию и осуществить ее тестирование для двух массивов различных типов:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.seventh;
+
+<b>public class</b> NumAdder {
+
+    <b>public static void</b> addNumbers(MyArray&lt;? <b>super</b> Integer&gt; list) {
+        <b>for</b> (<b>int</b> i = 1; i &lt;= 5; i++) {
+            list.add(i);
+        }
+    }
+
+    <b>public static void</b> main(String[] args) {
+        MyArray&lt;Integer&gt; digits = <b>new</b> MyArray&lt;&gt;(8, 9);
+        addNumbers(digits);
+        digits.printAll();
+        MyArray&lt;Number&gt; nums = <b>new</b> MyArray(3.14, 6.28);
+        addNumbers(nums);
+        nums.printAll();
+    }
+
+}</pre>
+</blockquote>
+<h3>2.7 Использование исключений в обобщенных функциях</h3>
+<p>Допустим, необходимо реализовать статическую обобщенную функцию занесения в элемент с определенным индексом нового значения. Функция должна генерировать исключение, если индекс выходит за допустимые пределы. Класс-исключение должен позволять хранить данные о неправильном индексе на значение, которое было передано функции. Программа будет выглядеть так: </p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.seventh;
+
+<b>import</b> java.util.Arrays;
+
+<b>public class</b> Replacer {
+
+    <b>public static class</b> IndexException <b>extends</b> Exception {
+        <b>private int</b> index;
+        <b>private</b> Object value;
+
+        <b>public</b>&lt;T&gt; IndexException(<b>int</b> index, T value) {
+            <b>super</b>();
+            <b>this</b>.index = index;
+            <b>this</b>.value = value;
+        }
+
+        <b>public int</b> getIndex() {
+            <b>return</b> index;
+        }
+
+        <b>public</b> &lt;T&gt;T getValue() {
+            <b>return</b> (T)value;
+        }
+
+    }
+  
+  <b>  public static</b> &lt;E&gt;<b>void</b> replace(E[] arr, <b>int</b> index, E elem) <b>throws</b> IndexException {
+        <b>if</b> (index &lt; 0 || index &gt;= arr.length) {
+            <b>throw new</b> IndexException(index, elem);
+        }
+        arr[index] = elem;
+    }
+  
+  <b>  public static void</b> main(String[] args) {
+        Integer[] a = {1, 2, 11, 4, 5};
+        <b>try</b> {
+            replace(a, 5, 100);
+            System.out.println(Arrays.toString(a));
+        }
+        <b>catch</b> (IndexException e) {
+            System.err.println(e.getClass().getName() + &quot; Индекс: &quot; + e.getIndex() + 
+                               &quot; Значение: &quot; + e.&lt;Double&gt;getValue());
+        }
+    }
+
+}</pre>
+</blockquote>
+<p>Программа демонстрирует возможность создания обобщенного конструктора необобщенного класса. Поскольку осуществляется вывод значения, обобщенная функция <code>getValue()</code> может быть также вызвана без спецификации типа.</p>
+<h2>3 Задания на самостоятельную работу</h2>
+<h3>3.1 Перечисление для представления дней недели</h3>
+<p>В перечислении &quot;День недели&quot; добавить функции получения дня &quot;позавчера&quot; и &quot;послезавтра&quot;. Протестировать перечисление в функции <code>main()</code> тестового класса.</p>
+<h3>3.2 Перечисление для представления сезона</h3>
+<p>Создать перечисление &quot;Сезон&quot;. Описать метод получения предыдущего и последующего сезона. Протестировать перечисление в функции <code>main()</code> тестового класса.</p>
+<h3>3.3 Перечисление для описания месяцев года*</h3>
+<p>Создать перечисление &quot;Месяц&quot;. Необходимо определять в конструкторе и сохранять количество дней (для невисокосного года). Добавить методы получения предыдущего и следующего месяца, а также функцию, которая возвращает сезон для каждого месяца. Предусмотреть вывод месяцев на русском (украинском) языке. Создать статическую функцию вывода данных обо всех месяцах путем перекрытия метода <code>toString()</code>. Протестировать перечисление в функции <code>main()</code> тестового класса.</p>
+<h3>3.4 Функция вычисления корня четвертой степени*</h3>
+<p>Создать класс со статической функцией вычисления корня четвертой степени из действительного числа и вложенным статическим классом-исключением. Функция должна генерировать исключение, если аргумент отрицателен. Объект-исключение должен сохранять неправильное значение аргумента. Протестировать функцию с перехватом исключения.</p>
+<h3>3.5 Реализация интерфейса AutoCloseable*</h3>
+<p>Реализовать программу, в которой вводятся элементы массива заданной длины и по окончании выводятся введенные элементы, даже если при вводе возникли исключения (ошибка преобразования строки в число, выход за границы массива). Использовать объект класса, реализующего интерфейс <code>AutoCloseable</code>.</p>
+<h3>3.6 Обобщенный класс</h3>
+<p align="left"> Создать обобщенный класс для хранения произвольных данных в массиве. Реализовать функцию удаления элемента, добавления группы (другого массива) элементов.</p>
+<h3>3.7 Библиотека обобщенных функций*</h3>
+<p>Создать класс, который содержит обобщенные статические функции для реализации следующих действий с массивом:</p>
+<ul>
+  <li>обмена значениями двух элементов массива с индексами, которые передаются в качестве параметров</li>
+  <li>изменения порядка элементов на противоположный</li>
+  <li>определения количества раз вхождения определенного элемента в массив</li>
+</ul>
+<p>Осуществить тестирование всех функций на двух массивах различных типов.</p>
+<h3>3.8 Библиотека функций для работы с массивом чисел*</h3>
+<p>Создать класс, который содержит статические обобщенные функции для реализации следующих действий с массивом чисел:</p>
+<ul>
+  <li>нахождение индекса первого нулевого элемента</li>
+  <li>определение количества отрицательных чисел </li>
+  <li>возвращение последнего отрицательного элемента</li>
+</ul>
+<p>Осуществить тестирование всех функций на числовых массивах различных типов.</p>
+<h3>3.9 Использование ограниченных подстановочных типов</h3>
+<p>Создать класс, содержащий статическую функцию добавления в конец обобщенных массивов MyArray (первый параметр) чисел из массива целых (второй параметр). Реализовать отдельную функцию и осуществить ее тестирование для двух массивов различных типов.</p>
+<h3>3.10 Реализация интерфейса Comparable</h3>
+<p>Создать класс <code>Circle</code>, который реализует интерфейс <code>Comparable</code>. Большей считается окружность с большим радиусом. Осуществить сортировку массива объектов типа <code>Circle</code>.</p>
+<h3>3.11 Реализация интерфейса Comparator*</h3>
+<p>Создать класс <code></code><code>Triangle</code>. Треугольник задавать длинами сторон. Площадь треугольника в этом случае может быть вычислена по формуле Герона:</p>
+<div align="center"><img src="Images/07_Heron.png" width="442" height="42"></div>
+<p>где <i>a</i>, <i>b</i> и <i>c</i> - длины сторон треугольника. Осуществить сортировку массива треугольников по уменьшению площади. Для определения признака сортировки использовать объект, реализующий интерфейс <code>Comparator</code>.</p>
+<h3>3.12 Использование исключений в обобщенных функциях</h3>
+<p>Создать класс-исключение и класс с обобщенной функцией обмена значений элементов массива. Функция должна генерировать исключение, если индексы находятся за пределами массива. Протестировать функцию для массивов двух разных типов.</p>
+<h2>4 Контрольные вопросы</h2>
+<ol>
+  <li>Для чего используются перечисления? </li>
+  <li>Можно ли создавать методы внутри перечислений?</li>
+  <li>Можно ли создавать поля внутри перечислений? </li>
+  <li>Для чего используются конструкторы перечислений? </li>
+  <li>Для чего предназначен механизм исключений?</li>
+  <li>Как создать объект-исключение?</li>
+  <li>Можно ли создавать исключения типа <b><code>int</code></b>?</li>
+  <li>Можно ли использовать основной результат функции, если произошла генерация исключения? </li>
+  <li>Можно ли поместить вызов функции, генерирующей исключение, вне блока <b><code>try</code></b>?</li>
+  <li>Как в одном <code><b>catch</b></code>-блоке обработать исключения нескольких различных типов?</li>
+  <li>Для чего создаются объекты в блоке <b><code>try</code></b>?</li>
+  <li>В чем назначение функции <code>printStackTrace()</code>?</li>
+  <li>В чем суть обобщенного программирования? </li>
+  <li>В каких случаях целесообразно создавать обобщенные классы?</li>
+  <li>Можно ли создавать обобщенные интерфейсы?</li>
+  <li>Что такое параметризованный тип?</li>
+  <li>Чем определяется набор методов, допустимых для обобщенного типа? </li>
+  <li>Можно ли создавать объекты обобщенных типов?</li>
+  <li>Для чего при описании параметров используют маски?</li>
+  <li>Можно ли использовать маски при создании локальных переменных?</li>
+  <li>Каким требованиям должен удовлетворять объект, чтобы массив таких объектов можно было сортировать без определения признака сортировки?</li>
+  <li>В чем преимущество подхода, использующего реализацию интерфейса <code>Comparable</code>?</li>
+  <li>В чем преимущество подхода, использующего реализацию интерфейса <code>Comparator</code>?</li>
+  <li>Какую функцию необходимо определить, чтобы реализовать интерфейс <code>Comparator</code>?</li>
+</ol>
+<p>&nbsp;</p>
+    <div class="w3-clear nextprev">
+        <a class="btn btn-info float-left" href="topic_1_06.html">Предыдущая</a>
+        <a class="btn btn-info float-left" href="topic_1_08.html">Следующая</a>
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+<a href="#top" id="up">up</a>
+<footer class="container-fluid text-center">
+    <p>&copy; 2003-2019 Л.В.Иванов</p>
+</footer>
+<script>
+    $(document).ready(function () {
+        // Add smooth scrolling to all links in navbar + footer link
+        $("a[href='#top']").on('click', function (event) {
+
+            // Make sure this.hash has a value before overriding default behavior
+            if (this.hash !== "") {
+
+                // Prevent default anchor click behavior
+                event.preventDefault();
+
+                // Store hash
+                var hash = this.hash;
+
+                // Using jQuery's animate() method to add smooth page scroll
+                // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+                $('html, body').animate({
+                    scrollTop: $(hash).offset().top
+                }, 900, function () {
+
+                    // Add hash (#) to URL when done scrolling (default click behavior)
+                    window.location.hash = hash;
+                });
+            } // End if
+        });
+        var offset = 200;
+        var duration = 300;
+        $('#up').fadeOut(0);
+        $(window).scroll(function () {
+            var winTop = $(window).scrollTop();
+            if (winTop > offset) {
+                $('#up').css("opacity", "0.8");
+                $('#up').fadeIn(duration);
+            } else {
+                $('#up').fadeOut(duration);
+            }
+        });
+    })
+</script>
+
+</body>
+</html>

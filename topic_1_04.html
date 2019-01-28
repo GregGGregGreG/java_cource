@@ -1,0 +1,1637 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>1.04 - Ссылочные типы. Массивы. Строки и классы-оболочки</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background: #dfdfdf;
+        }
+
+        /* Remove the navbar's default margin-bottom and rounded borders */
+        .jumbotron {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        #header {
+            background-color: #445566;
+        }
+
+        #header h2, #header h4, #header h3, #header h5, #header p {
+            margin-left: -10px;
+            color: #ededed;
+        }
+
+        #header h2 {
+            font-weight: bold;
+        }
+
+        #header h4 {
+            font-size: 1.5em;
+        }
+
+        #content {
+            background: white;
+            padding-right: 9%;
+            box-sizing: border-box;
+        }
+
+        p {
+            text-align: justify;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        ul.nav, ul.side_menu {
+            list-style-type: none;
+            margin-left: -20px;
+        }
+
+        .navbar {
+            margin-bottom: 0;
+            border-radius: 0;
+        }
+
+        .navbar-inverse {
+            background-color: #445566;
+            border: none;
+            border-top: 1px solid white;
+        }
+
+        .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > li > a:hover {
+            background-color: #293b4c;
+        }
+
+        /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+        .row.content {
+            height: 450px
+        }
+
+        /* Set gray background color and 100% height */
+        .sidenav {
+            padding-top: 20px;
+            height: 100%;
+        }
+
+        .btn-info {
+            color: #fff;
+            background-color: #445566;
+            border: none;
+            border-radius: 0;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .btn-info:hover {
+            background-color: #293b4c;
+        }
+
+        .navbar-inverse .navbar-toggle:hover {
+            background-color: #293b4c;
+        }
+
+        .hide {
+            visibility: hidden;
+        }
+
+        .disa {
+            cursor: default;
+            opacity: 0.6;
+
+        }
+
+        .disa:hover {
+            background-color: #445566;
+        }
+
+        /* Set black background color, white text and some padding */
+        footer {
+            background-color: #293b4c;
+            color: white;
+            padding: 15px;
+        }
+
+        #up {
+            color: #fff;
+            position: fixed;
+            display: block;
+            background: #293b4c;
+            width: 40px;
+            height: 40px;
+            bottom: 64px;
+            right: 30px;
+            opacity: 0;
+            border-radius: 50%;
+            padding-left: 12px;
+            padding-top: 8px;
+            box-sizing: border-box;
+        }
+
+        /* On small screens, set height to 'auto' for sidenav and grid */
+        @media screen and (max-width: 990px) {
+            #content {
+                padding-right: 10px;
+            }
+
+            #up {
+                display: none !important;
+            }
+        }
+
+        /* On small screens, set height to 'auto' for sidenav and grid */
+        @media screen and (max-width: 767px) {
+            .sidenav {
+                height: auto;
+                padding: 15px;
+            }
+
+            .row.content {
+                height: auto;
+            }
+        }
+
+        @media only screen and (max-width: 600px) {
+            img.small_img {
+                width: 40%;
+                height: auto;
+            }
+
+            img.big_img {
+                width: 90%;
+                height: auto;
+            }
+        }
+
+        .justified {
+            text-align: justify;
+            font-weight: normal
+        }
+
+        tt {
+            color: #446699;
+        }
+    </style>
+</head>
+<body id="top">
+<div class="container-fluid text-left" id="header">
+    <div class="container text-left col-md-3 col-sm-12">
+        <img src="Images/icon-java.png" style="padding-top: 15px; box-sizing: border-box;">
+    </div>
+    <div class="container text-left col-md-9 col-sm-12">
+        <h2>Язык программирования и технологии Java</h2>
+        <h5>Разработчик курса Л. В. Иванов</h5>
+        <h4>Модуль 1 Объектно-ориентированное программирование и язык Java</h4>
+
+    </div>
+</div>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <!--div class="col-sm-12 col-md-3 sidenav">
+            </div-->
+
+            <ul class="nav navbar-nav">
+                <li><a href="index.html">Главная</a></li>
+                <li class="active"><a href="topic_1_01.html">Объектно-ориентированное программирование и язык Java</a>
+                </li>
+                <li><a href="topic_2_01.html">Платформа Java SE</a></li>
+                <li><a href="">Разработка приложений JAVA EE</a></li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid text-left">
+    <div class="row content">
+        <div class="col-sm-12 col-md-3 sidenav">
+            <ul class="side_menu">
+                <li>1 Объектно-ориентированное программирование и язык Java
+                    <ul class="side_menu">
+                        <li><a href="topic_1_01.html">01 Парадигмы программирования. Основы объектно-ориентированного подхода</a></li>
+                        <li><a href="topic_1_02.html">02 Язык программирования Java и Java-платформа</a></li>
+                        <li><a href="topic_1_03.html">03 Синтаксические конструкции языка Java</a></li>
+                        <li>04 Ссылочные типы. Массивы. Строки и классы-оболочки</li>
+                        <li><a href="topic_1_05.html">05 Определение классов.  Наследование и полиморфизм</a></li>
+                        <li><a href="topic_1_06.html">06 Вложенные типы. Интерфейсы. Лямбда-выражения и ссылки на методы</a></li>
+                        <li><a href="topic_1_07.html">07 Перечисления. Исключения. Использование обобщений</a></li>
+                        <li><a href="topic_1_08.html">08 Понятие паттернов проектирования. Порождающие паттерны</a></li>
+                    </ul>
+                </li>
+                <li>2 Платформа Java SE
+                  <ul class="side_menu">
+                        <li><a href="topic_2_01.html">01 Платформа Java SE и ее составляющие</a></li>
+                        <li><a href="topic_2_02.html">02 Работа с коллекциями в Java 7</a></li>
+                        <li><a href="topic_2_03.html">03 Работа с текстовыми данными. Локализация</a></li>
+                        <li><a href="topic_2_04.html">04 Работа с потоками ввода-вывода и файловой системой</a></li>
+                        <li><a href="topic_2_05.html">05 Работа с XML. XML-сериализация</a></li>
+                        <li>06 Тестирование и управление сборкой. Ведение системного журнала</li>
+                        <li>07 Работа с потоками выполнения</li>
+                        <li>08 Работа с контейнерами Java 8. Stream API</li>
+                        <li>09 Поддержка сетевого взаимодействия</li>
+                        <li>10 Работа с базами данных</li>
+                        <li>11 Использование RTTI и рефлексии. Метапрограммирование. Аннотации</a></li>
+                        <li>12 </a>Использование структурных паттернов</li>
+                  </ul>
+                </li>
+                <li>3 Основы разработки приложений Java EE
+                    <ul class="side_menu">
+                        <li>01 Платформа Java EE. Web-приложения. Создание сервлетов</li>
+                        <li>02 Основы создания страниц JSP</li>
+                        <li>03 Работа с EJB. Создание Web-сервисов</li>
+                        <li>04 Использование Spring Framework</li>
+                        <li>05 Использование паттернов поведения и распределения ответственности </li>
+                        <li>06 Дополнительные возможности Java 11</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="col-sm-12 col-md-9 text-left" id="content">
+            <div class="w3-clear nextprev">
+                <a class="btn btn-info float-left" href="topic_1_03.html">Предыдущая</a>
+                <a class="btn btn-info float-left" href="topic_1_05.html">Следующая</a>
+            </div>
+            <h1> Ссылочные типы. Массивы. Строки и классы-оболочки</h1>
+<h2>1 Теоретическая часть</h2>
+<h3>1.1  Ссылки</h3>
+<p>В Java нет типов указателей. Имена переменных непримитивных типов по сути являются именами ссылок на соответствующие объекты. Все непримитивные типы имеют название ссылочных типов. Разыменование не требуется: обращение к примитивным типам всегда осуществляется по значению, а к непримитивным &#8211 по ссылке. Ссылочные типы никогда не могут быть приведены к примитивным и наоборот.</p>
+<p>Специальное ключевое слово <b><code>null</code> </b>используется для указания того, что переменная ссылочного типа не ссылается ни на что. Константа <b><code>null</code></b> может быть присвоена переменной любого ссылочного типа.</p>
+<p>Объекты, на которые указывают ссылки, должны быть размещены в динамической памяти с помощью операции <b><code>new</code></b>:</p>
+<blockquote>
+  <pre>SomeType st = <b>new</b> SomeType();</pre>
+</blockquote>
+<p>Присваивание значения одной ссылки другой не обеспечивает копирования объектов. После присваивания две ссылки ссылаются на один объект.</p>
+<blockquote>
+  <pre>SomeType a = <b>new</b> SomeType();
+SomeType b = <b>new</b> SomeType();
+a = b;</pre>
+</blockquote>
+<p>Объект, на который ссылалась ссылка <code>a</code>, потерян.</p>
+<p>В отличие от Паскаля, C, С++, освобождение памяти от ненужных объектов не требуется. В Java нет операции удаления объекта из памяти. Для освобождения памяти используется специальный механизм, именуемый сборкой мусора. Этот механизм базируется на подсчете ссылок на объекты. Каждый объект имеет свой счетчик ссылок. Когда ссылка копируется в новую переменную ссылочного типа, счетчик увеличивается на единицу. Когда ссылка выходит из области видимости, или перестает указывать на данный объект, счетчик уменьшается на единицу.</p>
+<p>Когда виртуальной машине Java не хватает оперативной памяти, запускается сборщик мусора. Он просматривает список объектов и удаляет из памяти все объекты, для которых количество ссылок равно 0.</p>
+<p>Операция <code>==</code> применительно к переменным типа ссылок осуществляет сравнение адресов, а не содержания объектов.</p>
+<p>Аргументы функций типа ссылки передаются в функции по ссылке. Внутри функции создается новая ссылка на тот же объект. Этот объект можно изменить в функции и после возврата из функции использовать его значение.</p>
+<h3>1.2 Массивы</h3>
+<h4>1.2.1 Описание массивов </h4>
+<p>Массив представляет собой набор ячеек хранения данных, каждая из которых имеет тот же тип. Отдельная ячейка хранения данных называется элементом массива. В отличие от других составных типов данных, массивы всегда располагаются в цельном блоке памяти. Поскольку все элементы занимают одинаковые по размеру ячейки памяти, адрес конкретного элемента всегда может быть вычислен по его номеру. Номера элементов именуются индексами. Обращение к конкретным элементам осуществляют через индекс.</p>
+<p>Массивы в Java индексируются начиная с нуля. При описании массива квадратные скобки ставятся после имени типа, а не имени переменной. Размещение квадратных скобок после имени переменной допускается, но не рекомендуется.</p>
+<blockquote>
+  <pre><b>int</b>[] a;</pre>
+</blockquote>
+<p>В этом примере описывается ссылка на массив, который будет создан позже. Это позволяет определить массив необходимого размера при выполнении программы.</p>
+<blockquote>
+  <pre><b>int</b>[] numbers;         // ссылка на массив целых чисел произвольной длины
+numbers = <b>new int</b>[10]; // numbers состоит из 10 элементов
+numbers = <b>new int</b>[20]; // numbers состоит из 20 элементов</pre>
+</blockquote>
+<p> В Java поддерживаются одно- и многомерные массивы. В Java многомерные массивы &#8211 это массивы массивов. Например, двумерный массив &#8211 это массив ссылок на строки.</p>
+<p>Так можно определить ссылку на двумерный массив:</p>
+<blockquote>
+  <pre><b>byte</b>[][] scores;</pre>
+</blockquote>
+<p>Следующие примеры показывают, как создать различные массивы:</p>
+<blockquote>
+  <pre><b>int</b>[] numbers = <b>new int</b>[5];          // одномерный массив
+String[][] names = <b>new</b> String[5][4]; // прямоугольный массив
+<b>byte</b>[][] scores = <b>new</b> byte[5][];     // двумерный массив с различной длиной строк
+<b>for</b> (<b>int</b> k = 0; k &lt; 5; k++) {
+    scores[k] = <b>new byte</b>[k + 4];
+}</pre>
+</blockquote>
+<p>Последний пример показывает, как можно создать двумерный массив с различной длиной строк. Использование имени двумерного массива с одним индексом (например, <code>scores[k]</code>) позволяет получить ссылку на указанную строку массива. </p>
+<p>Размер массива может быть определен как с помощью констант, так и с помощью переменных и выражений, дающих целый результат.</p>
+<p>В Java массивы содержат элементы вместе с их количеством. Количество элементов массива всегда можно получить с помощью специального поля <code>length</code>. Это поле доступно только для чтения:</p>
+<blockquote>
+  <pre><b>int</b>[] a = <b>new int</b>[10];
+System.out.println(a.length); // 10</pre>
+</blockquote>
+<p>В Java предусмотрен простой способ инициализации массива списком начальных значений:</p>
+<blockquote>
+  <pre><b>int</b>[] numbers = <b>new int</b>[] {1, 2, 3, 4, 5};
+</pre>
+</blockquote>
+<p>Можно опустить операцию <b><code>new</code></b>:</p>
+<blockquote>
+  <pre><b>int</b>[] numbers = {1, 2, 3, 4, 5};
+</pre>
+</blockquote>
+<p>Аналогично инициализируются многомерные массивы:</p>
+<blockquote>
+  <pre><b>int</b>[][] c = {{1, 2, 3},
+             {0, 0, 1},
+             {1, 1, 11},
+             {0, 0, 0}};</pre>
+</blockquote>
+<p>В приведенном примере создается двумерный массив из четырех строк и трех столбцов.</p>
+<p>Так выглядит типичный цикл для обхода массива (например, для занесения значения 0 во все элементы):</p>
+<blockquote>
+  <pre><b>for</b> (<b>int</b> i = 0; i &lt; a.length; i++) {
+    a[i] = 0;
+}</pre>
+</blockquote>
+<p>Аналогично обход всех элементов двумерного массива обычно осуществляется так:</p>
+<blockquote>
+  <pre><b>for</b> (<b>int</b> i = 0; i &lt; c.length; i++) {
+    <b>for</b> (<b>int</b> j = 0; j &lt; c[i].length; j++) {
+        c[i][j] = 0;
+    }
+}</pre>
+</blockquote>
+<p>Как видно из последнего примера, для получения размера i-й строки двумерного массива используется конструкция <code>c[i].length</code>.</p>
+<p>Начиная с версии JDK 1.5 (Java 5) синтаксис цикла <code><b>for</b></code> расширен для более удобной работы с массивами: добавлен так называемый цикл &quot;for-each&quot;. При этом элементы могут быть использованы только для чтения. Старая форма:</p>
+<blockquote>
+  <pre><b>int</b>[] a = {1, 2, 4, 8};
+<b>int</b> sum = 0;
+<b>for</b> (<b>int</b> i = 0; i &lt; a.length; i++) {
+    sum += a[i];
+}
+System.out.println(sum);</pre>
+</blockquote>
+<p>Новая &quot;for-each&quot; форма (здесь n &#8211 текущий элемент):</p>
+<blockquote>
+  <pre><b>int</b>[] a = {1, 2, 4, 8};
+<b>int</b> sum = 0;
+<b>for</b> (<b>int</b> n : a) {
+    sum += n;
+}
+System.out.println(sum);</pre>
+</blockquote>
+<p>Массивы читают с клавиатуры поэлементно. Следующий пример демонстрирует чтение количества и значений элементов с клавиатуры.</p>
+<blockquote>
+  <pre><b>public</b> <b>class</b> ArrayTest {
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        System.out.println("Введите количество элементов массива:");
+        java.util.Scanner s = <b>new</b> java.util.Scanner(System.in);
+        <b>int</b> size = s.nextInt();
+        <b>double</b>[] a = <b>new</b> <b>double</b>[size];
+        System.out.println("Введите элементы массива:");
+        <b>for</b> (<b>int</b> i = 0; i &lt; a.length; i++) {
+            a[i] = s.nextDouble();
+        }
+        // Работа с массивом
+        // ...
+    }
+
+}
+</pre>
+</blockquote>
+<p>Присваивание имени массива другому имени массива приводит только к копированию ссылки, но не самого массива. Для копирования элементов массива необходимо организовать цикл или воспользоваться стандартными средствами. </p>
+<h4>1.2.2 Массивы как параметры и результат функций</h4>
+<p>Массивы-параметры передаются в функции по ссылке. После возврата из функции элементы могут содержать измененные значения:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fourth;
+
+<b>public</b> <b>class</b> SwapElements {
+
+  <b>  static</b> <b>void</b> swap(<b>int</b>[] a) {
+        <b>int</b> z = a[0];
+        a[0] = a[1];
+        a[1] = z;
+    }
+
+  <b>  public</b> <b>static</b> <b>void</b> main(String[] args) {
+        <b>int</b>[] b = {1, 2};
+        swap(b);
+        System.out.println(b[0]); // 2
+        System.out.println(b[1]); // 1
+    }
+
+}</pre>
+</blockquote>
+<p>Если требуется одномерный массив, то можно в качестве параметра передать строку двумерного массива. Можно также передавать параметры типа многомерных массивов. Например</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fourth;
+
+<b>public</b> <b>class</b> ArraysTest {
+
+  <b>  static</b> <b>double</b> sum(<b>double</b>[] arr1D) {
+        <b>double</b> s = 0;
+        <b>for</b> (<b>double</b> elem : arr1D) {
+            s += elem;
+        }
+        <b>return</b> s;
+    }
+
+  <b>  static</b> <b>double</b> sum(<b>double</b>[][] arr2D) {
+        <b>double</b> s = 0;
+        <b>for</b> (<b>double</b>[] line : arr2D) {
+            <b>for</b> (<b>double</b> elem : line) {
+                s += elem;
+            }
+        }
+        <b>return</b> s;
+    }
+
+  <b>  public</b> <b>static</b> <b>void</b> main(String[] args) {
+        <b>double</b>[][] arr = {{1, 2},
+                          {3, 4},
+                          {5, 6}};
+        System.out.printf(&quot;Сумма элементов строки с индексом 1: %f%n&quot;, sum(arr[1]));
+        System.out.printf(&quot;Сумма всех элементов: %f%n&quot;, sum(arr));
+    }
+}</pre>
+</blockquote>
+<p>В Java 1.5 появилась дополнительная возможность создания функций с переменным числом параметров определенного типа. Внутри функции такие параметры интерпретируются как массив:</p>
+<blockquote>
+  <pre><b>static</b> <b>void</b> printIntegers(<b>int</b>... a) {
+  <b>  for</b> (<b>int</b> i = 0; i &lt; a.length; i++) {
+        System.out.println(a[i]);
+    }
+}</pre>
+</blockquote>
+<p>Вызвать такую функцию можно двумя способами: передавая список аргументов типа элемента массива, или передавая массив целиком:</p>
+<blockquote>
+  <pre><b>public static void</b> main(String[] args) {
+    printIntegers(1, 2, 3);
+  <b>  int</b>[] arr = {4, 5};
+    printIntegers(arr);
+}</pre>
+</blockquote>
+<p>Параметры такого вида обязательно должны быть последними в списке.</p>
+<p>Функция может возвращать ссылку на массив. Чаще всего такой массив создается внутри функции. Например, создаем массив целых, заполненный единицами:</p>
+<blockquote>
+  <pre><b>static</b> <b>int</b>[] arrayOfOnes(<b>int</b> n) {
+    <b>int</b>[] arr = <b>new</b> <b>int</b>[n];
+    <b>for</b> (<b>int</b> i = 0; i &lt; arr.length; i++) {
+        arr[i] = 1;
+    }
+    <b>return</b> arr;
+}</pre>
+</blockquote>
+<p>Теперь можно создать массив с помощью нашей функции:</p>
+<blockquote>
+  <pre><b>int</b>[] a = arrayOfOnes(6);</pre>
+</blockquote>
+<p>Если нужен только один элемент, для него можно не создавать массив с именем и совместить создание массива с его использованием:</p>
+<blockquote>
+  <pre>System.out.println((arrayOfOnes(2)[0]));</pre>
+</blockquote>
+<p>Можно также возвращать ссылки на многомерные массивы.</p>
+<h4>1.2.3 Стандартные функции для работы с массивами</h4>
+<p>Класс <code>System</code> предоставляет простейший путь копирования одного массива в другой &#8211 использование статического метода <code>arraycopy()</code>:</p>
+<blockquote>
+  <pre>System.arraycopy(a, a_from, b, b_from, size);</pre>
+</blockquote>
+<p>Это эквивалентно следующему циклу:</p>
+<blockquote>
+  <pre><b>for</b> (<b>int</b> i = a_from, j = b_from; i &lt; size + a_from; i++, j++) {
+    b[j] = a[i];
+}</pre>
+</blockquote>
+<p>Массив, в который осуществляется копирование, должен иметь подходящие размеры. Функция <code>arraycopy()</code> не создает нового массива. Весь массив a можно скопировать в b следующим вызовом:</p>
+<blockquote>
+  <pre>System.arraycopy(a, 0, b, 0, a.length);</pre>
+</blockquote>
+<p>Класс <code>java.util.Arrays</code> предоставляет набор полезных функций для заполнения, поиска, сортировки, преобразования в строку и т. д. Для заполнения массивов можно использовать статические методы класса <code>Arrays</code>, реализованного в пакете<code> java.util</code>. Для всех примитивных типов и типа <code>Object</code> реализованы функции <code>fill()</code> в двух видах:</p>
+<blockquote>
+  <pre><b>public static void</b> fill(<i>тип</i>[] a, <i>тип</i> val)
+<b>public static void</b> fill(<i>тип</i>[] a, <b>int</b> fromIndex, <b>int</b> toIndex, <i>тип</i> val)</pre>
+</blockquote>
+<p>Тут <i><code>тип</code></i> означает один из фундаментальных (примитивных) типов или тип<code> Object</code>. Первый вариант используется для заполнения всего массива, второй &#8211 части, причем элемент с номером <code>toIndex</code> не включается в последовательность. Например:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fourth;
+
+<b>public</b> <b>class</b> FillArray {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        <b>int</b>[] a = <b>new</b> <b>int</b>[6];
+        java.util.Arrays.fill(a, 0, 4, 12); // Другие элементы равны 0
+        <b>for</b> (<b>int</b> x : a) {
+            System.out.print(x + " ");
+        }
+        System.out.println();
+        java.util.Arrays.fill(a, 100);      // Все элементы равны 100
+        <b>for</b> (<b>int</b> x : a) {
+            System.out.print(x + " ");
+        }
+        System.out.println();
+    }
+
+}</pre>
+</blockquote>
+<p>В предыдущем примере для вывода элементов массива на экран был использован цикл. Альтернативный способ &#8211 использование функции <code>toString()</code> класса <code>Arrays</code>. Эта функция возвращает строковое представление массива, удобное для большинства применений:</p>
+<blockquote>
+  <pre>java.util.Arrays.fill(a, 100);
+System.out.println(Arrays.toString(a)) // [100, 100, 100, 100, 100, 100];</pre>
+</blockquote>
+<p><i>Примечание</i>: для вывода в строку многомерных массивов следует использовать функцию <code>deepToString()</code>.</p>
+<p>Класс <code>Arrays</code> предоставляет альтернативный путь копирования массивов. Функция <code>copyOf()</code> создает новый массив копий элементов. Первый параметр &#8211 исходный массив, второй параметр &#8211 длина результирующего массива. Не поместившиеся элементы обрезаются, недостающие заполняются нулями. Функция <code>copyOfRange(<i>тип</i>[] a, <b>int</b> from, <b> int</b> to)</code> копирует в новый массив часть массива, включая начало интервала и не включая конца интервала:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fourth;
+
+<b>import</b> java.util.Arrays;
+
+<b>public</b> <b>class</b> CopyOfTest {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        <b>int</b>[] a = { 1, 2, 3, 4 };
+        <b>int</b>[] b = Arrays.copyOf(a, 3); 
+        System.out.println(Arrays.toString(b));// [1, 2, 3]
+        <b>int</b>[] c = Arrays.copyOf(a, 6); 
+        System.out.println(Arrays.toString(c));// [1, 2, 3, 4, 0, 0]
+        <b>int</b>[] d = Arrays.copyOfRange(a, 1, 3);
+        System.out.println(Arrays.toString(d));// [2, 3]
+    }
+
+}</pre>
+</blockquote>
+<p>Сравнить два массива или часть их можно с помощью функций группы <code>equals()</code>:</p>
+<blockquote>
+  <pre><b>public static boolean</b> equals(<i>тип</i>[] a, <i>тип</i>[] a2)</pre>
+</blockquote>
+<p>Массивы сравниваются поэлементно. Два массива также считаются эквивалентными, если обе ссылки &#8211 <code><b>null</b></code>. Например:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fourth;
+
+<b>import</b> java.util.Arrays;
+
+<b>public</b> <b>class</b> ArraysComparison {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        <b>double</b>[] a = <b>null</b>, b = <b>null</b>;
+        System.out.println(Arrays.equals(a, b)); // true
+        a = <b>new</b> <b>double</b>[] { 1, 2, 3, 4 };
+        b = <b>new</b> <b>double</b>[4];
+        System.out.println(Arrays.equals(a, b)); // false
+        System.arraycopy(a, 0, b, 0, a.length);
+        System.out.println(Arrays.equals(a, b)); // true
+        b[3] = 4.5;
+        System.out.println(Arrays.equals(a, b)); // false
+    }
+
+}</pre>
+</blockquote>
+<p>Имеется также метод <code>deepEquals()</code>, использование которого аналогично. Различие проявляется при использовании многомерных массивов. Осуществляется более &quot;глубокая&quot; проверка:</p>
+<blockquote>
+  <pre><b>int</b>[][] a1 = { { 1, 2 } , { 3, 4 } };
+<b>int</b>[][] a2 = { { 1, 2 } , { 3, 4 } };
+System.out.println(Arrays.equals(a1, a2));    // false
+System.out.println(Arrays.deepEquals(a1, a2));// true    </pre>
+</blockquote>
+<p>Функция <code>sort()</code> обеспечивает сортировку массива вещественных чисел по возрастанию. Например:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fourth;
+
+<b>import</b> java.util.Arrays;
+
+<b>public</b> <b>class</b> ArraySort {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        <b>int</b>[] a = <b>new</b> <b>int</b>[] { 11, 2, 10, 1 };
+        Arrays.sort(a);            // 1 2 10 11
+        <b>for</b> (<b>int</b> x : a) {
+            System.out.print(x + " ");
+        }
+        System.out.println();
+    }
+
+}</pre>
+</blockquote>
+<p>Функция <code>sort()</code> реализована для массивов всех примитивных типов и строк. Можно сортировать часть массива. Как и для функции <code>fill()</code>, указывается начальный и конечный индексы последовательности, которую следует отсортировать. Конечный индекс не включается в последовательность. Например:</p>
+<blockquote>
+  <pre><b>int</b>[] a = {7, 8, 3, 4, -10, 0};
+java.util.Arrays.sort(a, 1, 4); // 7 3 4 8 -10 0</pre>
+</blockquote>
+<p>В отсортированных массивах можно выполнить поиск с помощью методов класса <code>Arrays</code>. Группа функций <code>binarySearch()</code>, реализованная для всех примитивных типов и типа <code>Object</code>, возвращает индекс найденного элемента или отрицательное значение, если элемент отсутствует.</p>
+<blockquote>
+  <pre><b>public static int</b> binarySearch(<i>тип</i>[] a, <i>тип</i> key)
+</pre>
+</blockquote>
+<h3>1.3 Использование стандартных классов</h3>
+<p><i>Класс</i> &#8211 это структурированный тип данных, набор элементов данных различных типов и функций для работы с этими данными. Ранее уже использовались статические средства стандартных классов <code>System</code> (поля-потоки <code>in</code> и <code>out</code>), <code>Math</code> (стандартные математические функции, реализованные в виде статических методов) и <code>Arrays</code>. Кроме того, создавался объект класса <code>java.util.Scanner</code> с вызовом его  функций, а также объект класса <code>java.util.Random</code> для получения псевдослучайных чисел.</p>
+<p>Практически ни одна программа на Java не может обойтись без объектов класса <code>String</code>: функция <code>main()</code> описывается с параметром типа массива строк, данные читаются из потоков в строки и записываются из строк в потоки, строки используются для представления данных в визуальных компонентах графического интерфейса пользователя и т. д. Для модификации содержимого строк используются стандартные классы <code>StringBuffer</code> и <code>StringBuilder</code>. Для разделения строки на лексемы используется класс <code>StringTokenizer</code>.</p>
+<p>Классы-оболочки <code>Integer</code>, <code>Double</code>, <code>Boolean</code>, <code>Character</code>, <code>Float</code>, <code>Byte</code>, <code>Short</code> и <code>Long</code> используются для хранения данных примитивных типов в объектах, доступных через ссылки. Кроме того, эти классы предоставляют ряд полезных методов для преобразования данных.</p>
+<h3>1.4 Работа со случайными величинами <b></b></h3>
+<p>Иногда при тестировании возникает необходимость в заполнении массивов случайными (псевдослучайными) значениями. Это можно осуществить с помощью функции <code>random()</code> класса <code>Math</code> и с помощью специального класса <code>java.util.Random</code>. Первый вариант дает псевдослучайное число в диапазоне от 0 до 1. Например:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fourth;
+
+<b>import</b> java.util.Arrays;
+
+<b>public</b> <b>class</b> MathRandomTest {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        <b>double</b>[] a = <b>new</b> <b>double</b>[5];
+        <b>for</b> (<b>int</b> i = 0; i &lt; a.length; i++) {
+            a[i] = Math.random() * 10; // случайные значения от 0 до 10
+        }
+        System.out.println(Arrays.toString(a));
+    }
+
+}</pre>
+</blockquote>
+<p>Использование класса <code>Random</code> позволяет получить более разнообразные результаты. Конструктор класса <code>Random</code> без параметров инициализирует датчик псевдослучайных чисел так, что последовательности случайных значений практически не повторяются. Если для отладки нам необходимо каждый раз получать одни и те же случайные значения, следует воспользоваться конструктором с целым параметром. Параметром может быть любое целое, которое инициализирует собой датчик случайных чисел.</p>
+<p>В следующей таблице представлены функции класса <code>java.util.Random</code>, позволяющие получить различные псевдослучайные значения.</p>
+<div>
+  <table  class="simple" width="60%" border="1" cellspacing="0" cellpadding="5">
+    <tr>
+      <td width="19%">
+        <div align="center"><b>Функция</b></div></td>
+      <td width="81%">
+        <div align="center"><b>Описание</b></div></td>
+    </tr>
+    <tr>
+      <td width="19%"><code>nextBoolean()</code></td>
+      <td width="81%">возвращает следующее равномерно распределенное значение типа <b><code>boolean</code></b></td>
+    </tr>
+    <tr>
+      <td width="19%" height="3"><code>nextDouble()</code></td>
+      <td width="81%" height="3">возвращает следующее значение типа <b><code>double</code></b>, равномерно распределенное на интервале от 0 до 1</td>
+    </tr>
+    <tr>
+      <td width="19%"><code>nextFloat()</code></td>
+      <td width="81%">возвращает следующее значение типа <code><b>float</b></code>, равномерно распределенное на интервале от 0 до 1</td>
+    </tr>
+    <tr>
+      <td width="19%"><code>nextInt()</code></td>
+      <td width="81%">возвращает следующее равномерно распределенное значение типа <b><code>int</code></b></td>
+    </tr>
+    <tr>
+      <td width="19%"><code>nextInt(<b>int</b> n)</code></td>
+      <td width="81%">возвращает следующее значение типа <b><code>int</code> </b>, равномерно распределенное от 0 до <code>n</code> (не включая <code>n</code>)</td>
+    </tr>
+    <tr>
+      <td width="19%"><code>nextLong()</code></td>
+      <td width="81%">возвращает следующее равномерно распределенное значение типа <b><code>long</code></b></td>
+    </tr>
+    <tr>
+      <td width="19%"><code>nextBytes(<b>byte</b>[] bytes)</code></td>
+      <td width="81%">заполняет массив целых типа <b><code>byte</code></b> случайными значениями</td>
+    </tr>
+    <tr>
+      <td width="19%" height="25"><code>nextGaussian()</code></td>
+      <td width="81%" height="25">возвращает следующее значение типа <b><code>double</code></b>, распределенное на интервале от 0 до 1 по нормальному закону</td>
+    </tr>
+  </table>
+</div>
+<p>В следующем примере мы получаем псевдослучайные целые значения в диапазоне от 0 (включительно) до 10:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fourth;
+
+<b>import</b> java.util.*;
+
+<b>public</b> <b>class</b> UtilRandomTest {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        <b>int</b>[] a = <b>new</b> <b>int</b>[15];
+        Random rand = <b>new</b> Random(100);
+        <b>for</b> (<b>int</b> i = 0; i &lt; a.length; i++) {
+            a[i] = rand.nextInt(10); // случайные значения от 0 до 10
+        }
+        System.out.println(Arrays.toString(a));
+    }
+
+}</pre>
+</blockquote>
+<p>Каждый раз при запуске программы мы будем получать одни и те же псевдослучайные значения. Если мы хотим, чтобы значения были действительно случайные, нужно воспользоваться конструктором <code>Random</code>() без параметров.</p>
+<h3>1.5 Строки</h3>
+<h4>1.5.1 Использование класса String </h4>
+<p>Строки в Java &#8211 это экземпляры класса <code>java.lang.String</code>. Объекты этого класса содержат символы Unicode.</p>
+<p>Объект-строка может быть создан при описании ссылки путем присваивания ей строкового литерала:</p>
+<blockquote>
+  <pre>String s = "Первая строка";</pre>
+</blockquote>
+<p>Строку можно также создать с помощью различных конструкторов. Класс <code>String</code> в Java предоставляет 15 конструкторов, которые позволяют определить начальное значение строки. Например, можно получить строку из массива символов:</p>
+<blockquote>
+  <pre><b>char</b>[] chars = { 'Т', 'е', 'к', 'с', 'т'};
+String s1 = <b>new</b> String(chars); // Текст</pre>
+</blockquote>
+<p>Можно создать массив байтов и получить из него строку. При этом преобразование байтов в символы осуществляется согласно таблице кодирования, принятой в системе по умолчанию.</p>
+<blockquote>
+  <pre><b>byte</b>[] bytes = { 49, 50, 51, 52 };
+String s2 = <b>new</b> String(bytes);
+System.out.println(s2); // 1234</pre>
+</blockquote>
+<p>Можно создать строку с другой строки. Следует отличать создание новой ссылки от создания новой строки:</p>
+<blockquote>
+  <pre>String s = &quot;текст&quot;;
+String s1 = s;             // s и s1 ссылаются на одну строку 
+String s2 = <b>new</b> String(s); // s2 ссылается на новую строку - копию s</pre>
+</blockquote>
+<p>Если один из операндов &#8211 строка, а другой &#8211 нет, то этот операнд приводится к стрковому представлению. Альтернативный способ преобразования числовых данных в строки &#8211 применение статических функций <code>ValueOf()</code>. Соответствующие функции реализованы для аргументов числовых типов, а также типов <code>Object</code>, <b> <code>char</code></b>, <b><code>boolean</code></b> и массивов символов. Например:</p>
+<blockquote>
+  <pre><b>double</b> d = 1.1;
+String sd = String.valueOf(d); // &quot;1.1&quot;</pre>
+</blockquote>
+<p>Ниже приведены некоторые наиболее часто используемые методы класса <code>String</code>:</p>
+<div>
+  <table class="simple" width="75%" border="1" cellspacing="0" cellpadding="2">
+    <tbody>
+      <tr>
+        <th>
+          <p align="center"><strong>Метод</strong></p></th>
+        <th>
+          <p align="center"><strong>Аргументы</strong></p></th>
+        <th>
+          <p align="center"><strong>Возвращает</strong></p></th>
+        <th>
+          <p align="center"><strong> Описание</strong></p></th>
+      </tr>
+      <tr>
+        <td>
+          <p><code>length</code></p></td>
+        <td>
+          <p><code>()</code></p></td>
+        <td>
+          <p><code><b>int</b></code></p></td>
+        <td>
+          <p>Возвращает количество символов в строке.</p></td>
+      </tr>
+      <tr>
+        <td><code>concat</code></td>
+        <td><code>(String str)</code></td>
+        <td><code>String</code></td>
+        <td>Добавляет указанную строку в конец текущей строки</td>
+      </tr>
+      <tr>
+        <td><code>contains</code></td>
+        <td><code>(String substring)</code></td>
+        <td><b><code>boolean</code></b></td>
+        <td>Возвращает <b><code>true</code></b>, если подстроки входит в текущую строку</td>
+      </tr>
+      <tr>
+        <td>
+          <p><code>charAt</code></p></td>
+        <td>
+          <p><code>(<b>int</b> index)</code></p></td>
+        <td>
+          <p><code><b>char</b></code></p></td>
+        <td>
+          <p>Возвращает символ, соответствующий заданному индексу.</p></td>
+      </tr>
+      <tr>
+        <td>
+          <p><code>compareTo</code></p></td>
+        <td>
+          <p><code>(String value)</code></p></td>
+        <td>
+          <p><code><b>int</b></code></p></td>
+        <td>
+          <p>Сравнивает текущую строку с аргументом-строкой. Результат отрицателен, если текущая строка лексикографически (по алфавиту) предшествует строке-аргументу. Результат равен 0, если строки совпадают и положителен в противном случае.</p></td>
+      </tr>
+      <tr>
+        <td><code>compareToIgnoreCase</code></td>
+        <td><code>(String str)</code></td>
+        <td><code><b>int</b></code></td>
+        <td>Работает как <code>compareTo()</code>, но игнорирует регистр</td>
+      </tr>
+      <tr>
+        <td><code>equals</code></td>
+        <td><code>(String value)</code></td>
+        <td><b><code>boolean</code></b></td>
+        <td>Возвращает <b><code>true</code></b>, если строки совпадают посимвольно.</td>
+      </tr>
+      <tr>
+        <td><code>equalsIgnoreCase</code></td>
+        <td><code>(String str)</code></td>
+        <td><b><code>boolean</code></b></td>
+        <td>Сравнивает текущую строку с аргументом-строкой с игнорированием регистров. Возвращает <code><b>true</b></code>, если строки совпадают</td>
+      </tr>
+      <tr>
+        <td><span class="justified"><code>indexOf</code></span></td>
+        <td><span class="justified"><code>(<b>int</b> ch)</code></span></td>
+        <td><span class="justified"><code><b>int</b></code></span></td>
+        <td><span class="justified">Возвращает индекс, соответствующий первому вхождению символа в строку. Если символ не входит в строку, возвращает -1</span></td>
+      </tr>
+      <tr>
+        <td>
+          <p><code>indexOf</code></p></td>
+        <td>
+          <p><code>(String substring)</code></p></td>
+        <td>
+          <p><code><b>int</b></code></p></td>
+        <td>
+          <p>Возвращает индекс, соответствующий первому вхождению подстроки в строку. Если подстрока не входит в строку, возвращает -1</p></td>
+      </tr>
+      <tr>
+        <td><code>lastIndexOf</code></td>
+        <td>
+          <p><code>(<b>char</b> ch)</code></p></td>
+        <td><code><span class="justified"><code><b>int</b></code></span></code></td>
+        <td>Возвращает индекс, соответствующий последнему вхождению символа в строку. Если символ отсутствует, возвращает -1</td>
+      </tr>
+      <tr>
+        <td><code>lastIndexOf</code></td>
+        <td>
+          <p><code>(String substring)</code></p></td>
+        <td><code><b>int</b></code></td>
+        <td><span class="justified">Возвращает индекс, соответствующий последнему вхождению подстроки в строку. Если подстрока не входит в строку, возвращает -1</span></td>
+      </tr>
+      <tr>
+        <td>
+          <p><code>substring</code></p></td>
+        <td>
+          <p><code>(<b>int</b> beginIndex, <b>int</b> endIndex)</code></p></td>
+        <td>
+          <p><code>String</code></p></td>
+        <td>
+          <p>Возвращает новую строку, являющуюся подстрокой исходной.</p></td>
+      </tr>
+      <tr>
+        <td>
+          <p><code>toLowerCase</code></p></td>
+        <td>
+          <p><code>()</code></p></td>
+        <td>
+          <p><code>String</code></p></td>
+        <td>
+          <p>Возвращает строку, все символы которой переведены в нижний регистр.</p></td>
+      </tr>
+      <tr>
+        <td>
+          <p><code>toUpperCase</code></p></td>
+        <td>
+          <p><code>()</code></p></td>
+        <td>
+          <p><code>String</code></p></td>
+        <td>
+          <p>Возвращает строку, все символы которой переведены в верхний регистр.</p></td>
+      </tr>
+      <tr>
+        <td height="45" width="190"><code>regionMatches</code></td>
+        <td height="45" width="189"><code>(<b>int</b> toffset, String other, <b>int</b> ooffset, <b>int</b> len)</code></td>
+        <td height="45" width="115"><b><code>boolean</code></b></td>
+        <td height="45" width="586">Проверяет, совпадают две последовательности символов в двух строках</td>
+      </tr>
+      <tr>
+        <td width="190"><code>regionMatches</code></td>
+        <td width="189"><code>(<b>boolean</b> ignoreCase, <b>int</b> toffset, String other, <b>int</b> ooffset, <b>int</b> len)</code></td>
+        <td width="115"><b><code>boolean</code></b></td>
+        <td width="586">Проверяет, совпадают две последовательности символов в двух строках. Дополнительно можно устанавливать возможность игнорирования регистра при проверке</td>
+      </tr>
+      <tr>
+        <td width="190"><code>toCharArray</code></td>
+        <td width="189"><code>()</code></td>
+        <td width="115"><code><b>char</b>[]</code></td>
+        <td width="586">Преобразует текущую строку в новый массив символов</td>
+      </tr>
+      <tr>
+        <td width="190"><code>getChars</code></td>
+        <td width="189"><code>(int srcBegin, int srcEnd, char[] dst, int dstBegin)</code></td>
+        <td width="115"><code><b>void</b></code></td>
+        <td width="586">Копирует символы текущей строки в результирующий символьный массив</td>
+      </tr>
+      <tr>
+        <td width="190" height="21"><code>getBytes</code></td>
+        <td width="189" height="21"><code>()</code></td>
+        <td width="115" height="21"><code><b>byte</b>[]</code></td>
+        <td width="586" height="21">Возвращает массив байтов, содержащих коды символов с учетом таблицы кодов платформы (операционной системы)</td>
+      </tr>
+      <tr>
+        <td width="190"><code>trim</code></td>
+        <td width="189">
+          <p><code>()</code></p></td>
+        <td width="115">
+          <p><code>String</code></p></td>
+        <td width="586">Возвращает копию строки, в которой начальные и конечные пробелы опущены</td>
+      </tr>
+      <tr>
+        <td width="190" height="21"><code>startsWith</code></td>
+        <td width="189" height="21"><code>(String prefix)</code></td>
+        <td width="115" height="21"><b><code>boolean</code></b></td>
+        <td width="586" height="21">Проверяет, начинается ли строка с указанного префикса</td>
+      </tr>
+      <tr>
+        <td width="190"><code>endsWith</code></td>
+        <td width="189"><code>(String suffix)</code></td>
+        <td width="115"><b><code>boolean</code></b></td>
+        <td width="586">Проверяет, заканчивается ли строка указанным суффиксом</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>Дополнительные возможности работы со строками будут изучены при рассмотрении возможностей Java SE.</p>
+<p>Следующие примеры демонстрируют использование некоторых методов обработки строк.</p>
+<blockquote>
+  <pre>String s1 = <b>new</b> String(&quot;Hello World.&quot;);
+<b>int</b> i = s1.length();                 // i = 12
+<b>char</b> c = s1.charAt(6);               // c = 'W'
+i = s1.indexOf('e');                 // i = 1 (index of 'e' in &quot;Hello World.&quot;)
+String s2 = &quot;abcdef&quot;.substring(2, 5);// s2 = &quot;cde&quot;<b>
+int</b> k = &quot;AA&quot;.compareTo(&quot;AB&quot;);        // k = -1
+s2 = &quot;abc&quot;.toUpperCase();            // s2 = ABC</pre>
+</blockquote>
+<p>Одна из наиболее типичных операций со строками &#8211 сшивание. Для сшивания двух строк можно применить функцию <code>concat()</code>:</p>
+<blockquote>
+  <pre>String s3 = s1.concat(s2);
+s3 = s3.concat(&quot;добавляем текст&quot;);</pre>
+</blockquote>
+<p>Но чаще всего вместо вызова функции <code>concat()</code> применяют операцию +:</p>
+<blockquote>
+  <pre>String s1 = "first";
+String s2 = s1 + " and second";</pre>
+</blockquote>
+<p>Если один из операндов &#8211 строка, а другой &#8211 нет, то этот операнд приводится к строковому представлению.</p>
+<blockquote>
+  <pre><b>int</b> n = 1;
+String sn = "n равно " + n; // "n равно 1"
+<b>double</b> d = 1.1;
+String sd = d + ""; // "1.1"</pre>
+</blockquote>
+<p>Можно также использовать операцию "<code>+=</code>" для дошивания в конец строки.</p>
+<p>Можно создавать массивы строк. Как и для других типов-ссылок, массив хранит не строки непосредственно, а ссылки на них. Функция <code>sort()</code> класса <code>java.util.Arrays</code> реализована также для строк. Строки упорядочиваются по алфавиту:</p>
+<blockquote>
+  <pre>String[] a = { "dd", "ab", "aaa", "aa" };
+java.util.Arrays.sort(a); // aa aaa ab dd</pre>
+</blockquote>
+<p>При чтении стоки из потока с использованием класса <code>java.util.Scanner</code> строку можно прочитать с помощью метода <code>next()</code> (до разделителя) или <code>nextLine()</code> (до конца строки). Примеры чтения строк будут приведены ниже. </p>
+<p>Экземпляр класса <code>String</code> не может быть изменен после создания. Работа некоторых методов и операций внешне напоминает модификацию объекта, однако на самом деле создается новая строка.</p>
+<blockquote>
+  <pre>String s = "ab"; // В памяти одна строка
+s = s += "c";    // В памяти три строки: "ab", "c" и "abc". На "abc" ссылается s
+// Лишние строки затем будут удалены сборщиком мусора</pre>
+</blockquote>
+<h4>1.5.2 Использование классов StringBuffer и StringBuilder</h4>
+<p>Существует специальный класс <code>StringBuffer</code>, позволяющий модифицировать содержимое строкового объекта. Создать объект типа <code>StringBuffer</code> можно из существующей строки. После модификации можно создать новый объект класса <code>String</code>, используя объект класса <code>StringBuffer</code>. Например:</p>
+<blockquote>
+  <pre>String s = &quot;abc&quot;;
+StringBuffer sb1 = <b>new</b> StringBuffer(s);    // Вызов конструктора
+StringBuffer sb2 = <b>new</b> StringBuffer(&quot;cd&quot;); // Вызов конструктора
+// модификация sb1 и sb2
+// ...
+String s1 = <b>new</b> String(sb1); // Вызов конструктора
+String s2 = sb2 + &quot;&quot;;        // Преобразование типов</pre>
+</blockquote>
+<p>Кроме некоторых типичных для класса <code>String</code> функций, таких как <code>length()</code>, <code>charAt()</code>, <code>indexOf()</code>, <code>substring()</code>, класс <code>StringBuffer</code> предоставляет ряд методов для модификации содержимого. Это такие методы, как <code>append()</code>, <code>delete()</code>, <code>deleteCharAt()</code>, <code>insert()</code>, <code>replace()</code>, <code>reverse()</code> и <code>setCharAt()</code>. Рассмотрим использование этих функций на следующем примере:</p>
+<blockquote>
+  <pre><b>public</b> <b>class</b> StringBufferTest {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        String s = &quot;abc&quot;;
+        StringBuffer sb = <b>new</b> StringBuffer(s);
+        sb.append(&quot;d&quot;);         // abcd
+        sb.setCharAt(0, 'f');   // fbcd
+        sb.delete(1, 3);        // fd
+        sb.insert(1, &quot;gh&quot;);     // fghd
+        sb.replace(2, 3, &quot;mn&quot;); // fgmnd
+        sb.reverse();           // dnmgf
+        System.out.println(sb);
+    }
+
+}</pre>
+</blockquote>
+<p>Использование <code>StringBuffer</code> может повысить эффективность работы программы в случаях, когда определенную строку необходимо многократно модифицировать в течение работы программы. Но важно помнить, что несколько ссылок указывают на один объект типа <code>StringBuffer</code>. Поэтому, когда мы его меняем, все ссылки будут указывать на измененную строку.</p>
+<p>Начиная с Java 5, вместо <code>StringBuffer</code> можно использовать <code>StringBuilder</code>. В программах, которые не создают отдельных потоков управления, функции этого класса выполняются более эффективно.</p>
+<h4>1.5.3 Разделение строки на лексемы </h4>
+<p>Существует несколько способов разделения строки на лексемы. Простейший способ &#8211 использование класса <code>java.util.StringTokenizer</code>. Объект этого класса создается с помощью конструктора с параметром типа <code>String</code>, который определяет строку, подлежащую разделению на лексемы:</p>
+<blockquote>
+  <pre>StringTokenizer st = <b>new</b> StringTokenizer(someString);</pre>
+</blockquote>
+<p>После создания объекта можно получить общее количество лексем с помощью метода <code>countTokens()</code>. Класс реализует внутренний &quot;текущий указатель&quot;, который указывает на следующее слово. Функция <code>nextToken()</code> возвращает следующую лексему из строки. Функции <code>nextToken()</code> можно задать альтернативный разделитель лексем в качестве параметра. С помощью функции <code>hasMoreTokens()</code> можно проверить, есть ли еще лексемы. В следующем примере все слова строки выводятся в отдельных строках: </p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fourth;
+
+<b>import</b> java.util.*;
+
+<b>public</b> <b>class</b> AllWords {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        String s = <b>new</b> Scanner(System.in).nextLine();
+        StringTokenizer st = <b>new</b> StringTokenizer(s);
+        <b>while</b> (st.hasMoreTokens()) {
+            System.out.println(st.nextToken());
+        }
+    }
+
+}</pre>
+</blockquote>
+<p>Более современный способ разбиения на лексемы &#8211 использование метода <code>split()</code> класса <code>String</code>. Параметр данного метода так называемое регулярное выражение, определяющие разделительные символы. Регулярные выражения будут рассмотрены при изучении Java SE. Однако в простейшем случае можно использовать сам разделительный символ &#8211 пробел. Например:</p>
+<blockquote>
+  <pre>String s = &quot;aa bb ccc&quot;;
+String[] a = s.split(&quot; &quot;);
+System.out.println(Arrays.toString(a)); // [aa, bb, ccc]</pre>
+</blockquote>
+<h3>1.6 Классы Integer, Double, Boolean, Character, Float, Byte, Short и Long</h3>
+<p>Классы<code> Integer</code>, <code>Double</code>, <code>Boolean</code>, <code>Character</code>, <code>Float</code>, <code>Byte</code>, <code>Short</code> и <code>Long</code> позволяют представить числовые и логические значения в объектах. Эти классы также называются <em>классами-обертками</em>. Дополнительно эти классы предоставляют набор методов для преобразования арифметических значений в строковое представление и наоборот и другие средства для удобной работы с целыми и вещественными числами.</p>
+<p>Статический метод <code>Double.parseDouble()</code> возвращает вещественное число по заданному строковому представлению:</p>
+<blockquote>
+  <pre>String s = "1.2";<b>
+double</b> d = Double.parseDouble(s);</pre>
+</blockquote>
+<p>Аналогично работают функции <code>Integer.parseInt()</code>, <code>Boolean.parseBoolean()</code>, <code>Long.parseLong()</code>, <code>Float.parseFloat()</code>, <code>Byte.parseByte()</code>, <code>Short.parseShort()</code>.</p>
+<p>В версии Java 5 (JDK 1.5) объекты типа <code>Integer</code> можно инициализировать выражениями целого типа, использовать в выражениях для получения значений (автоматическая упаковка / распаковка). Целые значения (константы) можно заносить в списки и другие контейнеры. Автоматически будут создаваться и заноситься в контейнер объекты типа<code> Integer</code>. В ранних версиях Java (JDK 1.4 и раньше) необходимо было писать:</p>
+<blockquote>
+  <pre>Integer m = <b>new</b> Integer(10); // инициализируем объект типа Integer
+<b>int</b> k = m.intValue() + 1;    // используем значение в выражении
+// создаем массив:  
+Integer[] a = {<b>new</b> Integer(1), <b>new</b> Integer(2), <b>new</b> Integer(3)};
+a[2] = <b>new</b> Integer(4);       // заносим объект с новым целым значением
+// получаем объект типа Integer из массива и используем значение:
+<b>int</b> i = a[1].intValue() + 2;</pre>
+</blockquote>
+<p>Теперь все проще:</p>
+<blockquote>
+  <pre>Integer m = 10; // инициализируем объект типа Integer
+<b>int</b> k = m + 1;  // используем значение в выражении
+// создаем массив:  
+Integer[] a = {1, 2, 3};
+a[2] = 4;       // заносим объект с новым целым значением
+// получаем объект типа Integer из массива и используем значение:
+<b>int</b> i = a[1] + 2;</pre>
+</blockquote>
+<p>То же самое касается и других типов-оберток. Фактически объекты этих типов могут использоваться вместо переменных сответсвующих примитивных типов. Недостатком использования оберток вместо примитивных типов является уменьшение эффективности за счет добавления операций размещения в динамической памяти. Но преимуществом является возможность использования значения <b><code>null</code></b>. Например, если значение функции не может быть вычислено, функция может вернуть <b><code>null</code></b>:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fourth;
+
+<b>import</b> java.util.Scanner;
+
+<b>public</b> <b>class</b> Reciprocal {
+    // Обратная величина:
+    <b>static</b> Double reciprocal(<b>double</b> x) {
+        <b>if</b> (x == 0) {
+            <b>return</b> <b>null</b>;
+        }
+        <b>return</b> 1 / x;
+    }
+  
+  <b>  public</b> <b>static</b> <b>void</b> main(String[] args) {
+        Scanner s = <b>new</b> Scanner(System.<b>in</b>);
+        <b>double</b> x = s.nextDouble();
+        Double y = reciprocal(x);
+        <b>if</b> (y == <b>null</b>) {
+            System.out.println("Ошибка");
+        }
+        <b>else {</b>
+            System.out.println(y);
+        }
+    }
+}</pre>
+</blockquote>
+<p>Класс <code>Character</code> &#8211 это, в первую очередь, оболочка для хранения значения примитивного типа <code><b>char</b></code> (символ) в объекте. Объект типа <code>Character</code> содержит одно поле типа <code><b>char</b></code>. Кроме того, этот класс предоставляет несколько методов для определения категории символа (строчные буквы, цифры и т.д.) и для преобразования символов из верхнего регистра в нижний и наоборот. </p>
+<p>Есть возможность переводить отдельный символ в верхний (или нижний) регистр:</p>
+<blockquote>
+  <pre><b>char</b> c1 = 'a';
+<b>char</b> c2 = Character.toUpperCase(c1); // 'A'
+<b>char</b> c3 = Character.toLowerCase(c2); // 'a'</pre>
+</blockquote>
+<p>Имеются функции, позволяющие проверять свойства символов. Например, метод <code>Character.isLetter()</code> возвращает <b><code>true</code></b>, если символ буквенный в украинском, русском, китайском, немецком, арабском или другом языке. Ниже приведены некоторые из наиболее полезных методов сравнения символов:</p>
+<ul>
+  <li><code>isDigit()</code> возвращает <code><b>true</b></code>, если символ является цифрой</li>
+  <li><code>isLetter()</code> возвращает <code><b>true</b></code>, если символ является буквой</li>
+  <li><code>isLetterOrDigit()</code> возвращает <code><b>true</b></code>, если символ является буквой или цифрой</li>
+  <li><code>isLowerCase()</code> возвращает <code><b>true</b></code>, если символ &#8211 буквенный в нижнем регистре</li>
+  <li><code>isUpperCase()</code> возвращает <code><b>true</b></code>, если символ &#8211 буквенный в верхнем регистре</li>
+  <li><code>isSpaceChar()</code> возвращает <code><b>true</b></code>, если символ является разделителем &#8211 символом пробела, новой строки или абзаца.</li>
+</ul>
+<p>Дополнительные возможности работы с классом <code>Character</code> будут рассмотрены при изучении возможностей Java SE.</p>
+<h2>2 Примеры программ</h2>
+<h3>2.1 Сумма элементов массива<b></b></h3>
+<p>Следующая программа находит сумму элементов массива вещественных чисел.</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fourth;
+
+<b>public</b> <b>class</b> SumOfElements {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        <b>double</b>[] a = {1, 2, 1, 2.5, 1};
+        <b>double</b> sum = 0;
+        <b>for</b> (<b>int</b> i = 0; i &lt; a.length; i++) {
+            sum += a[i];
+        }
+        System.out.println("Sum is " + sum);
+    }
+
+}</pre>
+</blockquote>
+<p>Второй вариант той же программы:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fourth;
+
+<b>public</b> <b>class</b> SumOfElements {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        <b>double</b> a[] = {1, 2, 1, 2.5, 1};
+        <b>double</b> sum = 0;
+        <b>for</b> (<b>double</b> x : a) {
+            sum += x;
+        }
+        System.out.println("Sum is " + sum);
+    }
+
+}</pre>
+</blockquote>
+<p>Третий вариант реализуем с использованием рекурсии:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fourth;
+
+<b>public</b> <b>class</b> SumWithRecursion {
+
+    <b>static</b> <b>double</b> sum(<b>double</b>[] a, <b>int</b> n) {
+        <b>if</b> (n &lt;= 0) {
+            <b>return</b> 0;
+        }
+        n--;
+        <b>return</b> a[n] + sum(a, n);
+    }
+
+    <b>static</b> <b>double</b> sum(<b>double</b>[] a) {
+        <b>return</b> sum(a, a.length);
+    }
+  
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        <b>double</b>[] a = { 1, 2, 1, 2.5, 1 };
+        System.out.println("Sum is " + sum(a));
+    }
+
+}</pre>
+</blockquote>
+<h3>2.2 Индекс максимального элемента<b></b></h3>
+<p>Следующая программа находит номер максимального элемента в массиве целых чисел.</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fourth;
+
+<b>public</b> <b>class</b> MaxElement {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        <b>int</b>[] a = {1, 2, 14, 8};
+        <b>int</b> indexOfMax = 0;
+        <b>for</b> (<b>int</b> i = 1; i &lt; a.length; i++) {
+            <b>if</b> (a[i] &gt; a[indexOfMax]) {
+                indexOfMax = i;
+            }
+        }
+        System.out.println(indexOfMax + " " + a[indexOfMax]);
+    }
+
+}</pre>
+</blockquote>
+<h3>2.3 Сумма произведений строк</h3>
+<p>В следующей программе определяется сумма произведений строк двумерного массива.</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fourth;
+
+<b>public</b> <b>class</b> SumOfProducts {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        <b>int</b>[][] a = {{1, 2, 3},
+                     {2, 3, 4},
+                     {0, 1, 2},
+                     {1, 1, 12}};
+        <b>int</b> sum = 0;
+        <b>for</b> (<b>int</b> i = 0; i &lt; a.length; i++) {
+            <b>int</b> product = 1;
+            <b>for</b> (<b>int</b> j = 0; j &lt; a[i].length; j++) {
+                product *= a[i][j];
+            }
+            sum += product;
+        }
+        System.out.println(sum);
+    }
+
+}</pre>
+</blockquote>
+<h3>2.4 Замена элементов</h3>
+<p>В следующей программе отрицательные элементы двумерного массива заменяются нулями.</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fourth;
+
+<b>public</b> <b>class</b> ReplaceZeros {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        <b>double</b>[][] a = {{1,  -2,  3},
+                        {2.1, 3, -4},
+                        {0,-0.5, 11}};
+        <b>for</b> (<b>int</b> i = 0; i &lt; a.length; i++) {
+            <b>for</b> (<b>int</b> j = 0; j &lt; a[i].length; j++) {
+                <b>if</b> (a[i][j] &lt; 0) {
+                    a[i][j] = 0;
+                }
+            }
+        }
+        <b>for</b> (<b>int</b> i = 0; i &lt; a.length; i++) {
+            <b>for</b> (<b>int</b> j = 0; j &lt; a[i].length; j++) {
+                System.out.print("\t" + a[i][j]);
+            }
+            System.out.println();
+        }
+    }
+
+}</pre>
+</blockquote>
+<p><span class="justified"><em>Примечание</em>: для вывода двумерного массива не следует использовать <code>Arrays.toString()</code>, так как вместо элементов мы получим адреса строк.</span> Для вывода всех элементов одной строкой следует использовать </p>
+<blockquote>
+  <pre>System.out.println(Arrays.deepToString(a));</pre>
+</blockquote>
+<h3>2.5 Сортировка</h3>
+<p>Допустим, необходимо рассортировать элементы массива по возрастанию. Следующая программа реализует алгоритм пузырьковой сортировки.</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fourth;
+
+<b>import</b> java.util.Arrays;<b>
+
+public</b> <b>class</b> SortClass {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        <b>double</b>[] a = { 11, 2.5, 4, 3, 5 };
+        <b>boolean</b> mustSort;// Повторяем до тех пор,
+                         // пока mustSort равно true
+        <b>do</b> {
+            mustSort = <b>false</b>;
+            <b>for</b> (<b>int</b> i = 0; i &lt; a.length - 1; i++) {
+                <b>if</b> (a[i] &gt; a[i + 1]) {
+                // Меняем элементы местами:
+                    <b>double</b> temp = a[i];
+                    a[i] = a[i + 1];
+                    a[i + 1] = temp;
+                    mustSort = <b>true</b>;
+                }
+            }
+        }
+        <b>while</b> (mustSort);
+        System.out.println(Arrays.toString(a));
+    }
+
+}</pre>
+</blockquote>
+<p>Следующая программа использует стандартную функцию <code>sort()</code>:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fourth;<b>
+
+import</b> java.util.Arrays;<b>
+</b><b>
+public</b> <b>class</b> SortClass {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        <b>double</b>[] a = { 11, 2.5, 4, 3, 5 };
+        Arrays.sort(a);
+        System.out.println(Arrays.toString(a));
+    }
+
+}</pre>
+</blockquote>
+<h3>2.6 Вычисление факториала</h3>
+<p>Допустим, необходимо разработать функцию вычисления факториалов (от 0 до 20! включительно) с использованием вспомогательного массива (статического поля). При первом вызове функции массив заполняется до необходимого числа. При последующих вызовах число либо возвращается из массива, либо вычисляется с использованием последнего числа, хранящегося в массиве, с дальнейшим заполнением массива.</p>
+<p>Необходимо также осуществить тестирование функции для различных чисел, вводимых в произвольном порядке. Программа будет иметь следующий вид:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fourth;
+
+<b>public</b> <b>class</b> Factorial {
+    <b>private</b> <b>static</b> <b>long</b>[] f = <b>new</b> <b>long</b>[30];
+    <b>private</b> <b>static</b> <b>int</b> last = 0;
+  
+    <b>public</b> <b>static</b> <b>long</b> factorial(<b>int</b> n) {
+        f[0] = 1;
+        <b>if</b> (n &gt; last) {
+            <b>for</b> (<b>int</b> i = last + 1; i &lt;= n; i++) {
+                f[i] = i * f[i - 1];
+            }
+            last = n;
+        }
+        <b>return</b> f[n];
+    }
+  
+  <b>  public</b> <b>static</b> <b>void</b> main(String[] args) {
+        System.out.println(factorial(5));
+        System.out.println(factorial(1));
+        System.out.println(factorial(3));
+        System.out.println(factorial(6));
+        System.out.println(factorial(20));
+    }
+
+}</pre>
+</blockquote>
+<h3>2.7 Решение квадратного уравнения</h3>
+<p>Функция решения квадратного уравнения может возвращать массив из двух элементов &#8211 корней, из нуля элементов, если корней нет, из одного элемента, если получилось линейное уравнение и <code><strong>null</strong></code>, если корней бесчисленное множество:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fourth;
+
+<b>import</b> java.util.Arrays;
+
+<b>public</b> <b>class</b> QuadraticTest {
+
+  <b>  public</b> <b>static</b> <b>double</b>[] quadratic(<b>double</b> a, <b>double</b> b, <b>double</b> c) {
+        <b>if</b> (a == 0) {
+            <b>if</b> (b == 0) {
+                <b>if</b> (c == 0) {
+                    <b>return</b> <b>null</b>; // бесчисленное множество корней
+                }
+                <b>else</b> {
+                    <b>return</b> <b>new</b> <b>double</b>[0]; // нет корней
+                }
+            }
+            <b>else</b> {
+                <b>double</b>[] x = <b>new</b> <b>double</b>[1];
+                x[0] = -c / b;
+                <b>return</b> x; // один корень
+            }
+        }
+        <b>else</b> {
+            <b>double</b> d = b * b - 4 * a * c;
+            <b>if</b> (d &lt; 0) {
+                <b>return</b> <b>new</b> <b>double</b>[0]; // нет корней
+            }
+            <b>else</b> {
+                <b>double</b> sqrd = Math.sqrt(d);
+                <b>double</b>[] x = <b>new</b> <b>double</b>[2];
+                x[0] = (-b - sqrd) / (2 * a);
+                x[1] = (-b + sqrd) / (2 * a);
+                <b>return</b> x; // два корня
+            }
+        }
+    }
+
+  <b>  public</b> <b>static</b> <b>void</b> main(String[] args) {
+        <b>double</b>[] x = quadratic(1, 1, -2); // два корня
+        System.out.println(Arrays.toString(x)); // [-1.0, 2.0]
+        x = quadratic(1, 1, 2); // нет корней
+        System.out.println(Arrays.toString(x)); // []
+        x = quadratic(0, 0, 1); // нет корней
+        System.out.println(Arrays.toString(x)); // []
+        x = quadratic(0, 0, 0);  // бесчисленное множество корней
+        System.out.println(Arrays.toString(x)); // <b>null</b>
+        // Можно без именования массива (один корень):
+        System.out.println(quadratic(0, 1, -2)[0]);  // [2.0]
+    }
+
+}</pre>
+</blockquote>
+<p>Теперь по количеству элементов массива или значению <strong><code>null</code></strong> для ссылки на массив можно судить о результате решения уравнения.</p>
+<h3> 2.8 Сложение матриц</h3>
+<p>Допустим, необходимо разработать функцию для сложения двух матриц с проверкой размерностей и осуществить тестирование этой функции с проверкой возможных ошибок. Программа будет иметь следующий вид: </p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fourth;
+
+<b>import</b> java.util.Arrays;
+
+<b>public</b> <b>class</b> SumOfMatrices {
+
+    <b>static</b> <b>double</b>[][] sum(<b>double</b>[][] a, <b>double</b>[][] b) {
+        <b>if</b> (a == <b>null</b> || b == <b>null</b> || a.length != b.length) {
+            <b>return</b> <b>null</b>;
+        }
+        <b>double</b>[][] c = <b>new</b> <b>double</b>[a.length][a[0].length];
+        <b>for</b> (<b>int</b> i = 0; i &lt; c.length; i++) {
+            <b>if</b> (a[i].length != c[i].length || b[i].length != c[i].length) {
+                <b>return</b> <b>null</b>;
+            }
+      <b>      for</b> (<b>int</b> j = 0; j &lt; c[i].length; j++) {
+                c[i][j] = a[i][j] + b[i][j];
+            }
+        }
+    <b>    return</b> c;
+    }
+  
+  <b>  static</b> <b>void</b> printC(<b>double</b>[][] c) {
+        <b>if</b> (c == <b>null</b>) {
+            System.out.println(&quot;Неправильные исходные данные!&quot;);
+        }
+    <b>    else</b> {
+            System.out.println(Arrays.deepToString(c));
+        }
+    }
+  
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        <b>double</b>[][] a = { { 1, 2 }, { 3, 4 } };
+        <b>double</b>[][] b = { { 5, 6 }, { 7, 8 } };
+        printC(sum(a, b));  // [[6.0, 8.0], [10.0, 12.0]]
+        b = <b>new</b> <b>double</b>[][] { { 5, 6 }, { 7 } };
+        printC(sum(a, b));  // Неправильные исходные данные!
+        b = <b>null</b>;
+        printC(sum(a, b));  // Неправильные исходные данные!
+    }
+
+}</pre>
+</blockquote>
+<h3>2.9 Сумма цифр</h3>
+<p>Допустим, необходимо определить сумму цифр числа, прочитанного из командной строки. Для этого можно предложить вариант с использованием строк.</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fourth;
+
+<b>public</b> <b>class</b> SumOfDigids {
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        String n = args[0];
+        <b>int</b> sum = 0;
+        <b>for</b> (<b>int</b> i = 0; i &lt; n.length(); i++) {
+            sum += Integer.parseInt(n.charAt(i) + "");
+        }
+        System.out.println(sum);
+    }
+}</pre>
+</blockquote>
+<h3>2.10 Удаление лишних пробелов</h3>
+<p>В следующем примере из строки, прочитанной из первого аргумента, удаляются лишние пробелы (оставляем по одному).</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fourth;
+
+<b>public</b> <b>class</b> SpaceRemover {
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        System.out.println(args[0]);
+        String s = args[0];
+        <b>while</b> (s.indexOf("  ") &gt;= 0) {
+            s = s.replaceAll("  ", " ");
+        }
+        System.out.println(s); 
+    }
+}</pre>
+</blockquote>
+<p>Если строка содержит несколько слов, ее необходимо брать в кавычки. Если в качестве аргумента задана, например строка</p>
+<blockquote>
+  <pre>"To    be  or not to                be"</pre>
+</blockquote>
+<p>получим строку</p>
+<blockquote>
+  <pre>To be or not to be</pre>
+</blockquote>
+<h3>2.11 Сортировка слов строки </h3>
+<p>В следующем примере из строки, прочитанной с клавиатуры, формируется строка, в которой слова упорядочены по алфавиту.</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fourth;
+
+<b>import</b> java.util.*;
+
+<b>public</b> <b>class</b> SortWords {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        String s = <b>new</b> Scanner(System.<b>in</b>).nextLine();
+        StringTokenizer st = <b>new</b> StringTokenizer(s);
+        <b>int</b> count = 0;
+        <b>while</b> (st.hasMoreTokens()) {
+            st.nextToken();
+            count++;
+        }
+        String[] words = <b>new</b> String[count];
+        st = <b>new</b> StringTokenizer(s);
+        <b>for</b> (<b>int</b> i = 0; i &lt; words.length; i++) {
+            words[i] = st.nextToken();
+        }
+        Arrays.sort(words);
+        String result = &quot;&quot;;
+        <b>for</b> (String word : words) {
+            result += word + &quot; &quot;;
+        }
+        System.out.println(result);
+    }
+
+}</pre>
+</blockquote>
+<h2>3 Задания на самостоятельную работу</h2>
+<h3>3.1 Сумма положительных элементов*</h3>
+<p>Проинициализировать одномерный массив вещественных чисел списком начальных значений. Найти сумму положительных элементов. Реализовать два варианта &#8211 с циклом и с рекурсией.</p>
+<h3>3.2  Суммы элементов</h3>
+<p>В функции <code>main()</code> проинициализировать одномерный массив целых чисел случайными значениями. Создать функцию, которая принимает в качестве параметра массив и выводит на экран сумму элементов массива от первого элемента до элемента с номером <code>k</code>, а также сумму элементов от элемента с номером <code>k+1</code> до последнего. Функция возвращает <b><code>true</code></b>, если первая сумма больше, и <b><code>false</code></b> в противном случае. Результат вывести на экран.</p>
+<h3>3.3 Отрицательные элементы</h3>
+<p>В функции <code>main()</code> проинициализировать одномерный массив вещественных чисел случайными значениями в диапазоне от -100 до 100. Создать функцию, которая принимает в качестве параметра массив, находит количество отрицательных элементов этого массива, создает новый массив необходимой размерности, заполняет его отрицательными элементами и возвращает новый массив. Результат вывести на экран.</p>
+<h3>3.4 Упорядочивание элементов*</h3>
+<p>В функции <code>main()</code> проинициализировать одномерный массив из 10 целых чисел. Создать функцию, которая принимает в качестве параметра массив, упорядочивает первые 4 элемента этого массива по возрастанию, последние 4 &#8211 по убыванию. Результат вывести на экран.</p>
+<h3>3.5 Среднее арифметическое</h3>
+<p>В функции <code>main()</code> проинициализировать одномерный массив целых чисел. Создать функцию, которая принимает в качестве параметра массив и находит среднее арифметическое всех чётных элементов массива, стоящих на нечётных местах (с нечетными индексами). Результат вывести на экран.</p>
+<h3>3.6 Сдвиг элементов</h3>
+<p>В функции <code>main()</code> проинициализировать одномерный массив целых чисел. Создать функцию, которая принимает в качестве параметра массив, находит нулевой элемент массива (элемент с индексом 0), переносит его на последнее место, сдвинув влево все стоящие за ним элементы. Вывести полученный массив на экран.</p>
+<h3>3.7 Максимальный элемент</h3>
+<p>В функции <code>main()</code> проинициализировать двумерный массив размерностью m x n вещественных чисел. Создать функцию, которая принимает в качестве параметра массив, находит максимальный по модулю элемент массива и возвращает найденное значение. Результат вывести на экран.</p>
+<h3>3.8 Количество нулевых элементов</h3>
+<p>В функции <code>main()</code> проинициализировать двумерный массив размерностью m x n вещественных чисел. Создать функцию, которая принимает в качестве параметра массив, определяет, сколько раз в этом массиве встречается элемент со значением 0 и возвращает это количество. Результат вывести на экран.</p>
+<h3>3.9 Максимальный из минимальных</h3>
+<p>В функции <code>main()</code> проинициализировать двумерный массив размерностью m x n целых чисел. Создать функцию, которая принимает в качестве параметра массив, находит максимальный элемент из минимальных элементов строк массива и возвращает его. Результат вывести на экран.</p>
+<h3>3.10 Эратосфеново решето*</h3>
+<p>Заполнить массив из трехсот целых чисел последовательными положительными значениями. Заменить все значения, не являющиеся простыми числами, некоторым отрицательным значением. Для этого последовательно исключать все числа &#8211 делители других чисел (для 2 &#8211 4, 6, 8..., для 3 &#8211 9, 15, 21... и т.д.). Вывести на экран оставшиеся положительные значения (простые числа).</p>
+<h3>3.11 Сортировка выбором*</h3>
+<p>Проинициализировать одномерный массив целых чисел случайными значениями. Осуществить упорядочение массива методом сортировки выбором. Алгоритм заключается в следующем:</p>
+<ul>
+  <li> находим номер минимального значения в текущем списке;</li>
+  <li>производим обмен этого значения со значением первой неотсортированной позиции (обмен не нужен, если минимальный элемент уже находится на данной позиции);</li>
+  <li>сортируем хвост списка, исключив из рассмотрения уже отсортированные элементы.</li>
+</ul>
+<p>Результат вывести на экран.</p>
+<h3>3.12 Сортировка вставками*</h3>
+<p>В функции <code>main()</code> проинициализировать одномерный массив целых чисел. Создать функцию, которая осуществляет упорядочение массива методом сортировки вставками. Алгоритм заключается в следующем:</p>
+<ul>
+  <li> перебираем все элементы массива по очереди;</li>
+  <li>выбираем очередной элемент массива, сдвигаем, если нужно, элемент влево, пока он не окажется на нужной позиции (при этом элементы, стоящие между первоначальной и окончательной позициями данного элемента, сдвигаются вправо);</li>
+  <li>продолжаем до тех пор, пока не переберем все элементы массива.</li>
+</ul>
+<p>Результат вывести на экран.</p>
+<h3>3.13 Вычисление чисел Фибоначчи*</h3>
+<p>Реализовать функцию вычисления чисел Фибоначчи (до 92-го числа включительно) с использованием вспомогательного массива (статического поля). Параметр функции &#8211 номер числа Фибоначчи. При первом вызове функции массив заполняется до необходимого числа. При последующих вызовах число либо возвращается из массива, либо вычисляется с использованием последних двух чисел, хранящихся в массиве с дальнейшим заполнением массива. Использовать тип <b><code>long</code></b> для представления чисел.</p>
+<p>Осуществить тестирование функции для различных значений номеров, вводимых в произвольном порядке. </p>
+<h3>3.14 Перемножение матриц*</h3>
+<p>Разработать функцию для перемножения двух матриц с проверкой размерностей и осуществить тестирование этой функции с проверкой возможных ошибок.</p>
+<h3>3.15 Сумма цифр</h3>
+<p>Дополнить пример 2.9 проверкой, все ли числа во введенной строке представляют собой цифры.</p>
+<h3>3.16 Сортировка строк</h3>
+<p>Проинициализировать одномерный массив строк. Отсортировать массив по алфавиту. Сшить все слова в новую строку. </p>
+<h3>3.17 Удаление слов*</h3>
+<p>Ввести с клавиатуры строку из нескольких слов, а также некоторую последовательность символов. Удалить из строки слова, содержащие введенную последовательность символов в виде подстроки.</p>
+<h3>3.18 Символы по алфавиту</h3>
+<p>Ввести с клавиатуры строку. Удалить из строки все цифры. Рассортировать все ее символы по алфавиту. Вывести полученные символы в виде новой строки.</p>
+<h3>3.19 Аббревиатура*</h3>
+<p>Ввести с клавиатуры строку из нескольких слов. Составить строку из первых букв слов с переводом этих букв в верхний регистр.</p>
+<h3>3.20 Корректор*</h3>
+<p>Ввести с клавиатуры строку. Удалить лишние пробелы, в том числе начальные и конечные. Внутри слов большие буквы заменить маленькими. Если перед словами, начинающимися с большой буквы, нет точки, добавить точку в конце предшествующих слов. Сформировать и вывести на экран слова, начинающиеся на мягкий знак. </p>
+<h3>3.21 Форматирование текста*</h3>
+<p>Осуществить форматирование текста с выравниванием по ширине. Текст разбить на строки с длиной, не превосходящей заданного количества символов. Если очередное слово не помещается в текущей строке, его необходимо переносить на следующую.</p>
+<h3>3.22 Транслятор*</h3>
+<p>Ввести с клавиатуры строку программного кода. Проверить соответствие фигурных скобок Заменить открывающиеся фигурные скобки словом <code>begin</code>, а закрывающиеся &#8211 словом <code>end</code>. Использовать класс <code>StringBuilder</code>. </p>
+<h3>3.23 Квадратный корень*</h3>
+<p>Реализовать функцию вычисления квадратного корня с параметром типа <code>Double</code> и возвращающую <code>Double</code>. Алгоритм вычисления квадратного корня заключается в определении начального приближения (например, 1) и последовательного получения новых приближений как среднего арифметического предыдущего числа и аргумента, деленного на это приближение. Алгоритм завершается, когда два последовательных приближения будут отличаться меньше заданной точности. Функция должна возвращать <code><strong>null</strong></code>, если аргумент &#8211 <code><strong>null</strong></code> или отрицательный.</p>
+<h2>4 Контрольные вопросы</h2>
+<ol>
+  <li>Чем отличается ссылка Java от указателя?</li>
+  <li>Чем типы ссылки отличаются от типов-значений?</li>
+  <li>Что является результатом присвоения одной ссылки другой?</li>
+  <li>Всегда ли переменным типов-ссылок можно присваивать <b><code>null</code></b>?</li>
+  <li>Как в Java удалить объект, созданный с помощью <b><code>new</code></b>?</li>
+  <li>В чем заключается "сборка мусора"?</li>
+  <li>Можно ли изменить размеры массива после его создания?</li>
+  <li>Чем отличаются старая и новая формы цикла <b><code>for</code></b>?</li>
+  <li>Можно ли с помощью новой формы цикла <b><code>for</code></b> менять значения элементов?</li>
+  <li>Как определить количество столбцов двумерного массива?</li>
+  <li>Можно использовать переменные для определения длины массива?</li>
+  <li>Как добавить новый элемент в конец массива?</li>
+  <li>Можно ли создать двумерный массив со строками различной длины?</li>
+  <li>Чем отличается применение двух различных конструкций <b><code>for</code></b> для обхода элементов массива?</li>
+  <li>Чем определяется размер массива, который создается функцией <code>arraycopy()</code>?</li>
+  <li>Можно ли с помощью <code>arraycopy()</code> скопировать часть массива?</li>
+  <li>Чем отличается работа функции <code>System.arraycopy()</code> от <code>Arrays.copyOf()</code>? </li>
+  <li>Как осуществить чтение массива с клавиатуры?</li>
+  <li>Каким образом можно заполнить элементы массива без цикла?</li>
+  <li>Можно ли без цикла вывести значения элементов на консоль? </li>
+  <li>Как без цикла установить, что элементы массивов совпадают?</li>
+  <li>Можно ли без цикла отсортировать часть массива?</li>
+  <li>Позволяет ли функция <code>binarySearch()</code> найти элемент в неотсортированном массиве?</li>
+  <li>Можно ли изменить значения элементов массива с помощью функции?</li>
+  <li>Как в Java создать функцию с переменным числом аргументов?</li>
+  <li>Можно ли использовать рекурсию при работе с массивами?</li>
+  <li>Как заполнить массив случайными значениями?</li>
+  <li>Чем отличается использование функции <code>Math.random()</code> от средств класса <code>java.util.Random</code>?</li>
+  <li>Какими способами можно создать новую строку?</li>
+  <li>Как по умолчанию осуществляется сортировка массива строк?</li>
+  <li>Можно ли изменить содержимое ранее созданной строки?</li>
+  <li>Для чего используются классы <code>StringBuffer</code> и <code>StringBuilder</code>?</li>
+  <li>Как осуществляется разделение строки на лексемы?</li>
+  <li>Как перевести число в его строковое представление и наоборот?</li>
+  <li>В чем преимущества и недостатки классов-оболочек по сравнению с соответствующими примитивными типами?</li>
+  <li>Как создать объект типа <code>Integer</code>?</li>
+  <li>Когда при работе с целыми использовать значение <code>null</code>? </li>
+  <li>Как изменить регистр отдельных символов строки? </li>
+</ol>
+    <p>&nbsp;</p>
+    <div class="w3-clear nextprev">
+        <a class="btn btn-info float-left" href="topic_1_03.html">Предыдущая</a>
+        <a class="btn btn-info float-left" href="topic_1_05.html">Следующая</a>
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+<a href="#top" id="up">up</a>
+<footer class="container-fluid text-center">
+    <p>&copy; 2003-2019 Л.В.Иванов</p>
+</footer>
+<script>
+    $(document).ready(function () {
+        // Add smooth scrolling to all links in navbar + footer link
+        $("a[href='#top']").on('click', function (event) {
+
+            // Make sure this.hash has a value before overriding default behavior
+            if (this.hash !== "") {
+
+                // Prevent default anchor click behavior
+                event.preventDefault();
+
+                // Store hash
+                var hash = this.hash;
+
+                // Using jQuery's animate() method to add smooth page scroll
+                // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+                $('html, body').animate({
+                    scrollTop: $(hash).offset().top
+                }, 900, function () {
+
+                    // Add hash (#) to URL when done scrolling (default click behavior)
+                    window.location.hash = hash;
+                });
+            } // End if
+        });
+        var offset = 200;
+        var duration = 300;
+        $('#up').fadeOut(0);
+        $(window).scroll(function () {
+            var winTop = $(window).scrollTop();
+            if (winTop > offset) {
+                $('#up').css("opacity", "0.8");
+                $('#up').fadeIn(duration);
+            } else {
+                $('#up').fadeOut(duration);
+            }
+        });
+    })
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1308 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>2.05 - Работа с XML. XML-сериализация</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background: #dfdfdf;
+        }
+
+        /* Remove the navbar's default margin-bottom and rounded borders */
+        .jumbotron {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        #header {
+            background-color: #445566;
+        }
+
+        #header h2, #header h4, #header h3, #header h5, #header p {
+            margin-left: -10px;
+            color: #ededed;
+        }
+
+        #header h2 {
+            font-weight: bold;
+        }
+
+        #header h4 {
+            font-size: 1.5em;
+        }
+
+        #content {
+            background: white;
+            padding-right: 9%;
+            box-sizing: border-box;
+        }
+
+        p {
+            text-align: justify;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        ul.nav, ul.side_menu {
+            list-style-type: none;
+            margin-left: -20px;
+        }
+
+        .navbar {
+            margin-bottom: 0;
+            border-radius: 0;
+        }
+
+        .navbar-inverse {
+            background-color: #445566;
+            border: none;
+            border-top: 1px solid white;
+        }
+
+        .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > li > a:hover {
+            background-color: #293b4c;
+        }
+
+        /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+        .row.content {
+            height: 450px
+        }
+
+        /* Set gray background color and 100% height */
+        .sidenav {
+            padding-top: 20px;
+            height: 100%;
+        }
+
+        .btn-info {
+            color: #fff;
+            background-color: #445566;
+            border: none;
+            border-radius: 0;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .btn-info:hover {
+            background-color: #293b4c;
+        }
+
+        .navbar-inverse .navbar-toggle:hover {
+            background-color: #293b4c;
+        }
+
+        .hide {
+            visibility: hidden;
+        }
+
+        .disa {
+            cursor: default;
+            opacity: 0.6;
+
+        }
+
+        .disa:hover {
+            background-color: #445566;
+        }
+
+        /* Set black background color, white text and some padding */
+        footer {
+            background-color: #293b4c;
+            color: white;
+            padding: 15px;
+        }
+
+        #up {
+            color: #fff;
+            position: fixed;
+            display: block;
+            background: #293b4c;
+            width: 40px;
+            height: 40px;
+            bottom: 64px;
+            right: 30px;
+            opacity: 0;
+            border-radius: 50%;
+            padding-left: 12px;
+            padding-top: 8px;
+            box-sizing: border-box;
+        }
+
+        /* On small screens, set height to 'auto' for sidenav and grid */
+        @media screen and (max-width: 990px) {
+            #content {
+                padding-right: 10px;
+            }
+
+            #up {
+                display: none !important;
+            }
+        }
+
+        /* On small screens, set height to 'auto' for sidenav and grid */
+        @media screen and (max-width: 767px) {
+            .sidenav {
+                height: auto;
+                padding: 15px;
+            }
+
+            .row.content {
+                height: auto;
+            }
+        }
+
+        @media only screen and (max-width: 600px) {
+            img.small_img {
+                width: 40%;
+                height: auto;
+            }
+
+            img.big_img {
+                width: 90%;
+                height: auto;
+            }
+        }
+
+        .justified {
+            text-align: justify;
+            font-weight: normal
+        }
+
+        tt {
+            color: #446699;
+        }
+    </style>
+</head>
+<body id="top">
+<div class="container-fluid text-left" id="header">
+    <div class="container text-left col-md-3 col-sm-12">
+        <img src="Images/icon-java.png" style="padding-top: 15px; box-sizing: border-box;">
+    </div>
+    <div class="container text-left col-md-9 col-sm-12">
+        <h2>Язык программирования и технологии Java</h2>
+        <h5>Разработчик курса Л. В. Иванов</h5>
+        <h4>Модуль 1 Объектно-ориентированное программирование и язык Java</h4>
+
+    </div>
+</div>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <!--div class="col-sm-12 col-md-3 sidenav">
+            </div-->
+
+            <ul class="nav navbar-nav">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="topic_1_01.html">Объектно-ориентированное программирование и язык Java</a>
+                </li>
+                <li class="active"><a href="">Платформа Java SE</a></li>
+                <li><a href="">Разработка приложений JAVA EE</a></li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid text-left">
+    <div class="row content">
+        <div class="col-sm-12 col-md-3 sidenav">
+            <ul class="side_menu">
+                <li>1 Объектно-ориентированное программирование и язык Java
+                    <ul class="side_menu">
+                        <li><a href="topic_1_01.html">01 Парадигмы программирования. Основы объектно-ориентированного
+                            подхода</a></li>
+                        <li><a href="topic_1_02.html">02 Язык программирования Java и Java-платформа</a></li>
+                        <li><a href="topic_1_03.html">03 Синтаксические конструкции языка Java</a></li>
+                        <li><a href="topic_1_04.html">04 Ссылочные типы. Массивы. Строки и классы-оболочки</a></li>
+                        <li><a href="topic_1_05.html">05 Определение классов.  Наследование и полиморфизм</a></li>
+                        <li><a href="topic_1_06.html">06 Вложенные типы. Интерфейсы. Лямбда-выражения и ссылки на методы</a></li>
+                        <li><a href="topic_1_07.html">07 Перечисления. Исключения. Использование обобщений</a></li>
+                        <li><a href="topic_1_08.html">08 Понятие паттернов проектирования. Порождающие паттерны</a></li>
+                    </ul>
+                </li>
+                <li>2 Платформа Java SE
+                  <ul class="side_menu">
+                        <li><a href="topic_2_01.html">01 Платформа Java SE и ее составляющие</a></li>
+                        <li><a href="topic_2_02.html">02 Работа с коллекциями в Java 7</a></li>
+                        <li><a href="topic_2_03.html">03 Работа с текстовыми данными. Локализация</a></li>
+                        <li><a href="topic_2_04.html">04 Работа с потоками ввода-вывода и файловой системой</a></li>
+                        <li>05 Работа с XML. XML-сериализация</li>
+                        <li>06 Тестирование и управление сборкой. Ведение системного журнала</li>
+                        <li>07 Работа с потоками выполнения</li>
+                        <li>08 Работа с контейнерами Java 8. Stream API</li>
+                        <li>09 Поддержка сетевого взаимодействия</li>
+                        <li>10 Работа с базами данных</li>
+                        <li>11 Использование RTTI и рефлексии. Метапрограммирование. Аннотации</a></li>
+                        <li>12 </a>Использование структурных паттернов</li>
+                  </ul>
+                </li>
+                <li>3 Основы разработки приложений Java EE
+                    <ul class="side_menu">
+                        <li>01 Платформа Java EE. Web-приложения. Создание сервлетов</li>
+                        <li>02 Основы создания страниц JSP</li>
+                        <li>03 Работа с EJB. Создание Web-сервисов</li>
+                        <li>04 Использование Spring Framework</li>
+                        <li>05 Использование паттернов поведения и распределения ответственности </li>
+                        <li>06 Дополнительные возможности Java 11</li>
+                    </ul>
+                </li>
+            </ul>
+      </div>
+        <div class="col-sm-12 col-md-9 text-left" id="content">
+            <div class="w3-clear nextprev">
+                <a class="btn btn-info float-left" href="topic_2_04.html">Предыдущая</a>
+                <a class="btn btn-info float-left disa" href="">Следующая</a>
+            </div>
+            <h1>Работа с XML. XML-сериализация</h1>
+<h2>1 Теоретическая часть</h2>
+<h3>1.1 Работа с XML-документами</h3>
+<h4>1.1.1 Общие положения</h4>
+<p class="justified"><i>Расширяемый язык разметки</i> XML (eXtensible Markup Language) &#8211; это независимый от платформы метод структурирования информации. Поскольку XML отделяет содержание документа от его структуры, его успешно используют для хранения и обмена информацией. Основные применения XML &#8211; хранение структурированной информации, представление содержания Web-сайта, передача данных между программой и базами данных, а также между базами данных отличающихся форматов.</p>
+<p class="justified">Файлы формата XML &#8211; это всегда текстовые файлы. Синтаксис языка XML во многом похож на синтаксис языка HTML, который применяется для разметки текстов, публикуемых в Internet. Язык XML также может быть непосредственно применен для разметки текстов.</p>
+<p class="justified">Документ в формате XML начинается с так называемого префикса. Префикс документа в общем случае имеет такой вид:</p>
+<blockquote>
+  <pre>&lt;?xml version=&quot;1.0&quot; [другие-атрибуты] ?&gt;
+</pre>
+</blockquote>
+<p class="justified">Среди возможных атрибутов наиболее полезный атрибут &#8211; это <code>encoding=&quot;кодирование&quot;</code>. Он задает таблицу кодирования текста. Если необходимо использовать однобайтовые (не UNІCODE) символы кириллицы, это можно определить, например, таким образом: </p>
+<blockquote>
+  <pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;Windows-1251&quot;?&gt;</pre>
+</blockquote>
+<p class="justified">Рекомендуемая для XML-документов кодировка &#8211; UTF-8 (эта кодировка принята по умолчанию). В этом случае для текстов, включающих символы национальных алфавитов, проблемы с сохранением и воспроизведением информации будет минимальной. После заголовка может помещаться информация о типе документа. Оставшаяся часть XML-документа состоит из набора XML-элементов, любой из которых содержит начальный и конечный теги &#8211; идентификаторы в угловых скобках: <code>&lt;...&gt;</code>. Перед соответствующим конечным тегом располагается символ <code>/</code>. Каждая пара тегов представляет часть данных (элемент XML-документа).</p>
+<p class="justified">В отличие от HTML, XML разрешает использовать неограниченный набор пар тегов, любой из которых представляет не то, как данные должны выглядеть, а то, что они означают. XML разрешает создавать свой набор тегов для каждого класса документов. Таким образом, правильнее назвать его не языком, а метаязыком. </p>
+<p class="justified">Имея формально описанную структуру документа, можно проверить его корректность. Наличие тегов разметки разрешает анализировать документ как человеку, так и программе. XML-документы, в первую очередь, предназначены для программного анализа их содержимого. </p>
+<p class="justified">В следующем примере в XML-файле сохраняются простые числа.</p>
+<blockquote>
+  <pre>&lt;?<b>xml</b> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+    &lt;<b>Numbers</b>&gt;
+    &lt;<b>Number</b>&gt;1&lt;/<b>Number</b>&gt;
+    &lt;<b>Number</b>&gt;2&lt;/<b>Number</b>&gt;
+    &lt;<b>Number</b>&gt;3&lt;/<b>Number</b>&gt;
+    &lt;<b>Number</b>&gt;5&lt;/<b>Number</b>&gt;
+    &lt;<b>Number</b>&gt;7&lt;/<b>Number</b>&gt;
+    &lt;<b>Number</b>&gt;11&lt;/<b>Number</b>&gt;
+&lt;/<b>Numbers</b>&gt;</pre>
+</blockquote>
+<p class="justified">Теги <code>Numbers</code> и <code>Number</code> придумал автор документа. Отступы в тексте файла использованы для улучшения его восприятия человеком. </p>
+<p class="justified">Теги могут включать в себя атрибуты &#8211; дополнительную информацию об элементах, которая помещается внутри угловых скобок. Значения атрибутов обязательно берут в кавычки. Например, можно предложить тег <code>Message</code> с атрибутами <code>to</code> и <code>from</code>:</p>
+<blockquote>
+  <pre>&lt;<b>Message</b> to=&quot;you&quot; from=&quot;me&quot;&gt;
+    &lt;<b>Text</b>&gt;
+        Для чего нужен XML?
+    &lt;/<b>Text</b>&gt;
+&lt;/<b>Message</b>&gt;</pre>
+</blockquote>
+<p class="justified">Важным правилом формирования XML является обязательность употребления конечных тегов. Кроме того нельзя путать порядок конечных тегов. Этот текст содержит ошибку:</p>
+<blockquote>
+  <pre>&lt;<b>A</b>&gt; &lt;<b>B</b>&gt; text &lt;/<b>A</b>&gt; &lt;/<b>B</b>&gt;</pre>
+</blockquote>
+<p class="justified">Необходимо писать так:</p>
+<blockquote>
+  <pre>&lt;<b>A</b>&gt; &lt;<b>B</b>&gt; text &lt;/<b>B</b>&gt; &lt;/<b>A</b>&gt;</pre>
+</blockquote>
+<p class="justified">Допускается использование пустых тегов. Такие теги не используют для обрамления элементов. Такие теги заканчиваются символом /. Например, можно употреблять <code>&lt;Nothing/&gt;</code> вместо пары <code>&lt;Nothing&gt;&lt;/Nothing&gt;</code>.</p>
+<p class="justified">В XML-документе можно использовать комментарии, синтаксис которых совпадает с синтаксисом комментариев HTML-документов:</p>
+<blockquote>
+  <pre>&lt;!-- Это комментарий --&gt;</pre>
+</blockquote>
+<p class="justified">Как и HTML, для включения в текстовые данные, хранимые в документе, символов, используемых для разметки, таких как <code>&lt;</code>, <code>&gt;</code>, <code>&quot;</code>, <code>&amp;</code>, используются <code>&amp;lt;</code>, <code>&amp;gt;</code>, <code>&amp;quot;</code> и <code>&amp;amp;</code> соответственно.</p>
+<h4>1.1.1 Стандартные подходы к работе с XML-документами. Средства JAXP</h4>
+<p class="justified">Существует два стандартных подхода к работе с XML-документами в программах:</p>
+<ul>
+  <li>Событийно-ориентированная модель документа (Simple API for XML, SAX), работающая на потоке данных, обрабатывая его по мере возникновения событий, связанных с различными тегами;</li>
+  <li>Объектная модель документа (Document Object Model, DOM), позволяющая создать в памяти коллекцию узлов, организованных в иерархию.</li>
+</ul>
+<p class="justified">Событийно-базированный подход не позволяет разработчику изменять данные в исходном документе. В случае необходимости корректировки части данных документ нужно полностью обновить. В отличие от него DOM обеспечивает API, который позволяет разработчику добавлять или удалять узлы в любой точке дерева в приложении.</p>
+<p class="justified">Оба подхода используют понятие парсера. <i>Парсер</i> (parser) &#8211; это программное приложение, которое предназначено для того, чтобы анализировать документ путем разбиения его на лексемы (tokens). Парсер может инициировать события (как в SAX), либо строить в памяти дерево данных.</p>
+<p class="justified">Для реализации стандартных подходов к работе с XML в Java SE используются средства <em>Java API for XML Processing</em> (<em>JAXP</em>, интерфейс программирования приложений Java для работы с XML). JAXP предоставляет средства валидации и разбора XML-документов. Для реализации объектной модели документа JAXP включает программный интерфейс DOM, SAX реализован одноименным программным интерфейсом. В дополнение к ним предоставлен программный интерфейс Streaming API for XML (StAX, потоковый API для XML), а также средства XSLT (XML Stylesheet Language Transformations, язык преобразования XML-документов).</p>
+<h4>1.1.2 Использование Simple API for XML и StAX</h4>
+<p class="justified"><em>Simple API for XML</em> (SAX, простой программный интерфейс для работы с XML) предоставляет последовательный механизм анализа XML-документа. Анализатор, реализующий интерфейс SAX (SAX Parser), обрабатывает информацию из XML документа как единый поток данных. Этот поток данных доступен только в одном направлении, то есть, ранее обработанные данные не повторно прочитать без повторного анализа. Большинство программистов сходится во мнении, что обработка XML документов с использованием SAX, в целом, быстрее, чем при использовании DOM. Это объясняется тем, что поток SAX требует гораздо меньшего объема памяти по сравнению с построением полного дерева DOM. </p>
+<p class="justified">SAX анализаторы реализуют с использованием событийно-управляемого (event-driven) подхода, когда программисту необходимо описать обработчики событий, которые вызываются анализаторами при обработке XML документа.</p>
+<p class="justified">Средства Java SE для работы с SAX реализованы в пакетах <code>javax.xml.parsers</code> и <code>org.xml.sax</code>, а также во вложенных в них пакетах. Для создания объекта класса <code>javax.xml.parsers.SAXParser</code> необходимо воспользоваться классом <code>javax.xml.parsers.SAXParserFactory</code>, представляющим соответсвующие фабричные методы. SAX парсер не создает в памяти представление документа XML. Вместо этого, SAX парсер информирует клиентов о структуре документа XML, используя механизм обратного вызова. Можно самостоятельно создать класс, реализующий ряд необходимых интерфейсов, в частности <code>org.xml.sax.ContentHandler</code> Однако более простой и рекомендуемый способ - использовать класс <code>org.xml.sax.helpers.DefaultHandler</code>, создав производный класс и перекрыв его методы, которые должны вызваться при возникновении различных событий в процессе анализа документа. Наиболее часто перекрываются такие методы: </p>
+<ul>
+  <li> <code>startDocument()</code> и <code>endDocument()</code> - методы, которые называются в начале и в конце анализа XML-документа </li>
+  <li><code>startElement()</code> и <code>endElement()</code> - методы, которые называются в начале и в конце анализа элемента документа</li>
+  <li> <code>characters()</code> - метод, вызываемый при получении текстового содержимого элемента XML-документа.</li>
+</ul>
+<p class="justified">Следующий пример иллюстрирует использование для чтения документа. Допустим, в каталоге проекта создан файл <tt>Hello.xml</tt> следующего содержания:</p>
+<blockquote>
+  <pre>&lt;?<b>xml</b> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;<b>Greetings</b>&gt;
+    &lt;<b>Hello</b> Text=&quot;Привет, это атрибут!&quot;&gt;
+        Привет, это текст!
+    &lt;/<b>Hello</b>&gt;
+&lt;/<b>Greetings</b>&gt;</pre>
+</blockquote>
+<p class="justified"><em>Примечание</em>. При сохранении файла следует указать кодировку UTF-8. </p>
+<p class="justified">Код программы, которая читает данные из XML, будет таким:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.xml;
+
+<b>import</b> java.io.IOException;
+
+<b>import</b> javax.xml.parsers.ParserConfigurationException;
+<b>import</b> javax.xml.parsers.SAXParser;
+<b>import</b> javax.xml.parsers.SAXParserFactory;
+
+<b>import</b> org.xml.sax.Attributes;
+<b>import</b> org.xml.sax.InputSource;
+<b>import</b> org.xml.sax.SAXException;
+<b>import</b> org.xml.sax.helpers.DefaultHandler;
+
+<b>public class</b> HelloSAX <b>extends</b> DefaultHandler {
+
+    @Override
+    <b>public void</b> startDocument() {
+        System.out.println(&quot;Opening document&quot;);
+    }
+
+    @Override
+    <b>public void</b> endDocument() {
+        System.out.println(&quot;Done&quot;);
+    }
+
+    @Override
+    <b>public void</b> startElement(String uri, String localName, String qName,
+          Attributes attributes) <b>throws</b> SAXException {
+        System.out.println(&quot;Opening tag: &quot; + qName);
+    <b>    if</b> (attributes.getLength() &gt; 0) {
+            System.out.println(&quot;Атрибуты: &quot;);
+            <b>for</b> (<b>int</b> i = 0; i &lt; attributes.getLength(); i++) {
+                System.out.println(&quot;  &quot; + attributes.getQName(i) + &quot;: &quot;
+                                    + attributes.getValue(i));
+            }
+        }
+    }
+
+    @Override
+    <b>public void</b> endElement(String uri, String localName, String qName)
+                                      <b>throws</b> SAXException {
+        System.out.println(&quot;Closin tag: &quot; + qName);
+    }
+
+    @Override
+    <b>public void</b> characters(<b>char</b>[] ch, <b>int</b> start, <b>int</b> length) <b>throws</b> SAXException {
+        String s = <b>new</b> String(ch).substring(start, start + length).trim();
+        <b>if</b> (s.length() &gt; 0) {
+            System.out.println(s);
+        }
+    }
+
+    <b>public static void</b> main(String[] args) {
+        SAXParser parser = <b>null</b>;
+        <b>try</b> {
+            parser = SAXParserFactory.newInstance().newSAXParser();
+        }
+        <b>catch</b> (ParserConfigurationException | SAXException e) {
+            e.printStackTrace();
+        }
+        <b>if</b> (parser != <b>null</b>) {
+            InputSource input = <b>new</b> InputSource(&quot;Hello.xml&quot;);
+            <b>try</b> {
+                parser.parse(input, <b>new</b> HelloSAX());
+            }
+            <b>catch</b> (SAXException | IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}</pre>
+</blockquote>
+<p class="justified">Поскольку метод <code>characters()</code> вызывается для каждого тега, содержимое есть смысл выводить, если строка не пустая.</p>
+<p class="justified">StAX был разработан как нечто среднее между интерфейсами DOM и SAX. В данном программном интерфейсе используется метафора курсора, представляющего точку входа в пределах документа. Приложение перемещает курсор вперед, читая информацию, получая информацию от синтаксического анализатора по мере необходимости.</p>
+<h4>1.1.3 Использование Объектной модели документа</h4>
+<p class="justified">DOM является серией Рекомендаций, вырабатываемых Консорциумом World Wide Web (W3C). DOM начиналась как способ идентификации и манипулирования элементами на HTML-странице (DOM Level 0). </p>
+<p class="justified">Действующая Рекомендация DOM (DOM Level 3) является API, который определяет объекты, представляемые в XML-документе, а также методы и свойства, которые используются для доступа к ним и манипулирования ими.</p>
+<p class="justified">Начиная с DOM Уровня 1, DOM API содержит интерфейсы, которые представляют всевозможные типы информации, которые могут быть найдены в XML-документе. Он также включает в себя методы, необходимые для работы с этими объектами. Можно привести некоторые наиболее употребительные методы стандартных интерфейсов DOM.
+<p class="justified">Интерфейс <code>Node</code> является основным типом данных DOM. Он определяет ряд полезных методов для получения данных об узлах и навигации по ним:</p>
+<ul>
+  <li><code>getFirstChild()</code> и <code>getLastChild()</code> возвращают первого или последнего потомка данного узла;</li>
+  <li><code>getNextSibling()</code> и <code>getPreviousSibling()</code> возвращают следующего или предыдущего &quot;брата&quot; данного узла;</li>
+  <li><code>getChildNodes()</code> возвращает ссылку на список типа <code>NodeList</code> потомков данного узла; с помощью методов интерфейса <code>NodeList</code> можно получить i-й узел (метод <code>item(i)</code>) и общее количество таких узлов (метод <code>getLength()</code>);</li>
+  <li><code>getParentNode()</code> возвращает &quot;родительский&quot; узел;</li>
+  <li><code>getAttributes()</code> возвращает ассоциативный массив типа <code>NamedNodeMap</code> атрибутов данного узла; <code>getNamedItem()</code></li>
+  <li><code>hasChildNodes()</code> возвращает <code><b>true</b></code>, если узел имеет потомков.</li>
+</ul>
+<p class="justified">Существует ряд методов, обеспечивающих модификацию XML-документа &#8211; <code>insertBefore()</code>, <code>replaceChild()</code>, <code>removeChild()</code>, <code>appendChild()</code> и т.д.</p>
+<p class="justified">Кроме <code>Node</code>, в DOM также определяет несколько подинтерфейсов интерфейса <code>Node</code>:</p>
+<ul>
+  <li> <code>Element</code> &#8211; представляет элемент XML в исходном документе; в элемент входит пара тегов (открывающийся и закрывающийся) и весь текст между ними;</li>
+  <li><code>Attr</code> -представляет атрибут элемента;</li>
+  <li><code>Text</code> &#8211; содержимое элемента;</li>
+  <li><code>Document</code> &#8211; представляет весь XML-документ; только один объект типа <code>Document</code> существует для каждого XML-документа; имея объект <code> Document</code>, можно найти корень дерева DOM с помощью метода <code>getDocumentElement()</code>; от корня можно манипулировать всем деревом.</li>
+</ul>
+<p class="justified">Дополнительными типами узлов являются: </p>
+<ul>
+  <li><code>Comment</code> &#8211; представляет комментарий в XML-файле; </li>
+  <li><code>ProcessingInstruction</code> &#8211; представляет инструкцию обработки</li>
+  <li><code>CDATASection</code> &#8211; представляет раздел <code>CDATA</code>. </li>
+</ul>
+<p class="justified">XML-парсеры требуют создания экземпляра определенного класса. Недостатком этого является то, что при изменении парсеров нужно изменять исходный код. Для некоторых парсеров иногда можно использовать так называемые фабричные классы. При помощи статического метода <code>newInstance()</code> создается экземпляр &quot;фабричного&quot; объекта, с помощью которого создается объект класса, реализующего интерфейс <code>DocumentBuilder</code>. Такой объект непосредственно является необходимым парсером: реализует методы DOM, которые нужны для разбора и обработки XML-файла. При создании объекта-парсера могут генерироваться исключения, которые необходимо перехватывать. Далее можно создавать объект типа <code>Document</code>, загружать данные из файла с именем, например, <code>fileName</code> и осуществлять его разборку:</p>
+<blockquote>
+  <pre><b>try</b> {
+    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+    DocumentBuilder db = dbf.newDocumentBuilder();
+    Document doc = db.parse(fileName);
+    . . .
+</pre>
+</blockquote>
+<p class="justified">После обхода и модификации дерева его можно сохранить в другом файле.</p>
+<p class="justified">Использование DOM рассмотрим на примере предыдущего файла (<tt>Hello.xml</tt>). Следующая программа выводит на консоль текст атрибута, изменяет его и сохраняет в новом XML-документе:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.xml;
+
+<b>import</b> java.io.*;
+<b>import</b> org.w3c.dom.*;
+<b>import</b> javax.xml.parsers.*;
+<b>import</b> javax.xml.transform.*;
+<b>import</b> javax.xml.transform.dom.DOMSource;
+<b>import</b> javax.xml.transform.stream.StreamResult;
+
+<b>public class</b> HelloDOM {
+
+    <b>public static void</b> main(String[] args) <b>throws</b> Exception {
+        Document doc; // ссылка на объект &quot;документ&quot;
+        // Создаем &quot;построитель документов&quot; с помощью &quot;фабричного метода&quot;:
+        DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        doc = db.parse(<b>new</b> File(&quot;Hello.xml&quot;));
+        // Находим корневой тег:
+        Node rootNode = doc.getDocumentElement();
+        // Просматриваем все &quot;дочерние&quot; теги:
+        <b>for</b> (<b>int</b> i = 0; i &lt; rootNode.getChildNodes().getLength(); i++) {
+            Node currentNode = rootNode.getChildNodes().item(i);
+            <b>if</b> (currentNode.getNodeName().equals(&quot;Hello&quot;)) {
+                // Просматриваем все атрибуты:
+                <b>for</b> (<b>int</b> j = 0; j &lt; currentNode.getAttributes().getLength(); j++) {
+                    <b>if</b> (currentNode.getAttributes().item(j).getNodeName().equals(&quot;Text&quot;)) {
+                        // Нашли нужный атрибут. Выводим текст атрибута - приветствие:
+                        System.out.println(currentNode.getAttributes().item(j).getNodeValue());
+                        // Изменяем содержимое атрибута:
+                        currentNode.getAttributes().item(j).setNodeValue(&quot;Привет, здесь был DOM!&quot;);
+                        // Дальнейший поиск нецелесообразен:
+                        <b>break</b>;
+                    }
+                }
+                // Изменяем текст:
+                System.out.println(currentNode.getTextContent());
+                currentNode.setTextContent(&quot;\n    Привет, здесь тоже был DOM!\n&quot;);
+                <b>break</b>;
+            }     
+        }
+        // Создание объекта-преобразователя (в данном случае - для записи в файл).
+        // Используем фабричный метод:
+        Transformer transformer = TransformerFactory.newInstance().newTransformer();
+        // Запись в файл:
+        transformer.transform(<b>new</b> DOMSource(doc), 
+            <b>new</b> StreamResult(<b>new</b> FileOutputStream(<b>new</b> File(&quot;HelloDOM.xml&quot;))));
+    }
+  
+}</pre>
+</blockquote>
+<p class="justified">После выполнения программы в файле проекта можно будет найти следующий файл (<tt>HelloDOM.xml</tt>):</p>
+<blockquote>
+  <pre>&lt;?<strong>xml</strong> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&lt;<strong>Greetings</strong>&gt;
+    &lt;<strong>Hello</strong> Text=&quot;Привет, здесь был DOM!&quot;&gt;
+        Привет, здесь тоже был DOM!
+    &lt;/<strong>Hello</strong>&gt;
+&lt;/<strong>Greetings</strong>&gt;</pre>
+</blockquote>
+<p class="justified">В приведенном примере для сохранения измененного документа в файле используется класс <code>javax.xml.transform.Transformer</code>. В общем случае этот класс используется при реализации так называемого XSLT-преобразования. <i>XSLT</i> (eXtensible Stylesheet Language Transformations) &#8211; язык преобразований XML-документов в другие XML-документы или другие объекты, такие как HTML, обычный текст и т. д. XSLT-процессор принимает один или несколько XML-документов источника, а также один или несколько модулей преобразования, и обрабатывает их для получения выходного документа. Преобразование содержит набор правил шаблона: инструкции и другие директивы, которыми руководствуется XSLT-процессор при генерации выходного документа.</p>
+<h4>1.1.4 Использование шаблона документа и схемы документа</h4>
+<p class="justified">Структурированные данные, которые могут быть представленными в форме XML-файла, требуют дополнительной информации. Наиболее распространены два основных формата представления такой информации &#8211; Определение шаблона документа (DTD) и Схема документа (XSD).</p>
+<p class="justified"><i>DTD (Document Template Definition)</i> &#8211; набор правил, которые позволяют однозначно определить структуру определенного класса XML-документов. Директивы DTD могут быть присутствующими как в заголовке самого XML-документа (internal DTD), так и в другом файле (external DTD). Наличие DTD не является обязательным. Тем не менее, XML-документ, который не содержит DTD, или не указывает на него, не может считаться &quot;правильным&quot; (valid).</p>
+<p class="justified">Использование шаблона документа можно продемонстрировать на следующем примере. Предположим, мы имеем такой XML-файл:</p>
+<blockquote>
+  <pre>&lt;?<b>xml</b> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;<b>Pairs</b>&gt;
+    &lt;<b>Pair</b>&gt;
+        &lt;<b>x</b>&gt;1&lt;/<b>x</b>&gt;
+        &lt;<b>y</b>&gt;4&lt;/<b>y</b>&gt;
+    &lt;/<b>Pair</b>&gt;
+    &lt;<b>Pair</b>&gt;
+        &lt;<b>x</b>&gt;2&lt;/<b>x</b>&gt;
+        &lt;<b>y</b>&gt;2&lt;/<b>y</b>&gt;
+    &lt;/<b>Pair</b>&gt;
+        . . .
+&lt;/<b>Pairs</b>&gt;</pre>
+</blockquote>
+<p class="justified">В нашем случае DTD-файл будет иметь такое содержимое:</p>
+<blockquote>
+  <pre>&lt;?<b>xml</b> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!<b>ELEMENT</b> Pair (x, y)&gt;
+&lt;!<b>ELEMENT</b> x (#PCDATA)&gt;
+&lt;!<b>ELEMENT</b> y (#PCDATA)&gt;
+&lt;!<b>ELEMENT</b> Pairs (Pair+)&gt;</pre>
+</blockquote>
+<p class="justified">Знак плюс в последней строке означает, что элементов <code>Pair</code> внутри тега <code>Pairs</code> может быть один или много. Это существенно с точки зрения следующей генерации классов. Кроме +, можно также использовать * (0 или много), вопросительный знак (0 или 1). Отсутствие знака означает, что элементов должно быть ровно один.</p>
+<p class="justified">В приведенном примере вместо <code>#PCDATA</code> можно использовать <code>NMTOKEN</code>. Это означает, что в соответствующем месте документа может находиться одна лексема. Для описания атрибутов используется тег <code>ATTLIST</code>. </p>
+<p class="justified">Для того, чтобы исходный документ считался правильным, к нему следует добавить ссылку на файл шаблона:</p>
+<blockquote>
+  <pre>&lt;?<b>xml</b> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!<b>DOCTYPE</b> Pairs SYSTEM &quot;YMax/Pairs.dtd&quot;&gt;
+. . .</pre>
+</blockquote>
+<p class="justified"><i>XML Schema</i> представляет собой альтернативный DTD способ задания структуры документа. Схема удобнее, чем DTD тем, что описание структуры документа выполнено на самом XML, в то время как DTD использует директивы, синтаксис которых не имеет ничего общего с синтаксисом XML. Кроме того, XML схема своими возможностями существенным образом превосходит DTD. Например, в схеме можно указывать типы тегов и атрибутов, определять ограничения и т.д.</p>
+<p class="justified">XML-документ, который является правильно оформленным, ссылается на грамматические правила и полностью им соответствует, называется <i>валидным</i> (valid) документом.</p>
+<p class="justified">Для того чтобы предотвратить конфликты имен тегов, в XML можно создавать так называемые пространства имен. Пространство имен определяет префикс, связанный с определенной схемой документа и прилагается к тегам. Собственное пространство имен определяется с помощью конструкции вроде следующей:</p>
+<blockquote>
+  <pre>&lt;<b>root</b> xmlns:pref=&quot;http://www.someaddress.org/&quot;&gt;</pre>
+</blockquote>
+<p class="justified">В этом примере <b><code>root</code></b> &#8211; корневой тег XML-документа, <code>pref</code> &#8211; префикс, который определяет пространство имен, &quot;<code>http://www.someaddress.org/</code>&quot; &#8211; некоторый адрес, например, доменное имя автора схемы. Программы, которые обрабатывают XML-документы, никогда не проверяют этот адрес. Он необходим только для обеспечения уникальности пространства имен.</p>
+<p class="justified">Непосредственно схема использует пространство имен <code>xs</code>.</p>
+<p class="justified">Использование схемы документа можно продемонстрировать на следующем примере. Предположим, мы имеем такой XML-файл:</p>
+<blockquote>
+  <pre>&lt;?<b>xml</b> version=&quot;1.0&quot; encoding=&quot;Windows-1251&quot; ?&gt;
+&lt;<b>Student </b>Name=&quot;Джон&quot; Surname=&quot;Смит&quot;&gt;
+    &lt;<b>Marks</b>&gt;
+        &lt;<b>Mark</b> Subject=&quot;Математика&quot; Value=&quot;4&quot;/&gt;
+        &lt;<b>Mark</b> Subject=&quot;Физика&quot; Value=&quot;5&quot;/&gt;
+        &lt;<b>Mark</b> Subject=&quot;Программирование&quot; Value=&quot;3&quot;/&gt;
+    &lt;/<b>Marks</b>&gt;
+    &lt;<b>Comments</b>&gt;
+        Не наш студент
+    &lt;/<b>Comments</b>&gt;
+&lt;/<b>Student</b>&gt;</pre>
+</blockquote>
+<p class="justified">Создание файла схемы следует начинать со стандартной конструкции:</p>
+<blockquote>
+  <pre>&lt;<b>?xml</b> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;<b>xs:schema</b> xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
+   . . .
+&lt;/<b>xs:schema</b>&gt;</pre>
+</blockquote>
+<p class="justified">Между тегами <code>&lt;<b>xs:schema</b>&gt;</code> и <code>&lt;/<b>xs:schema</b>&gt;</code> будет расположена информация о схеме документа. Для того, чтобы описать теги документа, внутри него можно добавлять стандартные теги. Для сложных тегов, в которые вкладываются другие, или которые имеют параметры:</p>
+<blockquote>
+  <pre>&lt;<b>xs:element</b> name=&quot;<i>имя тега</i>&quot;&gt;
+     &lt;<b>xs:complexType</b>&gt;
+       . . .
+     &lt;/<b>xs:complexType</b>&gt;
+&lt;/<b>xs:element</b>&gt;
+</pre>
+</blockquote>
+<p class="justified">Внутри тега можно разместить список элементов:</p>
+<blockquote>
+  <pre>&lt;<b>xs:sequence</b>&gt;
+   . . .
+&lt;/<b>xs:sequence</b>&gt;</pre>
+</blockquote>
+<p class="justified"> Можно разместить ссылки на другой тег:</p>
+<blockquote>
+  <pre>&lt;<b>xs:element</b> ref=&quot;<i>имя другого тега</i>&quot;/&gt;</pre>
+</blockquote>
+<p class="justified">Для элементов, которые непосредственно содержат данные, используют такой тег</p>
+<blockquote>
+  <pre>&lt;<b>xs:element</b> name=&quot;<i>имя тега</i>&quot; type=&quot;<i>имя типа</i>&quot;/&gt;</pre>
+</blockquote>
+<p class="justified">Имена типов &#8211; это стандартные имена, некоторые из которых приведенные в следующей таблице:</p>
+<div>
+  <table class="simple" width="60%" border="1" cellspacing="0" cellpadding="3">
+    <tr valign="top">
+      <td width="15%">
+        <div align="center"><b>Имя</b></div></td>
+      <td width="85%">
+        <div align="center"><b>Описание</b></div></td>
+    </tr>
+    <tr valign="top">
+      <td width="15%"><b><code>xs:string</code></b></td>
+      <td width="85%">Строка символов как последовательность 10646 символов Unicode или ISO/IEC, включая пробел, символ табуляции, возврат каретки и перевод строки</td>
+    </tr>
+    <tr valign="top">
+      <td width="15%"><b><code>xs:integer</code></b></td>
+      <td width="85%">Целое значение</td>
+    </tr>
+    <tr valign="top">
+      <td width="15%"><b><code>xs:boolean</code></b></td>
+      <td width="85%">Бинарные логические значения: <code>true</code> или <code>false</code>, 1 или 0. </td>
+    </tr>
+    <tr valign="top">
+      <td width="15%"><b><code>xs:float</code></b></td>
+      <td width="85%">32-битное число с плавающей запятой</td>
+    </tr>
+    <tr valign="top">
+      <td width="15%"><b><code>xs:double</code></b></td>
+      <td width="85%">64-битное число с плавающей запятой</td>
+    </tr>
+    <tr valign="top">
+      <td width="15%"><b><code>xs:anyURI</code></b></td>
+      <td width="85%">Универсальный идентификатор ресурса (Uniform Resource Identifier)</td>
+    </tr>
+  </table>
+</div>
+<p class="justified"> Тег</p>
+<blockquote>
+  <pre>&lt;<b>xs:attribute</b> name=&quot;<i>имя атрибута</i>&quot; type=&quot;<i>имя типа</i>&quot; /&gt;</pre>
+</blockquote>
+<p class="justified">позволяет описывать атрибуты.</p>
+<p class="justified">Существует также большое количество дополнительных параметров тегов. Параметр <code>maxOccurs</code> задает максимальное количество вхождений элемента, <code>minOccurs</code> задает минимальное количество вхождений элемента, <code>unbounded</code> определяет неограниченное количество вхождений, <code>required</code> определяет обязательное вхождение, <code>mixed</code> задает элемент как имеющий смешанный тип и т.д.</p>
+<p class="justified">Для нашего студента можно предложить такой файл схемы (<tt>Student.xsd</tt>):</p>
+<blockquote>
+  <pre>&lt;?<b>xml</b> version=&quot;1.0&quot;?&gt;
+&lt;<b>xs:schema</b> xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
+  &lt;<b>xs:element</b> name=&quot;Student&quot;&gt;
+    &lt;<b>xs:complexType</b>&gt;
+      &lt;<b>xs:sequence</b>&gt;
+        &lt;<b>xs:element</b> name=&quot;Comments&quot; type=&quot;xs:string&quot;/&gt;
+        &lt;<b>xs:element</b> name=&quot;Marks&quot;&gt;
+          &lt;<b>xs:complexType</b>&gt;
+            &lt;<b>xs:sequence</b>&gt;
+              &lt;<b>xs:element</b> ref=&quot;Mark&quot; maxOccurs=&quot;unbounded&quot;/&gt;
+            &lt;/<b>xs:sequence</b>&gt;
+          &lt;/<b>xs:complexType</b>&gt;
+        &lt;/<b>xs:element</b>&gt;
+      &lt;/<b>xs:sequence</b>&gt;
+      &lt;<b>xs:attribute</b> name=&quot;Name&quot; type=&quot;xs:string&quot; /&gt;
+      &lt;<b>xs:attribute</b> name=&quot;Surname&quot; type=&quot;xs:string&quot; /&gt;
+    &lt;/<b>xs:complexType</b>&gt;
+  &lt;/<b>xs:element</b>&gt;
+  &lt;<b>xs:element</b> name=&quot;Mark&quot;&gt;
+    &lt;<b>xs:complexType</b>&gt;
+      &lt;<b>xs:attribute</b> name=&quot;Subject&quot; type=&quot;xs:string&quot; /&gt;
+      &lt;<b>xs:attribute</b> name=&quot;Value&quot; type=&quot;xs:string&quot; /&gt;
+    &lt;/<b>xs:complexType</b>&gt;
+  &lt;/<b>xs:element</b>&gt;
+&lt;/<b>xs:schema</b>&gt;</pre>
+</blockquote>
+<p><em>Примечание</em>: в IntelliJ IDEA имеется возможность генерации схемы по XML-документу с помощью соответствующей функции контекстного меню. </p>
+<h3>1.2 Технология связывания данных</h3>
+<p class="justified">Использование языка Java предусматривает удобный способ работы с XML-файлами &#8211; механизм связывания данных. Этот механизм предусматривает генерацию набора классов, которые описывают элементы файла и создания соответствующей структуры объектов в памяти.</p>
+<p class="justified">Средство связывания данных XML содержит компилятор схемы, который транслирует схему в набор специфичных для схемы классов с соответствующими методами доступа и изменения (т.е. <code>get</code> и <code>set</code>). Он также содержит механизм <i>маршализации</i> (записи структурированных данных в XML-документ), поддерживает <i>демаршализацию</i> XML документов в соответствующую структуру взаимосвязанных экземпляров. Автоматически созданной структурой данных можно пользоваться без ручного размещения данных в списках или массивах.</p>
+<p class="justified">Традиционно первой технологией связывания данных была технология Castor. Позже был стандартизирован API JAXB (Java Architecture for XML Binding). Версия 2 спецификации JAXB предполагает как генерацию классов по схеме, так и генерацию схемы по существующей структуре классов.
+<p class="justified">Для поддержки стандартных технологий API JAXB в среде IntelliJ IDEA Community Edition необходимо выполнить некоторые настройки. Один из путей реализации технологии JAXB - подключение утилиты <code>xjc.exe</code>, входящей в набор средств JDK. Эту утилиту можно запускать в командной строке, однако целесообразнее настроить контекстное меню. В окне <tt>Settings</tt> выбираем <tt>Tools | External Tools</tt> и нажимаем кнопку &quot;<tt>+</tt>&quot;. В открывшемся диалоговом окне <tt>Edit Tool</tt> вводим имя (<tt>Name:</tt>) новой команды <code>Generate JAXB Classes</code>, путь к утилите <code>xjc.exe</code> (<tt>Program:</tt>), который на конкретном компьютере следует выбрать в диалоговом окне выбора файлов (кнопка &quot;<tt>...</tt>&quot;) и параметры (<tt>Parameters:</tt>), которые в нашем случае будут такими:
+<blockquote>
+  <pre class="justified">-p $FileFQPackage$ -d &quot;$SourcepathEntry$&quot; &quot;$FilePath$&quot; </pre>
+</blockquote>
+<p class="justified"><em>Примечание. </em>Для поддержки стандартых технологий API JAXB в среде Eclipse 2018-12 должны быть установлены средства Dali Java Persistence Tools. Если в Eclipse не установлены необходимые программные средства, их можно добавить с помощью главного меню Eclipse <tt>Help | Install New Software</tt>, далее в строке <tt>Work with:</tt> выбираем <code>2018-12 - http://download.eclipse.org/releases/2018-12</code>. Далее находим в списке <tt>Web, XML, Java EE and OSGi Enterprise Development</tt>, в подсписке выбираем     <tt>Dali Java Persistence Tools - JPA Diagram Editor</tt> и нажимаем <tt>Finish</tt>. Для работы генератора классов требуется JDK, а не JRE. В опциях Eclipse (<tt>Window | Preferences</tt>) выбираем <tt>Java | Installed JREs</tt>, далее <tt>Add...</tt>, <tt>Next</tt>, <tt>Directory...</tt> Необходимо выбрать установленную ранее JDK и нажать <tt>Finish</tt>. После этого в списке установленных JRE, которую нужно выбрать по умолчанию и нажать <tt>OK</tt>. Если проект был создан ранее, ему следует установить JDK в качестве JRE по умолчанию в опциях проекта (<tt>Project | Properties | Java Build Path</tt> далее <tt>Edit...</tt> и <tt>Alternate JRE</tt>, в соответствующей строке выбираем установленную ранее JDK). </p>
+<p class="justified">Теперь можно создать новый проект, затем пакет, и поместить в него файл схемы со следующим содержанием:</p>
+<blockquote>
+  <pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;xs:schema xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
+    &lt;xs:element name=&quot;Greetings&quot;&gt;
+        &lt;xs:complexType&gt;
+            &lt;xs:sequence&gt;
+                &lt;xs:element name=&quot;Hello&quot; &gt;
+                    &lt;xs:complexType&gt;
+                        &lt;xs:attribute name=&quot;Text&quot; type=&quot;xs:string&quot; use=&quot;required&quot; /&gt;
+                    &lt;/xs:complexType&gt;
+                &lt;/xs:element&gt;
+            &lt;/xs:sequence&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;
+&lt;/xs:schema&gt;</pre>
+</blockquote>
+<p class="justified">Oсуществляем генерацию классов с использованием контекстного меню (<tt>External Tools | Generate JAXB Classes</tt>). </p>
+<p class="justified"><em>Примечание. </em>В среде Eclipse необходимо выбрать файл xsd в дереве <tt>Package Explorer</tt>. В контекстном меню выбираем <tt>Generate | JAXB Classes</tt>. Далее в мастере генерации классов указываем проект, пакет и другие дополнительные сведения, если необходимо. В случае успешного завершения генерации в указанном пакете появятся сгенерированные классы.</p>
+<p class="justified">Сгенерированы такие классы. Класс <code>ObjectFactory</code>:</p>
+<blockquote>
+  <pre>//
+// This file was generated by the JavaTM Architecture <b>for</b> XML Binding(JAXB) Reference Implementation, v2.2.8-b130911.1802 
+// See &lt;a href=&quot;http://java.sun.com/xml/jaxb&quot;&gt;http://java.sun.com/xml/jaxb&lt;/a&gt; 
+// Any modifications to this file will be lost upon recompilation of the source schema. 
+// Generated on: 2015.11.28 at 01:26:26 PM EET 
+//
+
+
+<b>package</b> ua.inf.iwanoff.xml;
+
+<b>import</b> javax.xml.bind.annotation.XmlRegistry;
+
+
+/**
+ * This object contains factory methods for each 
+ * Java content interface and Java element interface 
+ * generated in the ua.inf.iwanoff.xml package. 
+ * &lt;p&gt;An ObjectFactory allows you to programatically 
+ * construct new instances of the Java representation 
+ * for XML content. The Java representation of XML 
+ * content can consist of schema derived interfaces 
+ * and classes representing the binding of schema 
+ * type definitions, element declarations and model 
+ * groups.  Factory methods for each of these are 
+ * provided in this class.
+ * 
+ */
+@XmlRegistry
+<b>public class</b> ObjectFactory {
+
+
+    /**
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: ua.inf.iwanoff.xml
+     * 
+     */
+    <b>public</b> ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link Greetings }
+     * 
+     */
+    <b>public</b> Greetings createGreetings() {
+        <b>return new</b> Greetings();
+    }
+
+    /**
+     * Create an instance of {@link Greetings.Hello }
+     * 
+     */
+    <b>public</b> Greetings.Hello createGreetingsHello() {
+        <b>return new</b> Greetings.Hello();
+    }
+
+}
+</pre>
+</blockquote>
+<p class="justified">Класс <code>Greetings</code>:</p>
+<blockquote>
+  <pre>//
+// This file was generated by the JavaTM Architecture for XML Binding(JAXB) Reference Implementation, v2.2.8-b130911.1802 
+// See &lt;a href=&quot;http://java.sun.com/xml/jaxb&quot;&gt;http://java.sun.com/xml/jaxb&lt;/a&gt; 
+// Any modifications to this file will be lost upon recompilation of the source schema. 
+// Generated on: 2015.11.28 at 01:26:26 PM EET 
+//
+
+
+<b>package</b> ua.inf.iwanoff.xml;
+
+<b>import</b> javax.xml.bind.annotation.XmlAccessType;
+<b>import</b> javax.xml.bind.annotation.XmlAccessorType;
+<b>import</b> javax.xml.bind.annotation.XmlAttribute;
+<b>import</b> javax.xml.bind.annotation.XmlElement;
+<b>import</b> javax.xml.bind.annotation.XmlRootElement;
+<b>import</b> javax.xml.bind.annotation.XmlType;
+
+
+/**
+ * &lt;p&gt;Java <b>class for</b> anonymous complex type.
+ * 
+ * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
+ * 
+ * &lt;pre&gt;
+ * &amp;lt;complexType&gt;
+ *   &amp;lt;complexContent&gt;
+ *     &amp;lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *       &amp;lt;sequence&gt;
+ *         &amp;lt;element name=&quot;Hello&quot;&gt;
+ *           &amp;lt;complexType&gt;
+ *             &amp;lt;complexContent&gt;
+ *               &amp;lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *                 &amp;lt;attribute name=&quot;Text&quot; use=&quot;required&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot; /&gt;
+ *               &amp;lt;/restriction&gt;
+ *             &amp;lt;/complexContent&gt;
+ *           &amp;lt;/complexType&gt;
+ *         &amp;lt;/element&gt;
+ *       &amp;lt;/sequence&gt;
+ *     &amp;lt;/restriction&gt;
+ *   &amp;lt;/complexContent&gt;
+ * &amp;lt;/complexType&gt;
+ * &lt;/pre&gt;
+ * 
+ * 
+ */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = &quot;&quot;, propOrder = {
+    &quot;hello&quot;
+})
+@XmlRootElement(name = &quot;Greetings&quot;)
+<b>public class</b> Greetings {
+
+    @XmlElement(name = &quot;Hello&quot;, required = true)
+    <b>protected</b> Greetings.Hello hello;
+
+    /**
+     * Gets the value of the hello property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Greetings.Hello }
+     *     
+     */
+    <b>public</b> Greetings.Hello getHello() {
+        <b>return</b> hello;
+    }
+
+    /**
+     * Sets the value of the hello property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Greetings.Hello }
+     *     
+     */
+    <b>public void</b> setHello(Greetings.Hello value) {
+        <b>this</b>.hello = value;
+    }
+
+
+    /**
+     * &lt;p&gt;Java class for anonymous complex type.
+     * 
+     * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
+     * 
+     * &lt;pre&gt;
+     * &amp;lt;complexType&gt;
+     *   &amp;lt;complexContent&gt;
+     *     &amp;lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+     *       &amp;lt;attribute name=&quot;Text&quot; use=&quot;required&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot; /&gt;
+     *     &amp;lt;/restriction&gt;
+     *   &amp;lt;/complexContent&gt;
+     * &amp;lt;/complexType&gt;
+     * &lt;/pre&gt;
+     * 
+     * 
+     */
+    @XmlAccessorType(XmlAccessType.FIELD)
+    @XmlType(name = &quot;&quot;)
+    <b>public static class</b> Hello {
+
+        @XmlAttribute(name = &quot;Text&quot;, required = <b>true</b>)
+        <b>protected</b> String text;
+
+        /**
+         * Gets the value of the text property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link String }
+         *     
+         */
+        <b>public</b> String getText() {
+            <b>return</b> text;
+        }
+
+        /**
+         * Sets the value of the text property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link String }
+         *     
+         */
+        <b>public void</b> setText(String value) {
+            <b>this</b>.text = value;
+        }
+
+    }
+
+}
+</pre>
+</blockquote>
+<p class="justified">В приведенном коде аннотации управляют представлением данных в XML-документе.</p>
+<p class="justified">В корне проекта размещаем файл <tt>Hello2.xml</tt>:</p>
+<blockquote>
+  <pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;Greetings&gt;
+    &lt;Hello Text=&quot;Привет, XML!&quot; /&gt;
+&lt;/Greetings&gt;    </pre>
+</blockquote>
+<p class="justified">Теперь можно создать класс <code>HelloJAXB</code> и в его функции <code>main()</code> осуществить действия по загрузке документа, чтению и изменению значения атрибута и записи в новый файл:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.xml;
+
+<b>import</b> java.io.*;
+<b>import</b> javax.xml.bind.*;
+<b>public class</b> HelloJAXB {
+
+    <b>public static void</b> main(String[] args) {
+        <b>try</b> {
+            // Через объект класса JAXBContext обеспечивается доступ к средствам JAXB API
+            // Указываем пакет с необходимыми классами:
+            JAXBContext jaxbContext = JAXBContext.newInstance(&quot;ua.inf.iwanoff.xml&quot;);
+            // Читаем данные из файла и загружаем в объект сгенерированного класса:
+            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            Greetings greetings = (Greetings)unmarshaller.unmarshal(<b>new</b> FileInputStream(&quot;Hello2.xml&quot;));
+            // Выводим старое значение атрибута:
+            System.out.println(greetings.getHello().getText());
+            // Меняем значение атрибута:
+            greetings.getHello().setText(&quot;Привет, JAXB!&quot;);
+            // Создаем объект-Marshaller для вывода в файл:
+            Marshaller marshaller = jaxbContext.createMarshaller();
+            // &quot;Включаем&quot; форматирование:
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            // Сохраняем объект в новом файле:
+            marshaller.marshal(greetings, <b>new</b> FileWriter(&quot;HelloJAXB.xml&quot;));
+        }
+        <b>catch</b> (JAXBException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}
+</pre>
+</blockquote>
+<p class="justified">Новый файл <tt>HelloJAXB.xml</tt> будет иметь вид:</p>
+<blockquote>
+  <pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;
+&lt;Greetings&gt;
+    &lt;Hello Text=&quot;Привет, JAXB!&quot;/&gt;
+&lt;/Greetings&gt;</pre>
+</blockquote>
+<p class="justified">Как видно из примера, технология связывания данных обеспечивает более качественное форматирование XML-документа.</p>
+<h3>1.3 Сериализация в XML-файлы</h3>
+<p class="justified">Главным недостатком описанной ранее стандартной сериализации (классы <code>ObjectOutputStream</code> и <code>ObjectInputStream</code>) является необходимость работы с двоичными (нетекстовыми) файлами. Обычно такие файлы используют не для долгосрочного хранения данных, а для единовременного хранения и восстановления объектов. Безусловно, более удобной и управляемой является сериализация в текстовый файл, в частности, в XML-документ. Существует несколько подходов к сериализации и десериализации, построенной на XML. Наиболее простым является подход, основанный на использовании классов <code>java.beans.XMLEncoder</code> и <code>java.beans.XMLDecoder</code>. Наиболее естественное применение этих классов &#8211; хранение и воспроизведение элементов графического интерфейса. Но можно также хранить объекты других классов, удовлетворяющих спецификации Java Beans.</p>
+<p class="justified">Java Bean <code>-</code> это класс, удовлетворяющий следующим требованиям: </p>
+<ul>
+  <li>класс открытый (<b><code>public</code></b>) </li>
+  <li>отсутствуют открытые данные (открытыми могут быть только методы)</li>
+  <li>класс должен реализовывать интерфейс <code>java.io.Serializable</code></li>
+  <li>пара методов с именами <code>setNnn()</code> и <code>getNnn()</code> образуют свойство с именем <code>nnn</code> и соответствующим типом. Для свойств типа <b><code>boolean</code></b> наиболее часто используют &quot;<code>is</code>&quot; вместо &quot;<code>get</code>&quot;.</li>
+</ul>
+<p class="justified">Ранее были реализованы классы <code>Line</code> и <code>Point</code>. XML-сериализация не требует реализации интерфейса <code>Serializable</code>. Однако классы должны быть открытыми, иметь открытые функции доступа (геттеры и сеттеры) к закрытым полям. Класс <code>Point</code>:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.xml;
+
+<b>public class</b> Point <b>implements</b> java.io.Serializable {
+    <b>private static final long</b> serialVersionUID = -3566722853756147165L;
+    <b>private double</b> x, y;
+
+    <b>public void</b> setX(<b>double</b> x) {
+        <b>this</b>.x = x;
+    }
+
+    <b>public void</b> setY(<b>double</b> y) {
+        <b>this</b>.y = y;
+    }
+
+    <b>public double</b> getX() {
+        <b>return</b> x;
+    }
+
+    <b>public double</b> getY() {
+        <b>return</b> y;
+    }
+
+}</pre>
+</blockquote>
+<p class="justified">Класс <code>Line</code>:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.xml;
+
+<b>public class</b> Line <b>implements</b> java.io.Serializable {
+    <b>private static final long</b> serialVersionUID = 5364062177715773963L;
+    <b>private</b> Point first = <b>new</b> Point(), second = <b>new</b> Point();
+
+    <b>public void</b> setFirst(Point first) {
+        <b>this</b>.first = first;
+    }
+
+  <b>  public</b> Point getFirst() {
+        <b>return</b> first;
+    }
+
+    <b>public</b> Point getSecond() {
+        <b>return</b> second;
+    }
+
+    <b>public void</b> setSecond(Point second) {
+        <b>this</b>.second = second;
+    }
+
+}</pre>
+</blockquote>
+<p class="justified">Можно предложить такой код, который обеспечивает XML-сериализацию:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.xml;
+
+<b>import</b> java.beans.XMLEncoder;
+<b>import</b> java.io.*;
+
+<b>public class</b> XMLSerialization {
+
+    <b>public static void</b> main(String[] args) {
+        Line line = <b>new</b> Line();
+        line.getFirst().setX(1);
+        line.getFirst().setY(2);
+        line.getSecond().setX(3);
+        line.getSecond().setY(4);
+        <b>try</b> (XMLEncoder xmlEncoder = <b>new</b> XMLEncoder(<b>new</b> FileOutputStream(&quot;Line.xml&quot;))) {
+            xmlEncoder.writeObject(line);
+            xmlEncoder.flush();
+        }
+        <b>catch</b> (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}
+</pre>
+</blockquote>
+<p class="justified">После выполнения программы мы получим такой XML-файл:</p>
+<blockquote>
+  <pre>&lt;?<b>xml version</b>=&quot;1.0&quot; <b>encoding</b>=&quot;UTF-8&quot;?&gt;
+&lt;<b>java version</b>=&quot;1.7.0_51&quot; <b>class</b>=&quot;java.beans.XMLDecoder&quot;&gt;
+ &lt;<b>object class</b>=&quot;ua.inf.iwanoff.xml.Line&quot;&gt;
+  &lt;<b>void property</b>=&quot;first&quot;&gt;
+   &lt;<b>void property</b>=&quot;x&quot;&gt;
+    &lt;<b>double</b>&gt;1.0&lt;/<b>double</b>&gt;
+   &lt;/<b>void</b>&gt;
+   &lt;<b>void property</b>=&quot;y&quot;&gt;
+    &lt;<b>double</b>&gt;2.0&lt;/<b>double</b>&gt;
+   &lt;/<b>void</b>&gt;
+  &lt;/<b>void</b>&gt;
+  &lt;<b>void property</b>=&quot;second&quot;&gt;
+   &lt;<b>void property</b>=&quot;x&quot;&gt;
+    &lt;<b>double</b>&gt;3.0&lt;/<b>double</b>&gt;
+   &lt;/<b>void</b>&gt;
+   &lt;<b>void property</b>=&quot;y&quot;&gt;
+    &lt;<b>double</b>&gt;4.0&lt;/<b>double</b>&gt;
+   &lt;/<b>void</b>&gt;
+  &lt;/<b>void</b>&gt;
+ &lt;/<b>object</b>&gt;
+&lt;/<b>java</b>&gt;    </pre>
+</blockquote>
+<p class="justified">Теперь можно осуществить десериализацию с помощью такого кода:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.xml;
+
+<b>import</b> java.beans.XMLDecoder;
+<b>import</b> java.io.*;
+
+<b>public class</b> XMLDeserialization {
+
+    <b>public static void</b> main(String[] args) {
+        <b>try</b> (XMLDecoder xmlDecoder = <b>new</b> XMLDecoder(<b>new</b> FileInputStream(&quot;Line.xml&quot;))) {
+            Line line = (Line)xmlDecoder.readObject();
+            System.out.println(line.getFirst().getX() + &quot; &quot; + line.getFirst().getY() + &quot; &quot; +
+                               line.getSecond().getX() + &quot; &quot; + line.getSecond().getY());
+        }
+        <b>catch</b> (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}
+</pre>
+</blockquote>
+<p class="justified">Существуют также другие (нестандартные) реализации XML-сериализации. Одно из наиболее популярных решений - использование библиотеки XStream.</p>
+<h3>&nbsp;</h3>
+<p class="justified">&nbsp;</p>
+<h2>2 Примеры программ</h2>
+<h3>2.1 Использование технологии DOM<b></b></h3>
+<p class="justified">Предположим, подготовлен XML-документ с данными о континенте (<tt>Continent.xml</tt>):</p>
+<blockquote>
+  <pre>&lt;?<b>xml</b> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;<b>ContinentData</b> Name=&quot;Европа&quot;&gt;
+    &lt;<b>CountriesData</b>&gt;
+        &lt;<b>CountryData</b> Name=&quot;Украина&quot; Area=&quot;603700&quot; Population=&quot;46314736&quot; &gt;
+            &lt;<b>CapitalData</b> Name=&quot;Киев&quot; /&gt;
+        &lt;/<b>CountryData</b>&gt;
+        &lt;<b>CountryData</b> Name=&quot;Франция&quot; Area=&quot;547030&quot; Population=&quot;61875822&quot; &gt;
+            &lt;<b>CapitalData</b> Name=&quot;Москва&quot; /&gt;
+        &lt;/<b>CountryData</b>&gt;
+        &lt;<b>CountryData</b> Name=&quot;Германия&quot; Area=&quot;357022&quot; Population=&quot;82310000&quot; &gt;
+            &lt;<b>CapitalData</b> Name=&quot;Берлин&quot; /&gt;
+        &lt;/<b>CountryData</b>&gt;
+    &lt;/<b>CountriesData</b>&gt;
+&lt;/<b>ContinentData</b>&gt;    </pre>
+</blockquote>
+<p class="justified"><i>Примечание</i>: ошибка со столицей Франции сделана умышленно.</p>
+<p class="justified">Необходимо средствами DOM прочитать данные, исправить ошибку и сохранить в новом файле. Программа будет иметь следующий вид:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.xml;
+
+<b>import</b> java.io.*;
+<b>import</b> org.w3c.dom.*;
+<b>import</b> javax.xml.parsers.*;
+<b>import</b> javax.xml.transform.*;
+<b>import</b> javax.xml.transform.dom.DOMSource;
+<b>import</b> javax.xml.transform.stream.StreamResult;
+
+<b>public class</b> ContinentWithDOM {
+
+    <b>public static void</b> main(String[] args) {
+        <b>try</b> {
+            Document doc;
+            DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            doc = db.parse(<b>new</b> File(&quot;Continent.xml&quot;));
+            Node rootNode = doc.getDocumentElement();
+          mainLoop: 
+      <b>      for</b> (<b>int</b> i = 0; i &lt; rootNode.getChildNodes().getLength(); i++) {
+                Node countriesNode = rootNode.getChildNodes().item(i);
+        <b>        if</b> (countriesNode.getNodeName().equals(&quot;CountriesData&quot;)) {
+          <b>          for</b> (<b>int</b> j = 0; j &lt; countriesNode.getChildNodes().getLength(); j++) {
+                        Node countryNode = countriesNode.getChildNodes().item(j);
+            <b>            if</b> (countryNode.getNodeName().equals(&quot;CountryData&quot;)) {
+                            // Находим атрибут по имени:
+                            <b>if</b> (countryNode.getAttributes().getNamedItem(&quot;Name&quot;).getNodeValue().equals(&quot;Франция&quot;)) {
+                                <b>for</b> (<b>int</b> k = 0; k &lt; countryNode.getChildNodes().getLength(); k++) {
+                                    Node capitalNode = countryNode.getChildNodes().item(k);
+                  <b>                  if</b> (capitalNode.getNodeName().equals(&quot;CapitalData&quot;)) {
+                                        capitalNode.getAttributes().getNamedItem(&quot;Name&quot;).setNodeValue(&quot;Париж&quot;);
+                    <b>                    break</b> mainLoop;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.transform(<b>new</b> DOMSource(doc), 
+                <b>new</b> StreamResult(<b>new</b> FileOutputStream(<b>new</b> File(&quot;CorrectedConinent.xml&quot;))));
+        }
+    <b>    catch</b> (Exception  e) {
+            e.printStackTrace();
+        }
+    }
+
+}</pre>
+</blockquote>
+<h3>2.2 Использование JAXB<b></b></h3>
+<p class="justified">Предыдущую задачу можно решить с помощью технологии JAXB. Для JAXB-классов создаем отдельный вложенный пакет <code>continent</code> внутри текущего пакета. В него помещаем схему документа (<tt>Continent.xsd</tt>):</p>
+<blockquote>
+  <pre>&lt;?<b>xml</b> version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;<b>xs:schema</b> xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
+    &lt;<b>xs:element</b> name=&quot;ContinentData&quot;&gt;
+        &lt;<b>xs:complexType</b>&gt;
+            &lt;<b>xs:sequence</b>&gt;
+                &lt;<b>xs:element</b> name=&quot;CountriesData&quot;&gt;
+                    &lt;<b>xs:complexType</b>&gt;
+                        &lt;<b>xs:sequence</b>&gt;
+                            &lt;<b>xs:element</b> maxOccurs=&quot;unbounded&quot; name=&quot;CountryData&quot;&gt;
+                                &lt;<b>xs:complexType</b>&gt;
+                                    &lt;<b>xs:sequence</b>&gt;
+                                        &lt;<b>xs:element</b> name=&quot;CapitalData&quot;&gt;
+                                            &lt;<b>xs:complexType</b>&gt;
+                                                &lt;<b>xs:attribute</b> name=&quot;Name&quot; type=&quot;xs:string&quot; use=&quot;required&quot; /&gt;
+                                            &lt;/<b>xs:complexType</b>&gt;
+                                        &lt;/<b>xs:element</b>&gt;
+                                    &lt;/<b>xs:sequence</b>&gt;
+                                    &lt;<b>xs:attribute</b> name=&quot;Name&quot; type=&quot;xs:string&quot; use=&quot;required&quot; /&gt;
+                                    &lt;<b>xs:attribute</b> name=&quot;Area&quot; type=&quot;xs:unsignedInt&quot; use=&quot;required&quot; /&gt;
+                                    &lt;<b>xs:attribute</b> name=&quot;Population&quot; type=&quot;xs:unsignedInt&quot; use=&quot;required&quot; /&gt;
+                                &lt;/<b>xs:complexType</b>&gt;
+                            &lt;/<b>xs:element</b>&gt;
+                        &lt;/<b>xs:sequence</b>&gt;
+                    &lt;/<b>xs:complexType</b>&gt;
+                &lt;/<b>xs:element</b>&gt;
+            &lt;/<b>xs:sequence</b>&gt;
+            &lt;<b>xs:attribute</b> name=&quot;Name&quot; type=&quot;xs:<b>string</b>&quot; use=&quot;required&quot; /&gt;
+        &lt;/<b>xs:complexType</b>&gt;
+    &lt;/<b>xs:element</b>&gt;
+&lt;/<b>xs:schema</b>&gt;    </pre>
+</blockquote>
+<p class="justified">Теперь можно сгенерировать классы. Для них создаем новый пакет <code>continent</code> внутри текущего пакета. Программа, использующая эти классы, будет иметь следующий вид:</p>
+<pre><b>package</b> ua.inf.iwanoff.xml;
+
+<b>import</b> java.io.*;
+<b>import</b> javax.xml.bind.*;
+<b>import</b> ua.inf.iwanoff.xml.continent.*;
+
+<b>public class</b> ContinentWithJAXB {
+
+    <b>public static void</b> main(String[] args) {
+        <b>try</b> {
+            JAXBContext jaxbContext = JAXBContext.newInstance(&quot;ua.inf.iwanoff.xml.continent&quot;);
+            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            ContinentData data = (ContinentData)unmarshaller.unmarshal(<b>new</b> FileInputStream(&quot;Continent.xml&quot;));
+            // Работаем со списком элементов CountryData:
+            <b>for</b> (ContinentData.CountriesData.CountryData c : data.getCountriesData().getCountryData()) {
+                <b>if</b> (c.getName().equals(&quot;Франция&quot;)) {
+                    c.getCapitalData().setName(&quot;Париж&quot;);
+                    <b>break</b>;
+                }
+            }
+            Marshaller marshaller = jaxbContext.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            marshaller.marshal(data, <b>new</b> FileWriter(&quot;CorrectedContinent.xml&quot;));
+        }
+        <b>catch</b> (JAXBException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}</pre>
+<h2>3 Задания на самостоятельную работу</h2>
+<h3>3.1 Использование технологии SAX*</h3>
+<p class="justified">Подготовить XML-документ с данными о студентах академической группы. С помощью технологии SAX осуществить чтение данных из XML-документа и вывод данных на консоль </p>
+<h3>3.2 Использование технологии DOM*</h3>
+<p class="justified">Подготовить XML-документ с данными о студентах академической группы. С помощью технологии DOM осуществить чтение данных из XML-документа, модификацию данных и запись их в новый документ.</p>
+<h3>3.3 Данные о городе*</h3>
+<p class="justified">Подготовить XML-документ, который описывает данные о городе. Сгенерировать классы с помощью технологии связывания данных (JAXB). Осуществить чтение данных из XML-документа, модификацию данных и запись их в новый документ.</p>
+<h3>3.4 Реализация сериализации и десериализации с использованием XML*</h3>
+<p class="justified">Разработать классы Студент и Академическая группа создать объекты, осуществить их XML-сериализацию и десериализацию.</p>
+<h2>4 Контрольные вопросы</h2>
+<ol>
+  <li>Для каких целей используются XML-документы?</li>
+  <li>Какие ограничения накладываются на структуру XML-документа, синтаксис и расположение тегов?</li>
+  <li>Чем отличаются технологии SAX и DOM?</li>
+  <li>Каким образом осуществляется чтение и запись XML-документов?</li>
+  <li>Что такое XSLT?</li>
+  <li>Чем отличается валидный (valid) и правильно оформленный (well-formed) XML-документ?</li>
+  <li>Чем отличаются шаблоны документа и схемы документа?</li>
+  <li>Является ли шаблон документа XML-документом? </li>
+  <li>Является ли схема документа XML-документом? </li>
+  <li>Для чего в XML-документах необходимые пространства имен? </li>
+  <li>В чем преимущества технологии связывания данных?</li>
+  <li>Какие существуют реализации технологии связывания данных?</li>
+  <li>Что такое маршализация и демаршализация?</li>
+  <li>Какие классы соответствуют спецификации Java Beans?</li>
+  <li>Какие преимущества и недостатки сериализации в XML?</li>
+</ol>
+<p>&nbsp;</p>
+    <div class="w3-clear nextprev">
+        <a class="btn btn-info float-left" href="topic_2_04.html">Предыдущая</a>
+        <a class="btn btn-info float-left disa" href="">Следующая</a>
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+<a href="#top" id="up">up</a>
+<footer class="container-fluid text-center">
+    <p>&copy; 2003-2019 Л.В.Иванов</p>
+</footer>
+<script>
+    $(document).ready(function () {
+        // Add smooth scrolling to all links in navbar + footer link
+        $("a[href='#top']").on('click', function (event) {
+
+            // Make sure this.hash has a value before overriding default behavior
+            if (this.hash !== "") {
+
+                // Prevent default anchor click behavior
+                event.preventDefault();
+
+                // Store hash
+                var hash = this.hash;
+
+                // Using jQuery's animate() method to add smooth page scroll
+                // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+                $('html, body').animate({
+                    scrollTop: $(hash).offset().top
+                }, 900, function () {
+
+                    // Add hash (#) to URL when done scrolling (default click behavior)
+                    window.location.hash = hash;
+                });
+            } // End if
+        });
+        var offset = 200;
+        var duration = 300;
+        $('#up').fadeOut(0);
+        $(window).scroll(function () {
+            var winTop = $(window).scrollTop();
+            if (winTop > offset) {
+                $('#up').css("opacity", "0.8");
+                $('#up').fadeIn(duration);
+            } else {
+                $('#up').fadeOut(duration);
+            }
+        });
+    })
+</script>
+
+</body>
+</html>

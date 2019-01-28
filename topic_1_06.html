@@ -1,0 +1,1362 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>1.06 - Вложенные типы. Интерфейсы. Лямбда-выражения и ссылки на методы</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background: #dfdfdf;
+        }
+
+        /* Remove the navbar's default margin-bottom and rounded borders */
+        .jumbotron {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        #header {
+            background-color: #445566;
+        }
+
+        #header h2, #header h4, #header h3, #header h5, #header p {
+            margin-left: -10px;
+            color: #ededed;
+        }
+
+        #header h2 {
+            font-weight: bold;
+        }
+
+        #header h4 {
+            font-size: 1.5em;
+        }
+
+        #content {
+            background: white;
+            padding-right: 9%;
+            box-sizing: border-box;
+        }
+
+        p {
+            text-align: justify;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        ul.nav, ul.side_menu {
+            list-style-type: none;
+            margin-left: -20px;
+        }
+
+        .navbar {
+            margin-bottom: 0;
+            border-radius: 0;
+        }
+
+        .navbar-inverse {
+            background-color: #445566;
+            border: none;
+            border-top: 1px solid white;
+        }
+
+        .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > li > a:hover {
+            background-color: #293b4c;
+        }
+
+        /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+        .row.content {
+            height: 450px
+        }
+
+        /* Set gray background color and 100% height */
+        .sidenav {
+            padding-top: 20px;
+            height: 100%;
+        }
+
+        .btn-info {
+            color: #fff;
+            background-color: #445566;
+            border: none;
+            border-radius: 0;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .btn-info:hover {
+            background-color: #293b4c;
+        }
+
+        .navbar-inverse .navbar-toggle:hover {
+            background-color: #293b4c;
+        }
+
+        .hide {
+            visibility: hidden;
+        }
+
+        .disa {
+            cursor: default;
+            opacity: 0.6;
+
+        }
+
+        .disa:hover {
+            background-color: #445566;
+        }
+
+        /* Set black background color, white text and some padding */
+        footer {
+            background-color: #293b4c;
+            color: white;
+            padding: 15px;
+        }
+
+        #up {
+            color: #fff;
+            position: fixed;
+            display: block;
+            background: #293b4c;
+            width: 40px;
+            height: 40px;
+            bottom: 64px;
+            right: 30px;
+            opacity: 0;
+            border-radius: 50%;
+            padding-left: 12px;
+            padding-top: 8px;
+            box-sizing: border-box;
+        }
+
+        /* On small screens, set height to 'auto' for sidenav and grid */
+        @media screen and (max-width: 990px) {
+            #content {
+                padding-right: 10px;
+            }
+
+            #up {
+                display: none !important;
+            }
+        }
+
+        /* On small screens, set height to 'auto' for sidenav and grid */
+        @media screen and (max-width: 767px) {
+            .sidenav {
+                height: auto;
+                padding: 15px;
+            }
+
+            .row.content {
+                height: auto;
+            }
+        }
+
+        @media only screen and (max-width: 600px) {
+            img.small_img {
+                width: 40%;
+                height: auto;
+            }
+
+            img.big_img {
+                width: 90%;
+                height: auto;
+            }
+        }
+
+        .justified {
+            text-align: justify;
+            font-weight: normal
+        }
+
+        tt {
+            color: #446699;
+        }
+    .style1 {	font-family: "Times New Roman", Times, serif;
+	font-style: italic;
+}
+    </style>
+</head>
+<body id="top">
+<div class="container-fluid text-left" id="header">
+    <div class="container text-left col-md-3 col-sm-12">
+        <img src="Images/icon-java.png" style="padding-top: 15px; box-sizing: border-box;">
+    </div>
+    <div class="container text-left col-md-9 col-sm-12">
+        <h2>Язык программирования и технологии Java</h2>
+        <h5>Разработчик курса Л. В. Иванов</h5>
+        <h4>Модуль 1 Объектно-ориентированное программирование и язык Java</h4>
+
+    </div>
+</div>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <!--div class="col-sm-12 col-md-3 sidenav">
+            </div-->
+
+            <ul class="nav navbar-nav">
+                <li><a href="index.html">Главная</a></li>
+                <li class="active"><a href="topic_1_01.html">Объектно-ориентированное программирование и язык Java</a>
+                </li>
+                <li><a href="topic_2_01.html">Платформа Java SE</a></li>
+                <li><a href="">Разработка приложений JAVA EE</a></li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid text-left">
+    <div class="row content">
+        <div class="col-sm-12 col-md-3 sidenav">
+            <ul class="side_menu">
+                <li>1 Объектно-ориентированное программирование и язык Java
+                    <ul class="side_menu">
+                        <li><a href="topic_1_01.html">01 Парадигмы программирования. Основы объектно-ориентированного подхода</a></li>
+                        <li><a href="topic_1_02.html">02 Язык программирования Java и Java-платформа</a></li>
+                        <li><a href="topic_1_03.html">03 Синтаксические конструкции языка Java</a></li>
+                        <li><a href="topic_1_04.html">04 Ссылочные типы. Массивы. Строки и классы-оболочки</a></li>
+                        <li><a href="topic_1_05.html">05 Определение классов.  Наследование и полиморфизм</a></li>
+                        <li>06 Вложенные типы. Интерфейсы. Лямбда-выражения и ссылки на методы</li>
+                        <li><a href="topic_1_07.html">07 Перечисления. Исключения. Использование обобщений</a></li>
+                        <li><a href="topic_1_08.html">08 Понятие паттернов проектирования. Порождающие паттерны</a></li>
+                    </ul>
+                </li>
+                <li>2 Платформа Java SE
+                  <ul class="side_menu">
+                        <li><a href="topic_2_01.html">01 Платформа Java SE и ее составляющие</a></li>
+                        <li><a href="topic_2_02.html">02 Работа с коллекциями в Java 7</a></li>
+                        <li><a href="topic_2_03.html">03 Работа с текстовыми данными. Локализация</a></li>
+                        <li><a href="topic_2_04.html">04 Работа с потоками ввода-вывода и файловой системой</a></li>
+                        <li><a href="topic_2_05.html">05 Работа с XML. XML-сериализация</a></li>
+                        <li>06 Тестирование и управление сборкой. Ведение системного журнала</li>
+                        <li>07 Работа с потоками выполнения</li>
+                        <li>08 Работа с контейнерами Java 8. Stream API</li>
+                        <li>09 Поддержка сетевого взаимодействия</li>
+                        <li>10 Работа с базами данных</li>
+                        <li>11 Использование RTTI и рефлексии. Метапрограммирование. Аннотации</a></li>
+                        <li>12 </a>Использование структурных паттернов</li>
+                  </ul>
+                </li>
+                <li>3 Основы разработки приложений Java EE
+                    <ul class="side_menu">
+                        <li>01 Платформа Java EE. Web-приложения. Создание сервлетов</li>
+                        <li>02 Основы создания страниц JSP</li>
+                        <li>03 Работа с EJB. Создание Web-сервисов</li>
+                        <li>04 Использование Spring Framework</li>
+                        <li>05 Использование паттернов поведения и распределения ответственности </li>
+                        <li>06 Дополнительные возможности Java 11</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="col-sm-12 col-md-9 text-left" id="content">
+            <div class="w3-clear nextprev">
+                <a class="btn btn-info float-left" href="topic_1_05.html">Предыдущая</a>
+                <a class="btn btn-info float-left" href="topic_1_07.html">Следующая</a>
+            </div>
+            <h1>Вложенные типы. Интерфейсы. Лямбда-выражения и ссылки на методы</h1>
+<h2>1 Теоретическая часть</h2>
+<h3>1.1 Вложенные классы</h3>
+<h4>1.1.1 Общие понятия</h4>
+<p>Определение класса может быть размещено внутри другого класса. Так могут быть созданы вложенные классы. Вложенные классы могут использоваться как внутри объемлющего класса, так и вне его.</p>
+<blockquote>
+  <pre><b>class</b> Outer {
+
+<b>    class</b> Inner {
+        <b>int</b> i; 
+    };
+
+    Inner inner = <b>new</b> Inner();
+}
+
+<b>class</b> Another {
+    Outer.Inner i;
+}</pre>
+</blockquote>
+<p>Вложенные классы могут быть объявлены со спецификаторами <b><code>public</code></b>, <b><code>private</code></b> или <b><code>protected</code></b>.</p>
+<p>К вложенным классам также относятся локальные. К таким классам нельзя обратиться извне блока, в котором они определены. Локальные классы обычно помещают в тело функции:</p>
+<blockquote>
+  <pre><b>void</b> f() {
+
+    <b>class</b> Local {
+        <b>int</b> j;
+    }
+
+    Local l = <b>new</b> Local();
+    l.j = 100;
+}</pre>
+</blockquote>
+<p>Можно также размещать локальные классы внутри отдельных блоков.</p>
+<h4>1.1.2 Внутренние классы</h4>
+<p>Нестатические вложенные классы называются также внутренними. Главным отличием внутренних классов в Java является то, что объекты этих классов получают ссылку на объемлющий объект. Из этого факта следует два важных вывода:</p>
+<ul>
+  <li>объекты внутренних классов имеют прямой доступ к данным объекта объемлющего класса;</li>
+  <li>для создания объекта внутреннего класса обязательно иметь в наличии объект объемлющего класса.</li>
+</ul>
+<p>В связи с последним обстоятельством в Java предложен специальный механизм создания объектов внутренних классов, который проиллюстрирован на следующем примере.</p>
+<blockquote>
+  <pre><b>class</b> Outer {
+    <b>int</b> k = 100;
+
+    <b>class</b> Inner {
+        <b>void</b> show() { 
+            System.out.println(k);
+        }
+    }
+
+} 
+
+<b>public</b> <b>class</b> Test {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        Outer outer = <b>new</b> Outer();
+        Outer.Inner inner = outer.<b>new</b> Inner();
+        inner.show();
+    } 
+
+}</pre>
+</blockquote>
+<p>Нестатические вложенные классы не могут содержать статических элементов.</p>
+<p>Главное отличие внутренних классов от композиции классов заключается в том, что объект внутреннего класса автоматически не создается. Создание объекта может быть предусмотрено в конструкторе или любом методе объемлющего класса, а также вне его (если этот класс не объявлен как <b><code>private</code></b>). Можно также создать массив объектов внутреннего класса. Каждый из таких объектов будет иметь доступ к ссылке на объемлющий объект.</p>
+<p>Внутренние классы могут иметь свои базовые классы. Так с помощью внутренних классов удается скомпенсировать отсутствующий в Java механизм множественного наследования:</p>
+<blockquote>
+  <pre><b>class</b> FirstBase {
+    <b>int</b> a = 1;
+}
+
+<b>class</b> SecondBase {
+    <b>int</b> b = 2;
+}
+
+<b>class</b> Outer <b>extends</b> FirstBase {
+    <b>int</b> c = 3;
+
+    <b>class</b> Inner <b>extends</b> SecondBase {
+        <b>void</b> show() {
+            System.out.println(a);
+            System.out.println(b);
+            System.out.println(c);
+        }
+    }
+
+}
+ 
+<b>public</b> <b>class</b> Test {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        Outer outer = <b>new</b> Outer();
+        Outer.Inner inner = outer.<b>new</b> Inner();
+        inner.show();
+    }
+
+}</pre>
+</blockquote>
+<h4>1.1.3 Безымянные классы</h4>
+<p>Безымянный класс может перекрывать абстрактные функции базового класса или расширять его, а также реализовывать некоторый интерфейс (реализация интерфейсов будет рассмотрена ниже).</p>
+<blockquote>
+  <pre><b>new</b> Object() {
+    <b>void</b> hello() {
+        System.out.println("Hello");
+    }
+}.hello();</pre>
+</blockquote>
+<p>Безымянные классы не могут быть абстрактными. Такие классы всегда по умолчанию <b><code>final</code></b>. В следующем примере безымянный класс создается для определения способа сортировки массива строк:</p>
+<blockquote>
+  <pre><b>void</b> sortByABC(String[] a) 
+{ 
+    Arrays.sort(a, <b>new</b> Comparator() { 
+        <b>public int</b> compare(Object o1, Object o2) {
+            <b>return</b> ((String) o1).compareTo((String) o2);
+        }
+    }); 
+}</pre>
+</blockquote>
+<p>У безымянных классов не может быть явных конструкторов. Вместе с тем, всегда создается безымянный конструктор по умолчанию. Если у базового класса нет конструктора без параметров, необходимые параметры конструктора указываются в скобках при создании объекта:</p>
+<blockquote>
+  <pre><b>abstract</b> <b>class</b> Base {
+    <b>int</b> k;
+ 
+    Base(<b>int</b> k) {
+        <b>this</b>.k = k;
+    }
+
+    <b>abstract</b> <b>void</b> show();
+} 
+
+<b>public</b> <b>class</b> Test {
+
+    <b>static</b> <b>void</b> showBase(Base b) {
+        b.show();
+    }
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        showBase(<b>new</b> Base(10) {
+            <b>void</b> show() {
+                System.out.println(k);
+            }
+        });
+    }
+ 
+}</pre>
+</blockquote>
+<p>Допустимо также использование блоков инициализации.</p>
+<p>Для того чтобы безымянные классы имели доступ к элементам наружных классов или блоков, эти элементы должны быть описаны как <b><code>final</code></b>.</p>
+<h4>1.1.4 Статические вложенные классы</h4>
+<p>Статические вложенные классы имеют доступ только к статическим элементам объемлющих классов. Такие классы могут быть созданы без создания объектов объемлющих классов:</p>
+<blockquote>
+  <pre><b>class</b> Outer {
+    <b>int</b> k = 100;
+    <b>static</b> <b>int</b> m = 200;
+
+    <b>static</b> <b>class</b> Inner {
+        <b>void</b> show() {
+            <font color=gray>// k недоступно</font>
+            System.out.println(m);
+        }
+    }
+}
+ 
+<b>public</b> <b>class</b> Test {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        Outer.Inner inner = <b>new</b> Outer.Inner();
+        inner.show();
+    } 
+
+}</pre>
+</blockquote>
+<p>Статические вложенные классы могут содержать свои статические элементы, в том числе свои вложенные статические и нестатические классы.</p>
+<h3>1.2 Интерфейсы</h3>
+<h4>1.2.1 Описание и реализация интерфейсов </h4>
+<p>В Java используется понятие интерфейсов. Интерфейс может рассматриваться как чисто абстрактный класс, содержащий только абстрактные методы:</p>
+<blockquote>
+  <pre><b>interface</b> Int1 {
+    <b>void</b> f();
+    <b>int</b> g(<b>int</b> x);
+}</pre>
+</blockquote>
+<p>Каждый класс может быть произведен только от одного базового класса, но при этом реализовывать один или несколько интерфейсов. Класс, реализующий интерфейс, должен обеспечить реализацию всех методов, объявленных в интерфейсе. В противном случае такой класс будет абстрактным и должен быть объявлен со спецификатором <b><code>abstract</code></b>.</p>
+<p>Интерфейсы могут содержать поля, которые являются финальными и статическими (константами времени компиляции).</p>
+<p>Для того, чтобы указать, что класс реализует интерфейс, имя интерфейса должно быть помещено в список реализуемых интерфейсов. Такой список следует после ключевого слова<b> <code>implements</code></b>. Методы, определенные в интерфейсе, являются по умолчанию абстрактными и открытыми. В классе, реализующем интерфейс, такие методы должны быть объявлены как <b><code>public</code></b>:</p>
+<blockquote>
+  <pre><b>interface</b> Int1 {
+    <b>void</b> f();
+    <b>int</b> g(<b>int</b> x);
+}
+
+<b>class</b> SomeClass <b>implements</b> Int1 {
+    <b>public</b> <b>void</b> f() {
+    }
+    <b>public</b> <b>int</b> g(<b>int</b> x) {
+        <b>return</b> x;
+    }
+}
+</pre>
+</blockquote>
+<p>Интерфейс может иметь несколько базовых интерфейсов:</p>
+<blockquote>
+  <pre><b>interface</b> Int1 {
+    <b>void</b> f();
+    <b>int</b> g(<b>int</b> x);
+}
+
+<b>interface</b> Int2 {
+    <b>void</b> h(<b>int</b> z);
+}
+
+<b>interface</b> Int3 <b>extends</b> Int1, Int2 {
+}</pre>
+</blockquote>
+<p>Класс может реализовать несколько интерфейсов:</p>
+<blockquote>
+  <pre><b>interface</b> Int1 {
+    <b>void</b> f();
+    <b>int</b> g(<b>int</b> x);
+}
+
+<b>interface</b> Int2 {
+    <b>void</b> h(<b>int</b> z);
+}
+
+<b>class</b> SomeClass <b>implements</b> Int1, Int2 {
+    <b>public</b> <b>void</b> f() {
+    }
+  <b>
+    public</b> <b>int</b> g(<b>int</b> x) {
+        <b>return</b> x;
+    }
+
+    <b>public</b>  <b>void</b> h(<b>int</b> z) {
+    }
+}</pre>
+</blockquote>
+<p>Классы можно создавать внутри интерфейсов. Такие классы по умолчанию являются статическими. Внутри классов также можно создавать интерфейсы, которые являются статическими по умолчанию.</p>
+<h4>1.2.2 Реализация методов интерфейсов по умолчанию</h4>
+<p>Версия Java 8 предоставляет новую возможность предоставления <em>реализации по умолчанию</em> для методов, объявленных в интерфейсе. Для этого перед соответствующей функцией следует разместить ключевое слово <b><code>default</code></b>, после чего функцию можно реализовать внутри интерфейса.</p>
+<p>Например, можно описать такой интерфейс с реализацией функции по умолчанию:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.sixth;
+
+<b>public</b> <b>interface</b> Greetings {
+    <b>default</b> <b>void</b> hello() {
+        System.out.println(&quot;Hello everybody!&quot;);
+    }
+}</pre>
+</blockquote>
+<p>Класс, реализующий интерфейс, может быть пустым. Предполагается реализация метода <code>hello()</code> по умолчанию:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.sixth;
+
+<b>public</b> <b>class</b> MyGreetings <b>implements</b> Greetings {
+
+}</pre>
+</blockquote>
+<p>При тестировании получим приветствие по умолчанию.</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.sixth;
+
+<b>public</b> <b>class</b> GreetingsTest {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        <b>new</b> MyGreetings().hello(); // Hello everybody!
+    }
+
+}</pre>
+</blockquote>
+<p>То же самое можно получить, использовав безымянный класс. Его тело также будет пустым:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.sixth;
+
+<b>public</b> <b>class</b> GreetingsTest {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        <b>new</b> Greetings() { }.hello(); // Hello everybody!
+    }
+
+}</pre>
+</blockquote>
+<p>Метод по умолчанию можно переопределить:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.sixth;
+
+<b>public</b> <b>class</b> MyGreetings <b>implements</b> Greetings {
+
+    @Override
+    <b>public</b> <b>void</b> hello() {
+        System.out.println(&quot;Hello to me!&quot;);
+    }
+
+}
+</pre>
+</blockquote>
+<p>Теперь, создав объект этого класса, мы получим новое приветствие.</p>
+<p>Если из переопределенного метода необходимо вызвать метод интерфейса по умолчанию, можно воспользоваться ключевым словом <strong><code>super</code></strong>:</p>
+<blockquote>
+  <pre>Greetings.<b>super</b>.hello();</pre>
+</blockquote>
+<p>Можно предложить следующий пример. Допустим, необходимо напечатать значения функции на некотором интервале с заданным шагом. Создаем интерфейс с одним абстрактным методом (вычисление некоторой функции) и одним, имеющим реализацию по умолчанию:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.sixth;
+
+<b>public</b> <b>interface</b> FunctionToPrint {
+    <b>public</b> <b>double</b> f(<b>double</b> x);
+    <b>default</b> <b>void</b> print(<b>double</b> x) {
+        System.out.printf(&quot;x = %7f f(x) = %7f%n&quot;, x, f(x));
+    }
+}</pre>
+</blockquote>
+<p>В классе <code>PrintValues</code> создаем метод печати таблицы <code>printTable()</code>. Этот метод использует созданный ранее интерфейс.</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.sixth;
+
+<b>public</b> <b>class</b> PrintValues {
+
+    <b>static</b> <b>void</b> printTable(<b>double</b> from, <b>double</b> to, 
+                           <b>double</b> step, FunctionToPrint func) {
+        <b>for</b> (<b>double</b> x = from; x &lt;= to; x += step) {
+            func.print(x);
+        }
+        System.out.println();
+    }
+
+    // В функции main() создаем объект безымянного класса:<b>
+    public</b> <b>static</b> <b>void</b> main(String[] args) {
+        printTable(-2, 2, 0.5, <b>new</b> FunctionToPrint() {
+            @Override
+            <b>public</b> <b>double</b> f(<b>double</b> x) {
+                <b>return</b> x * x * x;
+            }
+        });
+    }
+
+}</pre>
+</blockquote>
+<p>Допустим, при печати таблицы нас не устроила точность вычислений. В этом случае в безымянном классе можно также переопределить метод <code>print()</code>:</p>
+<blockquote>
+  <pre><b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+    printTable(-2, 2, 0.5, <b>new</b> FunctionToPrint() {
+        @Override
+        <b>public</b> <b>double</b> f(<b>double</b> x) {
+            <b>return</b> x * x * x;
+        }
+        @Override
+        <b>public</b> <b>void</b> print(<b>double</b> x) {
+            System.out.printf(&quot;x = %9f f(x) = %9f%n&quot;, x, f(x));
+        }        
+    });
+}</pre>
+</blockquote>
+<p>Допустим, этот интерфейс используется в методе, печатающем значения некоторой функции на заданном интервале с некоторым шагом. Получаем такой код:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.sixth;
+
+<b>public</b> <b>class</b> PrintValues {
+
+    <b>public</b> <b>static</b> <b>void</b> print(<b>double</b> from, <b>double</b> to, <b>double</b> step, Function func) {
+        <b>for</b> (<b>double</b> x = from; x &lt;= to; x += step) {
+            System.out.printf(&quot;x = %7f f(x) = %7f%n&quot;, x, func.f(x));
+        }
+        System.out.println();
+    }
+ 
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        print(-2, 2, 0.5, <b>new</b> Function() {
+            @Override
+            <b>public</b> <b>double</b> f(<b>double</b> x) {
+          <b>      return</b> x * x * x;
+            }     
+        });
+    }
+
+}</pre>
+</blockquote>
+<p>Как видно из приведенного примера, при использовании реализации функции по умолчанию тело безымянного класса может быть пустым.</p>
+<p>Если мы переопределили метод с реализацией по умолчанию и хотим вызвать метод по умолчанию из нового метода, можно использовать ключевое слово <strong><code>super</code></strong>.</p>
+<p>Главное преимущество интерфейсов с реализацией по умолчанию - возможность расширения интерфейсов от версии к версии с обеспечением сохранения совместимости со старым кодом. Допустим, ранее в некоторой библиотеке был описан интерфейс:</p>
+<blockquote>
+  <pre><b>public interface</b> SomeInterface {
+    <b>void</b> f();
+}</pre>
+</blockquote>
+<p>Этот интерфейс реализовывался некоторым классом:</p>
+<blockquote>
+  <pre><b>public class</b> OldImpl <b>implements</b> SomeInterface {
+    @Override
+    <b>public</b> <b>void</b> f() {
+        // реализация
+    }
+}</pre>
+</blockquote>
+<p>Теперь при обновлении библиотеки мы создали новую версию интерфейса, добавив в него новый метод:</p>
+<blockquote>
+  <pre><b>interface</b> SomeInterface {
+    <b>void</b> f();
+    <b>default</b> <b>void</b> g() {
+        // реализация
+    }
+}    </pre>
+</blockquote>
+<p>Этот метод будет реализован новыми классами:</p>
+<blockquote>
+  <pre><b>public</b> <b>class</b> NewImpl <b>implements</b> SomeInterface {
+    @Override
+    <b>public</b> <b>void</b> f() {
+        // реализация
+    }
+    @Override
+    <b>public</b> <b>void</b> g() {
+        // реализация
+    }
+}</pre>
+</blockquote>
+<p>Без реализации по умолчанию не будет компилироваться код, построенный на предыдущей версии.</p>
+<p>При наследовании интерфейса, который содержит метод по умолчанию, этот метод также наследуется с реализацией, однако его также можно переобъявить и сделать абстрактным, либо переопределить и предложить другую реализацию.</p>
+<h4>1.2.2 Реализация статических методов в интерфейсах</h4>
+<p>В Java 8 интерфейсы также могут содержать <em>реализацию статических методов</em>. Логично внутри интерфейса определять методы, имеющие отношение к данному интерфейсу (например, получающие ссылку на интерфейс в качестве параметра). Чаще всего, это вспомогательные методы. Как и все элементы интерфейса, такие статические методы являются публичными. Можно указать <code><strong>public</strong></code> явно, но в этом нет необходимости. </p>
+<p>В приведенном ранее примере функцию printTable() можно было бы разместить внутри интерфейса:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.sixth;
+
+<b>public</b> <b>interface</b> FunctionToPrint {
+    <b>public</b> <b>double</b> f(<b>double</b> x);
+
+    <b>default</b> <b>void</b> print(<b>double</b> x) {
+        System.out.printf(&quot;x = %9f f(x) = %9f%n&quot;, x, f(x));
+    }
+
+    <b>static</b> <b>void</b> printTable(<b>double</b> from, <b>double</b> to, <b>double</b> step, FunctionToPrint func) {
+        <b>for</b> (<b>double</b> x = from; x &lt;= to; x += step) {
+            func.print(x);
+        }
+        System.out.println();
+    }
+}</pre>
+</blockquote>
+<h3>1.3 Лямбда-выражения</h3>
+<p>Очень часто интерфейсы в Java представляют одну функцию. Такие интерфейсы получили название <em>функциональных интерфейсов</em>. Они повсеместно используются для реализации механизмов обратного вызова, обработки событий и т. д. Не смотря на их кажущуюся простоту, для их реализации, тем не менее, требуется отдельный класс - обычный, вложенный или безымянный. Даже при использовании безымянных классов мы получаем громоздкий и плохо читаемый синтаксис. Сократить необходимость создаваемых в исходном коде безымянных классов позволяют появившиеся в версии Java 8 лямбда-выражения. </p>
+<p>В языках программирования присутствует понятие <em>функционального объекта</em> - объекта, который можно использовать как функцию. <em>Лямбда-выражение</em> - это специальный синтаксис описания функционального объекта. Другими словами, лямбда-выражение - это способ описания функции внутри другой функции. </p>
+<p>Термин &quot;лямбда-выражение&quot; связан с математической дисциплиной - лямбда-исчислением. Лямбда-исчисление - это формальная система, разработанная американским математиком Алонзо Чёрчем для формализации и анализа понятия вычислимости. Лямбда-исчисление стало формальной основой языков функционального программирования (Lisp, Scheme и т. д.)</p>
+<p>Лямбда-выражение в Java имеет следующий синтаксис:</p>
+<ul>
+  <li>список формальных параметров, разделенных запятыми и заключенных в круглые скобки; если параметр один, скобки можно опустить; если параметров нет, нужна пустая пара скобок;</li>
+  <li>стрелка (<code>-&gt;</code>);</li>
+  <li>тело, состоящее из одного выражения или блока; если используется блок, внутри него может быть утверждение <strong><code>return</code></strong>;</li>
+</ul>
+<p>Например, функция с одним параметром:</p>
+<blockquote>
+  <pre>k -&gt; k * k</pre>
+</blockquote>
+<p>То же самое со скобками и блоком:</p>
+<blockquote>
+  <pre>(k) -&gt; { <strong>return</strong> k * k; }</pre>
+</blockquote>
+<p>Функция с двумя параметрами:</p>
+<blockquote>
+  <pre>(a, b) -&gt; a + b</pre>
+</blockquote>
+<p>Функция без параметров:</p>
+<blockquote>
+  <pre>() -&gt; System.out.println(&quot;First&quot;)</pre>
+</blockquote>
+<p>С лямбда-выражениями в Java связано понятие <em>функционального интерфейса</em> - интерфейса, содержащего объявление ровно одной абстрактной функции (без реализации по умолчанию). Лямбда-выражение может быть использовано для представления реализации функции безымянного класса. </p>
+<p>Например, имеется функциональный интерфейс:</p>
+<blockquote>
+  <pre><b>public interface</b> SomeInt {
+    <b>int</b> f(<b>int</b> x);
+}</pre>
+</blockquote>
+<p>При вызове некоторой функции требуется параметр типа функционального интерфейса. Традиционно можно создать безымянный класс:</p>
+<blockquote>
+  <pre>someFunc(<b>new</b> SomeInt() {
+    @Override
+    <b>public</b> <b>int</b> f(<b>int</b> x) {
+        <b>return</b> x * x;
+    }
+});</pre>
+</blockquote>
+<p>Можно создать переменную типа объекта, реализующего интерфейс, и использовать ее вместо безымянного класса:</p>
+<blockquote>
+  <pre>SomeInt func = k -&gt; k * k;
+someFunc(func);</pre>
+</blockquote>
+<p>Можно также создать переменную при вызове функции с параметром-функциональным интерфейсом:</p>
+<blockquote>
+  <pre>someFunc(x -&gt; x * x);</pre>
+</blockquote>
+<p>Поскольку каждое лямбда-выражение связано с определенным функциональным интерфейсом, типы параметров и результата определяются автоматически через сопоставление с соответствующим функциональным интерфейсом.</p>
+<p>Задачу из примера с таблицей значений функции можно реализовать с использованием лямба-выражений. Интерфейс нужно будет создать заново, так как функциональный интерфейс не может содержать реализацию по умолчанию:</p>
+<blockquote>
+  <pre><b>public</b> <b>interface</b> FuncForLambda {
+    <b>double</b> f(<b>double</b> x);
+}</pre>
+</blockquote>
+<p>Использование функционального интерфейса:</p>
+<blockquote>
+  <pre><b>public</b> <b>class</b> PrintWithLambda {
+
+    <b>public</b> <b>static</b> <b>void</b> print(<b>double</b> from, <b>double</b> to, <b>double</b> step, FuncForLambda func) {
+        <b>for</b> (<b>double</b> x = from; x &lt;= to; x += step) {
+            System.out.printf(&quot;x = %8.5f  f(x) = %8.5f%n&quot;, x, func.f(x));
+        }
+        System.out.println();
+    }
+  
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        print(-2.0, 2.0, 0.5, x -&gt; x * x * x);
+    }
+
+}</pre>
+</blockquote>
+<p>Вместо того, чтобы создавать новые функциональные интерфейсы, в большинстве случаев достаточно воспользоваться стандартными интерфейсами, описанными в пакете <code>java.util.function</code>.</p>
+<div>
+  <table width="70%" border="1" cellpadding="4" cellspacing="0" class="simple" >
+    <tr>
+      <th>Интерфейс</th>
+      <th>Описание</th>
+    </tr>
+    <tr>
+      <td><code>BiConsumer&lt;T,U&gt;</code></td>
+      <td>Представляет операцию, которая принимает два входных аргумента и не возвращает результата</td>
+    </tr>
+    <tr>
+      <td><code>BiFunction&lt;T,U,R&gt;</code></td>
+      <td>Представляет функцию, которая принимает два аргумента и возвращает результат</td>
+    </tr>
+    <tr>
+      <td><code>BinaryOperator&lt;T&gt;</code></td>
+      <td>Представляет операцию над двумя операндами одного типа, производя результат того же типа, что и операнды</td>
+    </tr>
+    <tr>
+      <td><code>BiPredicate&lt;T,U&gt;</code></td>
+      <td>Представляет предикат (функцию с результатом типа <strong><code>boolean</code></strong>) с двумя аргументами</td>
+    </tr>
+    <tr>
+      <td><code>BooleanSupplier</code></td>
+      <td>Представляет &quot;поставщика&quot; результата типа <strong><code>boolean</code></strong></td>
+    </tr>
+    <tr>
+      <td><code>Consumer&lt;T&gt;</code></td>
+      <td>Представляет операцию, которая принимает один аргумент и не возвращает результата</td>
+    </tr>
+    <tr>
+      <td><code>DoubleBinaryOperator</code></td>
+      <td> Представляет операцию над двумя аргументами типа <strong><code>double</code></strong> и возвращает результат типа <strong><code>double</code></strong></td>
+    </tr>
+    <tr>
+      <td><code>DoubleConsumer</code></td>
+      <td>Представляет операцию, которая принимает один аргумент типа <strong><code>double</code></strong> и не возвращает результата</td>
+    </tr>
+    <tr>
+      <td><code>DoubleFunction&lt;R&gt;</code></td>
+      <td>Представляет операцию, которая принимает один аргумент типа <strong><code>double</code></strong> и возвращает результат</td>
+    </tr>
+    <tr>
+      <td><code>DoublePredicate</code></td>
+      <td>Представляет предикат (функцию с результатом типа <strong><code>boolean</code></strong>) с одним аргументом типа <strong><code>double</code></strong></td>
+    </tr>
+    <tr>
+      <td><code>DoubleSupplier</code></td>
+      <td>Представляет &quot;поставщика&quot; результата типа <strong><code>double</code></strong></td>
+    </tr>
+    <tr>
+      <td><code>DoubleToIntFunction</code></td>
+      <td>Представляет операцию, которая принимает один аргумент типа <strong><code>double</code></strong> и возвращает результат типа <strong><code>int</code></strong></td>
+    </tr>
+    <tr>
+      <td><code>DoubleToLongFunction</code></td>
+      <td>Представляет операцию, которая принимает один аргумент типа <strong><code>double</code></strong> и возвращает результат типа <strong><code>long</code></strong></td>
+    </tr>
+    <tr>
+      <td><code>DoubleUnaryOperator</code></td>
+      <td>Представляет операцию, которая принимает один аргумент типа <strong><code>double</code></strong> и возвращает результат типа <strong><code>double</code></strong></td>
+    </tr>
+    <tr>
+      <td><code>Function&lt;T,R&gt;</code></td>
+      <td>Представляет операцию, которая принимает один аргумент и возвращает результат</td>
+    </tr>
+    <tr>
+      <td><code>IntBinaryOperator</code></td>
+      <td>Представляет операцию над двумя аргументами типа <strong><code>int</code></strong>, возвращающую результат типа <strong><code>int</code></strong></td>
+    </tr>
+    <tr>
+      <td><code>IntConsumer</code></td>
+      <td>Представляет операцию, которая принимает один аргумент типа <code>int</code> и не возвращает результата</td>
+    </tr>
+    <tr>
+      <td><code>IntFunction&lt;R&gt;</code></td>
+      <td>Представляет операцию, которая принимает один аргумент типа int и возвращает результат</td>
+    </tr>
+    <tr>
+      <td><code>IntPredicate</code></td>
+      <td>Представляет предикат (функцию с результатом типа <strong><code>boolean</code></strong>) с одним аргументом типа <strong><code>int</code></strong></td>
+    </tr>
+    <tr>
+      <td><code>IntSupplier</code></td>
+      <td>Представляет &quot;поставщика&quot; результата типа <strong><code>int</code></strong></td>
+    </tr>
+    <tr>
+      <td><code>IntToDoubleFunction</code></td>
+      <td>Представляет операцию, которая принимает один аргумент типа int и возвращает результат типа <strong><code>double</code></strong></td>
+    </tr>
+    <tr>
+      <td><code>IntToLongFunction</code></td>
+      <td>Представляет операцию, которая принимает один аргумент типа int и возвращает результат типа <strong><code>long</code></strong></td>
+    </tr>
+    <tr>
+      <td><code>IntUnaryOperator</code></td>
+      <td>Представляет операцию, которая принимает один аргумент типа <strong><code>int</code></strong> и возвращает результат типа <strong><code>int</code></strong></td>
+    </tr>
+    <tr>
+      <td><code>LongBinaryOperator</code></td>
+      <td>Представляет операцию над двумя аргументами типа <strong><code>long</code></strong>, возвращающую результат типа <strong><code>long</code></strong></td>
+    </tr>
+    <tr>
+      <td><code>LongConsumer</code></td>
+      <td>Представляет операцию, которая принимает один аргумент типа <strong><code>long</code></strong> и не возвращает результата</td>
+    </tr>
+    <tr>
+      <td><code>LongFunction&lt;R&gt;</code></td>
+      <td>Представляет операцию, которая принимает один аргумент типа <strong><code>long</code></strong> и возвращает результат</td>
+    </tr>
+    <tr>
+      <td><code>LongPredicate</code></td>
+      <td>Представляет предикат (функцию с результатом типа <strong><code>boolean</code></strong>) с одним аргументом типа <strong><code>long</code></strong></td>
+    </tr>
+    <tr>
+      <td><code>LongSupplier</code></td>
+      <td>Представляет &quot;поставщика&quot; результата типа <strong><code>long</code></strong></td>
+    </tr>
+    <tr>
+      <td><code>LongToDoubleFunction</code></td>
+      <td>Представляет операцию, которая принимает один аргумент типа <strong><code>long</code></strong> и возвращает результат типа <strong><code>double</code></strong></td>
+    </tr>
+    <tr>
+      <td><code>LongToIntFunction</code></td>
+      <td>Представляет операцию, которая принимает один аргумент типа <strong><code>long</code></strong> и возвращает результат типа <strong><code>int</code></strong></td>
+    </tr>
+    <tr>
+      <td><code>LongUnaryOperator</code></td>
+      <td>Представляет операцию, которая принимает один аргумент типа <strong><code>long</code></strong> и возвращает результат типа <strong><code>long</code></strong></td>
+    </tr>
+    <tr>
+      <td><code>ObjDoubleConsumer&lt;T&gt;</code></td>
+      <td>Представляет функцию, которая принимает аргументы типов <code>T</code> и <strong><code>double</code></strong> и не возвращает результата</td>
+    </tr>
+    <tr>
+      <td><code>ObjIntConsumer&lt;T&gt;</code></td>
+      <td>Представляет функцию, которая принимает аргументы типов <code>T</code> и <strong><code>int</code></strong> и не возвращает результата</td>
+    </tr>
+    <tr>
+      <td><code>ObjLongConsumer&lt;T&gt;</code></td>
+      <td>Представляет функцию, которая принимает аргументы типов <code>T</code> и <strong><code>long</code></strong> и не возвращает результата</td>
+    </tr>
+    <tr>
+      <td><code>Predicate&lt;T&gt;</code></td>
+      <td>Представляет предикат (функцию с результатом типа <strong><code>boolean</code></strong>) с одним аргументом</td>
+    </tr>
+    <tr>
+      <td><code>Supplier&lt;T&gt;</code></td>
+      <td>Представляет &quot;поставщика&quot; результата</td>
+    </tr>
+    <tr>
+      <td><code>ToDoubleBiFunction&lt;T,U&gt;</code></td>
+      <td>Представляет функцию, которая принимает два аргумента и продуцирует результат типа <strong><code>double</code></strong>. </td>
+    </tr>
+    <tr>
+      <td><code>ToDoubleFunction&lt;T&gt;</code></td>
+      <td>Представляет функцию, которая продуцирует результат типа <strong><code>double</code></strong></td>
+    </tr>
+    <tr>
+      <td><code>ToIntBiFunction&lt;T,U&gt;</code></td>
+      <td>Представляет функцию, которая принимает два аргумента и продуцирует результат типа <strong><code>int</code></strong></td>
+    </tr>
+    <tr>
+      <td><code>ToIntFunction&lt;T&gt;</code></td>
+      <td>Представляет функцию, которая продуцирует результат типа <strong><code>int</code></strong></td>
+    </tr>
+    <tr>
+      <td><code>ToLongBiFunction&lt;T,U&gt;</code></td>
+      <td>Представляет функцию, которая принимает два аргумента и продуцирует результат типа <strong><code>long</code></strong></td>
+    </tr>
+    <tr>
+      <td><code>ToLongFunction&lt;T&gt;</code></td>
+      <td>Представляет функцию, которая продуцирует результат типа <strong><code>long</code></strong></td>
+    </tr>
+    <tr>
+      <td><code>UnaryOperator&lt;T&gt;</code></td>
+      <td>Представляет операцию над одним операндом, которая возвращает результат того же типа, что и операнд</td>
+    </tr>
+  </table>
+</div>
+<p><em>Примечание</em>: большинство перечисленных интерфейсов - обобщенные. Обобщения будут рассмотрены позже. Использование этих интерфейсов не вызывает ни какого труда - вместо параметров автоматически подставляются типы, используемые в конкретном случае. </p>
+<p>Кроме перечисленных, функциональными интерфейсами также являются ранее использовавшийся обобщенный интерфейс <code>Comparator</code>, широко используемый в многопоточном программировании интерфейс <code>Runnable</code>, а также многие другие.</p>
+<p>Можно осуществлять композицию лямбда-выражений (использовать лямбда-выражения как параметры). С этой целью интерфейсы пакета <code>java.util.function</code> предоставляют методы с реализацией по умолчанию, обеспечивающие выполнение некоторой функции, переданной в качестве параметра до или после данного метода. В частности, в интерфейсе <code>Function</code> определены такие методы:</p>
+<blockquote>
+  <pre>// Выполняется функция before, а затем вызывающая функция:
+Function compose(Function before)
+// Функция after выполняется после вызывающей функции:
+Function andThen(Function after)</pre>
+</blockquote>
+<p>Использование данных методов и их различие рассмотрим на следующем примере. Имеется класс со статической функцией <code>calc()</code>, принимающей лямбда-выражение и аргумент типа <code>Double</code>. Можно осуществить композицию лямбда-выражений:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.sixth;
+
+<b>import</b> java.util.function.Function;
+
+<b>public</b> <b>class</b> ComposeDemo {
+  
+    <b>public</b> <b>static</b> Double calc(Function&lt;Double , Double&gt; operator, Double x) {
+        <b>return</b> operator.apply(x);
+    }
+  
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        Function&lt;Double , Double&gt; addTwo = x -&gt; x + 2;
+        Function&lt;Double , Double&gt; duplicate = x -&gt; x * 2;
+        System.out.println(calc(addTwo.compose(duplicate), 10.0)); // 22.0
+        System.out.println(calc(addTwo.andThen(duplicate), 10.0)); // 24.0
+    }
+
+}</pre>
+</blockquote>
+<p>Композиция может быть более сложной:</p>
+<blockquote>
+  <pre>System.out.println(calc(addTwo.andThen(duplicate).andThen(addTwo), 10.0));  // 26.0</pre>
+</blockquote>
+<p>Лямбда-выражения также используются для реализации обработчиков событий в приложениях графического интерфейса пользователя.</p>
+<h3>1.4 Использование ссылок на методы</h3>
+<p>Очень часто все тело лямбда-выражения состоит лишь из вызова существующего метода. В этом случае вместо лямбда-выражения можно использовать ссылку на этот метод. Существует несколько вариантов описания ссылок на методы.</p>
+<div>
+  <table class="simple" border="1" cellspacing="0" cellpadding="4" width="70%">
+    <tr>
+      <td width="40%" valign="top"><p align="center"><strong>Вид ссылки на метод</strong></p></td>
+      <td width="35%" valign="top"><p align="center"><strong>Синтаксис</strong></p></td>
+      <td width="25%" valign="top"><p align="center"><strong>Пример</strong></p></td>
+    </tr>
+    <tr>
+      <td width="40%" valign="top">Ссылка на статический метод</td>
+      <td width="35%" valign="top"><p><code>имяКласса::имяСтатическогоМетода</code></p></td>
+      <td width="25%" valign="top"><p><code>String::valueOf</code></p></td>
+    </tr>
+    <tr>
+      <td width="40%" valign="top">Ссылка на нестатический метод для заданного объекта</td>
+      <td width="35%" valign="top"><p><code>имяОбъекта::имяНестатическогоМетода</code></p></td>
+      <td width="25%" valign="top"><p><code>s::toString</code></p></td>
+    </tr>
+    <tr>
+      <td width="40%" valign="top">Ссылка на нестатический метод для параметра </td>
+      <td width="35%" valign="top"><p><code>имяКласса::имяНестатическогоМетода</code></p></td>
+      <td width="25%" valign="top"><p><code>Object::toString</code></p></td>
+    </tr>
+    <tr>
+      <td width="40%" valign="top">Ссылка на конструктор</td>
+      <td width="35%" valign="top"><p><code>имяКласса::new</code></p></td>
+      <td width="25%" valign="top"><p><code>String::new</code></p></td>
+    </tr>
+  </table>
+</div>
+<p>Например, имеются следующие функциональные интерфейсы</p>
+<blockquote>
+  <pre><b>interface</b> IntOperation {
+    <b>int</b> f(<b>int</b> a, <b>int</b> b);
+}
+
+<b>interface</b> StringOperation {
+    String g(String s);
+}</pre>
+</blockquote>
+<p>Можно создать некоторый класс:</p>
+<blockquote>
+  <pre><b>class</b> DifferentMethods
+{
+    <b>public</b> <b>int</b> add(<b>int</b> a, <b>int</b> b) {
+        <b>return</b> a + b;
+    }
+
+    <b>public</b> <b>static</b> <b>int</b> mult(<b>int</b> a, <b>int</b> b) {
+        <b>return</b> a * b;
+    }
+
+}</pre>
+</blockquote>
+<p>Тестируем методы:</p>
+<blockquote>
+  <pre><b>public</b> <b>class</b> TestMethodReferences {
+
+  <b>static</b> <b>void</b> print(IntOperation op, <b>int</b> a, <b>int</b> b) {
+      System.out.println(op.f(a, b));
+  }
+  
+  <b>static</b> <b>void</b> print(StringOperation op, String s) {
+      System.out.println(op.g(s));
+  }
+  
+  <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+      DifferentMethods dm = <b>new</b> DifferentMethods();
+      print(dm::add, 3, 4);
+      print(DifferentMethods::mult, 3, 4);
+      print(String::toUpperCase, &quot;text&quot;);    
+  }
+
+}</pre>
+</blockquote>
+<p>Использование ссылок на конструктор особенно полезно в функциях-&quot;поставщиках&quot;.</p>
+<h2>2 Примеры программ</h2>
+<h3>2.1 Решение уравнения методом дихотомии</h3>
+<p>Пример 2.8 предыдущей темы можно реализовать с помощью интерфейсов. Мы можем описать интерфейс для представления левой части уравнения. Для создания интерфейса в среде IntelliJ IDEA используется функция <tt>File | New | Java Class</tt> и выбираем имя (<code>Function</code>) вариант (<tt>Kind</tt>): <tt>Interafce</tt>. Создаем интерфейс:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.sixth;
+
+<b>public interface</b> Function {
+    <b>double</b> f(<b>double</b> x);
+}</pre>
+</blockquote>
+<p>Класс <code>Solver</code> реализует статический метод для решения уравнения:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.sixth;
+<b>
+public </b><b>class</b> Solver {
+
+    <b>public </b><b>static</b> <b>double</b> solve(<b>double</b> a, <b>double</b> b, <b>double</b> eps, Function func) {
+        <b>double</b> x = (a + b) / 2;
+        <b>while</b> (Math.abs(b - a) &gt; eps) {
+            <b>if</b> (func.f(a) * func.f(x) &gt; 0) {
+                a = x;
+            }
+            <b>else</b> {
+                b = x;
+            }
+            x = (a + b) / 2;
+        }
+        <b>return</b> x;
+    }
+
+}</pre>
+</blockquote>
+<p>Для реализации интерфейса можно предолжить несколько вариантов.</p>
+<h4>2.1.1 Создание класса, реализующего интерфейс</h4>
+<p>Класс, реализующий интерфейс, содержит конкретную реализацию функции <code>f()</code>:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.sixth;
+<b>
+class</b> MyFunction <b>implements</b> Function {
+  <b>public</b> <b>double</b> f(<b>double</b> x) {
+    <b>return</b> x * x - 2;
+  }
+}
+<b>
+public</b> <b>class</b> InterfaceTest {
+  <b>
+    public</b> <b>static</b> <b>void</b> main(String[] args) {
+        System.out.println(Solver.solve(0, 2, 0.000001, <b>new</b> MyFunction()));
+    }
+}</pre>
+</blockquote>
+<p>Оба варианта должны обеспечить одинаковый результат при тестировании.</p>
+<p>Преимущество варианта, использующего интерфейс - в возможности связи через этот интерфейс не только между функцией и методом решения уравнения, но и между любой математической функцией и любым численным методом, использующим такую функцию. Например, это может быть нахождение минимумов и максимумов, вычисление производных, интегралов, построение графиков и т. д.</p>
+<h4>2.1.2 Создание безымянного класса</h4>
+<p>В случае, когда математическая функция нужна только для какого-нибудь одного использования, задачу можно решить с использованием безымянного класса:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.sixth;
+
+<b>public</b> <b>class</b> InterfaceTest {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        System.out.println(Solver.solve(0, 2, 0.000001, <b>new</b> Function() {
+            <b>public</b> <b>double</b> f(<b>double</b> x) {
+                <b>return</b> x * x - 2;
+            }
+        }));
+    }
+
+}</pre>
+</blockquote>
+<h3>2.1.3 Использование лямбда-выражений</h3>
+<p> Рассмотренную ранее задачу решения уравнения методом дихотомии можно решить, задав лямбда-выражение вместо безымянного класса, поскольку <code>FunctionToSolve</code> - функциональный интерфейс:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.sixth;
+
+<b>public</b> <b>class</b> SolveUsingLambda {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        System.out.println(Solver.solve(0, 2, 0.000001, x -&gt; x * x - 2));
+    }
+
+}</pre>
+</blockquote>
+<h3>2.1.4 Использование <b>ссылок на методы</b></h3>
+<p>Задача также может быть решена с помощью ссылок на методы. Можно реализовать функцию как отдельный статический метод, а также использовать какую-либо стандартную функцию:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.sixth;
+
+<b>public</b> <b>class</b> SolveWithReference {
+
+    <b>public</b> <b>static</b> <b>double</b> f(<b>double</b> x) {
+        <b>return</b> x * x - 2;
+    }
+  
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        System.out.println(Solver.solve(0, 2, 0.000001, SolveWithReference::f));
+		   System.out.println(Solver.solve(0, 2, 0.000001, Math::cos));
+    }
+
+}</pre>
+</blockquote>
+<p>Все варианты должны обеспечить одинаковый результат при тестировании.</p>
+<h3>2.2 Использование интерфейсов с реализацией по умолчанию<b></b></h3>
+<p>Допустим, необходимо найти корень уравнения методом касательных (Ньютона). Этот метод предполагает использование первой и второй производной функции для нахождения корня. Приближенное значение первой производной любой функции можно найти по формуле</p>
+<div align="center"><em>f '(x) = </em>(<em>f</em>(<em>x + dx</em>)<em> - f</em>(<em>x</em>))<em> / dx</em></div>
+<p>Чем меньше <em>dx</em>, тем точнее будет найдена производная. Вторую производную можно найти как производную первой производной.</p>
+<p>Алгоритм заключается в следующем: на заданном отрезке поиска находим начальное приближение. Это будет начало отрезка (если знак функции и второй производной в этой точке совпадают) или конец отрезка (в противном случае). Далее вычисляем последующие приближения по следующей формуле: </p>
+<div align="center"><em>x</em><sub>n+1</sub><em> = x</em><sub>n</sub> - <em>f</em>(<em>x</em><sub>n</sub>)<em> / f</em> '(<em>x</em><sub>n</sub>)</div>
+<p>Описываем интерфейс. Вычисление первой и второй производной осуществляется методами, реализованными по умолчанию:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.sixth;
+
+<b>public</b> <b>interface</b> FunctionWithDerivates {
+    <b>double</b> DX = 0.001;
+  
+    <b>double</b> f(<b>double</b> x);
+  
+    <b>default</b> <b>double</b> f1(<b>double</b> x) {
+        <b>return</b> (f(x + DX) - f(x)) / DX;
+    }
+  
+    <b>default</b> <b>double</b> f2(<b>double</b> x) {
+        <b>return</b> (f1(x + DX) - f1(x)) / DX;
+    }
+}</pre>
+</blockquote>
+<p>Реализуем класс со статической функцией решения уравнения:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.sixth;
+
+<b>public</b> <b>class</b> Newton {
+  
+    <b>public</b> <b>static</b> <b>double</b> solve(<b>double</b> from, <b>double</b> to, <b>double</b> eps, FunctionWithDerivates func) {
+        <b>double</b> x = from;
+        <b>if</b> (func.f(x) * func.f2(x) &lt; 0) { // знаки различные
+            x = to;
+        }
+        <b>double</b> d;
+        <b>do</b> {
+            d = func.f(x) / func.f1(x);
+            x -= d;
+        }
+        <b>while</b> (Math.abs(d) &gt; eps);
+        <b>return</b> x;
+    }
+}</pre>
+</blockquote>
+<p>Создаем класс, реализующий интерфейс, и осуществляем тестирование:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.sixth;
+
+<b>public</b> <b>class</b> FirstImplementation <b>implements</b> FunctionWithDerivates {
+
+    @Override
+    <b>public</b> <b>double</b> f(<b>double</b> x) {
+        <b>return</b> Math.sin(x - 0.5);
+    }
+  
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        System.out.println(Newton.solve(0, 1, 0.000001, <b>new</b> FirstImplementation()));
+    }
+}</pre>
+</blockquote>
+<p>Для некоторых функций можно переопределить механизм вычисления первой и второй производной. Например, для кубического полинома</p>
+<div align="center"><em>f(x) = x</em><sup>3</sup><em> <code>-</code> </em>6<em>x</em><sup>2</sup> + 12<em>x</em> <code>-</code> 9</div>
+<p>можно так определить первую и вторую производную;</p>
+<div align="center"><em>f '(x) = </em>3<em>x</em><sup>2</sup> <code>-</code> 12<em>x</em> <code>+</code> 12 </div>
+<div align="center"><em>f ''(x) = </em>6<em>x</em> <code>-</code> 12</div>
+<p>Тогда класс, реализующий интерфейс, может быть таким:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.sixth;
+
+<b>public</b> <b>class</b> SecondImplementation <b>implements</b> FunctionWithDerivates {
+
+    @Override
+    <b>public</b> <b>double</b> f(<b>double</b> x) {
+        <b>return</b> x * x * x - 6 * x * x + 12 * x - 9;
+    }
+
+    @Override
+    <b>public</b> <b>double</b> f1(<b>double</b> x) {
+        <b>return</b> 3 * x * x - 12 * x + 12;
+    }
+
+    @Override
+    <b>public</b> <b>double</b> f2(<b>double</b> x) {
+        <b>return</b> 6 * x - 12;
+    }
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        System.out.println(Newton.solve(0, 1, 0.000001, <b>new</b> SecondImplementation()));
+    }
+}</pre>
+</blockquote>
+<p>Явное задание производных может повысить эффективность алгоритма. </p>
+<h2>3 Задания на самостоятельную работу</h2>
+<h3>3.1 Минимум функции*</h3>
+<p>Реализовать программу, которая позволяет найти минимум некоторой функции на заданном интервале. Описать функциональный интерфейс. Реализовать три подхода - через использование явного класса, безымянного класса и лямбда-выражения.</p>
+<h3>3.2 Минимум функции с использованием ссылок на методы*</h3>
+<p>Реализовать программу нахождения минимума функции с использованием ссылок на методы. Использовать стандартные функциональные интерфейсы пакета <code>java.util.function</code>.</p>
+<h3>3.3 Использование реализации методов интерфейса по умолчанию</h3>
+<p> Используя интерфейс из примера 2.2 решить задачу нахождения точек экстремумов (корней первой производной).</p>
+<h2>4 Контрольные вопросы</h2>
+<ol>
+  <li>Может ли в одном файле с исходным текстом быть определено более одного открытого класса?</li>
+  <li>Как обратиться к локальному классу извне блока?</li>
+  <li>Можно ли создавать объект нестатического внутреннего класса, не создавая объекта объемлющего класса?</li>
+  <li>Могут ли нестатические внутренние классы содержать статические элементы?</li>
+  <li>Могут ли статические вложенные классы содержать нестатические элементы?</li>
+  <li>Можно ли создавать классы внутри интерфейсов?</li>
+  <li>В чем преимущество интерфейсов по сравнению с абстрактными классами?</li>
+  <li>Могут ли интерфейсы содержать поля?</li>
+  <li>Как создать интерфейс с закрытыми (<code>private</code>) методами?</li>
+  <li>Допускается ли множественное наследование интерфейсов?</li>
+  <li>Каким требованиям должен отвечать класс, который реализует интерфейс?</li>
+  <li>Может ли класс реализовывать несколько интерфейсов?</li>
+  <li>Как определить реализацию метода интерфейса по умолчанию?</li>
+  <li>Какие преимущества дает использование реализации методов интерфейса по умолчанию?</li>
+  <li>Что такое функциональный объект?</li>
+  <li>Что такое лямбда-выражение?</li>
+  <li>Что такое функциональный интерфейс?</li>
+  <li>Какие преимущества дают лямбда-выражения?</li>
+  <li>Приведите примеры стандартных функциональных интерфейсов.</li>
+  <li>Какие ранее созданные стандартные интерфейсы можно использовать в качестве функциональных?</li>
+  <li>Как осуществляется композиция лямбда-выражений?</li>
+  <li>Для чего используются ссылки на методы?</li>
+  <li>Как создать ссылку на нестатический метод?</li>
+  <li>Как создать ссылку на статический метод?</li>
+  <li>Как создать ссылку на конструктор?</li>
+</ol>
+<p>&nbsp;</p>
+    <div class="w3-clear nextprev">
+        <a class="btn btn-info float-left" href="topic_1_05.html">Предыдущая</a>
+        <a class="btn btn-info float-left" href="topic_1_07.html">Следующая</a>
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+<a href="#top" id="up">up</a>
+<footer class="container-fluid text-center">
+    <p>&copy; 2003-2019 Л.В.Иванов</p>
+</footer>
+<script>
+    $(document).ready(function () {
+        // Add smooth scrolling to all links in navbar + footer link
+        $("a[href='#top']").on('click', function (event) {
+
+            // Make sure this.hash has a value before overriding default behavior
+            if (this.hash !== "") {
+
+                // Prevent default anchor click behavior
+                event.preventDefault();
+
+                // Store hash
+                var hash = this.hash;
+
+                // Using jQuery's animate() method to add smooth page scroll
+                // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+                $('html, body').animate({
+                    scrollTop: $(hash).offset().top
+                }, 900, function () {
+
+                    // Add hash (#) to URL when done scrolling (default click behavior)
+                    window.location.hash = hash;
+                });
+            } // End if
+        });
+        var offset = 200;
+        var duration = 300;
+        $('#up').fadeOut(0);
+        $(window).scroll(function () {
+            var winTop = $(window).scrollTop();
+            if (winTop > offset) {
+                $('#up').css("opacity", "0.8");
+                $('#up').fadeIn(duration);
+            } else {
+                $('#up').fadeOut(duration);
+            }
+        });
+    })
+</script>
+
+</body>
+</html>

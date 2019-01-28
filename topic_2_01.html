@@ -1,0 +1,649 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>2.01 - Платформа Java SE и ее составляющие</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background: #dfdfdf;
+        }
+
+        /* Remove the navbar's default margin-bottom and rounded borders */
+        .jumbotron {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        #header {
+            background-color: #445566;
+        }
+
+        #header h2, #header h4, #header h3, #header h5, #header p {
+            margin-left: -10px;
+            color: #ededed;
+        }
+
+        #header h2 {
+            font-weight: bold;
+        }
+
+        #header h4 {
+            font-size: 1.5em;
+        }
+
+        #content {
+            background: white;
+            padding-right: 9%;
+            box-sizing: border-box;
+        }
+
+        p {
+            text-align: justify;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        ul.nav, ul.side_menu {
+            list-style-type: none;
+            margin-left: -20px;
+        }
+
+        .navbar {
+            margin-bottom: 0;
+            border-radius: 0;
+        }
+
+        .navbar-inverse {
+            background-color: #445566;
+            border: none;
+            border-top: 1px solid white;
+        }
+
+        .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > li > a:hover {
+            background-color: #293b4c;
+        }
+
+        /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+        .row.content {
+            height: 450px
+        }
+
+        /* Set gray background color and 100% height */
+        .sidenav {
+            padding-top: 20px;
+            height: 100%;
+        }
+
+        .btn-info {
+            color: #fff;
+            background-color: #445566;
+            border: none;
+            border-radius: 0;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .btn-info:hover {
+            background-color: #293b4c;
+        }
+
+        .navbar-inverse .navbar-toggle:hover {
+            background-color: #293b4c;
+        }
+
+        .hide {
+            visibility: hidden;
+        }
+
+        .disa {
+            cursor: default;
+            opacity: 0.6;
+
+        }
+
+        .disa:hover {
+            background-color: #445566;
+        }
+
+        /* Set black background color, white text and some padding */
+        footer {
+            background-color: #293b4c;
+            color: white;
+            padding: 15px;
+        }
+
+        #up {
+            color: #fff;
+            position: fixed;
+            display: block;
+            background: #293b4c;
+            width: 40px;
+            height: 40px;
+            bottom: 64px;
+            right: 30px;
+            opacity: 0;
+            border-radius: 50%;
+            padding-left: 12px;
+            padding-top: 8px;
+            box-sizing: border-box;
+        }
+
+        /* On small screens, set height to 'auto' for sidenav and grid */
+        @media screen and (max-width: 990px) {
+            #content {
+                padding-right: 10px;
+            }
+
+            #up {
+                display: none !important;
+            }
+        }
+
+        /* On small screens, set height to 'auto' for sidenav and grid */
+        @media screen and (max-width: 767px) {
+            .sidenav {
+                height: auto;
+                padding: 15px;
+            }
+
+            .row.content {
+                height: auto;
+            }
+        }
+
+        @media only screen and (max-width: 600px) {
+            img.small_img {
+                width: 40%;
+                height: auto;
+            }
+
+            img.big_img {
+                width: 90%;
+                height: auto;
+            }
+        }
+
+        .justified {
+            text-align: justify;
+            font-weight: normal
+        }
+
+        tt {
+            color: #446699;
+        }
+    </style>
+</head>
+<body id="top">
+<div class="container-fluid text-left" id="header">
+    <div class="container text-left col-md-3 col-sm-12">
+        <img src="Images/icon-java.png" style="padding-top: 15px; box-sizing: border-box;">
+    </div>
+    <div class="container text-left col-md-9 col-sm-12">
+        <h2>Язык программирования и технологии Java</h2>
+        <h5>Разработчик курса Л. В. Иванов</h5>
+        <h4>Модуль 1 Объектно-ориентированное программирование и язык Java</h4>
+
+    </div>
+</div>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <!--div class="col-sm-12 col-md-3 sidenav">
+            </div-->
+
+            <ul class="nav navbar-nav">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="topic_1_01.html">Объектно-ориентированное программирование и язык Java</a>
+                </li>
+                <li class="active"><a href="">Платформа Java SE</a></li>
+                <li><a href="">Разработка приложений JAVA EE</a></li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid text-left">
+    <div class="row content">
+        <div class="col-sm-12 col-md-3 sidenav">
+            <ul class="side_menu">
+                <li>1 Объектно-ориентированное программирование и язык Java
+                    <ul class="side_menu">
+                        <li><a href="topic_1_01.html">01 Парадигмы программирования. Основы объектно-ориентированного
+                            подхода</a></li>
+                        <li><a href="topic_1_02.html">02 Язык программирования Java и Java-платформа</a></li>
+                        <li><a href="topic_1_03.html">03 Синтаксические конструкции языка Java</a></li>
+                        <li><a href="topic_1_04.html">04 Ссылочные типы. Массивы. Строки и классы-оболочки</a></li>
+                        <li><a href="topic_1_05.html">05 Определение классов.  Наследование и полиморфизм</a></li>
+                        <li><a href="topic_1_06.html">06 Вложенные типы. Интерфейсы. Лямбда-выражения и ссылки на методы</a></li>
+                        <li><a href="topic_1_07.html">07 Перечисления. Исключения. Использование обобщений</a></li>
+                        <li><a href="topic_1_08.html">08 Понятие паттернов проектирования. Порождающие паттерны</a></li>
+                    </ul>
+                </li>
+                <li>2 Платформа Java SE
+                  <ul class="side_menu">
+                        <li>01 Платформа Java SE и ее составляющие</li>
+                        <li><a href="topic_2_02.html">02 Работа с коллекциями в Java 7</a></li>
+                        <li><a href="topic_2_03.html">03 Работа с текстовыми данными. Локализация</a></li>
+                        <li><a href="topic_2_04.html">04 Работа с потоками ввода-вывода и файловой системой</a></li>
+                        <li><a href="topic_2_05.html">05 Работа с XML. XML-сериализация</a></li>
+                        <li>06 Тестирование и управление сборкой. Ведение системного журнала</li>
+                        <li>07 Работа с потоками выполнения</li>
+                        <li>08 Работа с контейнерами Java 8. Stream API</li>
+                        <li>09 Поддержка сетевого взаимодействия</li>
+                        <li>10 Работа с базами данных</li>
+                        <li>11 Использование RTTI и рефлексии. Метапрограммирование. Аннотации</a></li>
+                        <li>12 </a>Использование структурных паттернов</li>
+                  </ul>
+                </li>
+                <li>3 Основы разработки приложений Java EE
+                    <ul class="side_menu">
+                        <li>01 Платформа Java EE. Web-приложения. Создание сервлетов</li>
+                        <li>02 Основы создания страниц JSP</li>
+                        <li>03 Работа с EJB. Создание Web-сервисов</li>
+                        <li>04 Использование Spring Framework</li>
+                        <li>05 Использование паттернов поведения и распределения ответственности </li>
+                        <li>06 Дополнительные возможности Java 11</li>
+                    </ul>
+                </li>
+            </ul>
+      </div>
+        <div class="col-sm-12 col-md-9 text-left" id="content">
+            <div class="w3-clear nextprev">
+                <a class="btn btn-info float-left" href="topic_1_08.html">Предыдущая</a>
+                <a class="btn btn-info float-left" href="topic_2_02.html">Следующая</a>
+            </div>
+            <h1>Платформа Java SE и ее составляющие</h1>
+<h2>1 Теоретическая часть</h2>
+<h3>1.1 Общая характеристика платформы Java SE</h3>
+<p>Java Platform, Standard Edition, (Java SE) <code>-</code> стандартная версия платформы Java, предназначенная для создания и выполнения апплетов и приложений, рассчитанных на индивидуальное пользование или на использование в масштабах малого предприятия. Java SE определяется спецификацией пакетов и классов, которые обеспечивают решение задач по следующим направлениям:</p>
+<ul>
+  <li>работа с математическими функциями</li>
+  <li>работа с контейнерными классами</li>
+  <li>работа с таймером и календарем</li>
+  <li>работа с текстом</li>
+  <li>интернационализация и локализация</li>
+  <li>работа с регулярными выражениями</li>
+  <li>работа с потоками ввода-вывода и файловой системой</li>
+  <li>работа с XML</li>
+  <li>cериализация и десериализация</li>
+  <li>разработка приложений AWT и апплетов</li>
+  <li>создание программ графического интерфейса с помощью библиотеки javax.swing</li>
+  <li>использование графических средств</li>
+  <li>поддержка печати</li>
+  <li>поддержка работы со звуком</li>
+  <li>использование RTTI, рефлексии и загрузчиков классов</li>
+  <li>использование потоков управления</li>
+  <li>работа с базами данных</li>
+  <li>Java Native Interface</li>
+  <li>средства выполнения сценариев (скриптов)</li>
+  <li>поддержка сетевого взаимодействия</li>
+  <li>взаимодействие с программной средой</li>
+  <li>обеспечение безопасности приложений</li>
+  <li>поддержка ведения системного журнала</li>
+  <li>развертывание Java-приложений</li>
+</ul>
+<p>Ниже рассматриваются некоторые возможности Java SE, которые не будут освещены в отдельных темах.</p>
+<h3>1.2 Особенности работы с математическими функциями</h3>
+<p>Как уже говорилось раньше, в Java реализован класс <code>Math</code>. Этот класс предоставляет более 50 математических функций (с учетом реализации для разных типов). Их можно сгруппировать следующим образом:</p>
+<ul>
+  <li>определение абсолютной величины (<code>abs()</code>), знака (<code>signum()</code>), округления (<code>round()</code>, <code>rint()</code>), ближайших целых сверху и снизу (<code>ceil()</code>, <code>floor()</code>);</li>
+  <li>присваивание знака одного числа другому числу (<code>copySign()</code>);</li>
+  <li>получение минимального и максимального из двух значений (<code>min()</code>, <code>max()</code>);</li>
+  <li>определение ближайшего различимого вещественного значения (<code>nextUp()</code>, <code>nextAfter()</code>);</li>
+  <li>вычисление степени (<code>pow()</code>), квадратного (<code>sqrt()</code>) и кубического (<code>cbrt()</code>) корня;</li>
+  <li>вычисление гипотенузы по двум катетам (<code>hypot()</code>)</li>
+  <li>вычисление <i>e</i><sup><i>x</i></sup> (<code>exp()</code>), <i>e</i><sup><i>x</i></sup> - 1 (<code>expm1()</code>), натурального и десятичного логарифмов (<code>log()</code>, <code>log10()</code>), а также ln(<i>x</i> + 1) (<code>log1p()</code>);</li>
+  <li>вычисление тригонометрических (<code>sin()</code>, <code>cos()</code>, <code>tan()</code>) и обратных тригонометрических (<code>asin()</code>, <code>acos()</code>, <code>atan()</code>, <code>atan2()</code>) функций;</li>
+  <li>перевод из градусов в радианы и обратно (<code>toRadians()</code>, <code>toDegrees()</code>);</li>
+  <li>вычисление гиперболических функций (<code>sinh()</code>, <code>cosh()</code>, <code>tanh()</code>) </li>
+  <li>получение степени в двоичном представлении числа (<code>getExponent()</code>), умножение числа на степень двойки (<code>scalb()</code>);</li>
+  <li>специальные функции внутреннего использования (<code>ulp()</code>, <code>IEEEremainder()</code>).</li>
+</ul>
+<p>В большом количестве приложений используются случайные и псевдослучайные числа. Например, они нужны в задачах математической статистики, численного моделирования, в компьютерных играх и т. д. Но чаще всего они применяются для тестирования программного обеспечения. Получение случайных значений может быть осуществлено как с помощью функции <code>random()</code> класса <code>Math</code> и с помощью специального класса <code>java.util.Random</code>. Первый вариант дает псевдослучайное число в диапазоне от 0 до 1. Использование класса <code>Random</code> позволяет получить более разнообразные результаты. Конструктор класса <code>Random</code> без параметров инициализирует датчик псевдослучайных чисел так, что последовательности случайных значений практически не повторяются. Если для отладки нам необходимо каждый раз получать одни и те же случайные значения, следует воспользоваться конструктором с целым параметром. Параметром может быть любое целое, которое инициализирует собой датчик случайных чисел.</p>
+<p>В следующей таблице представлены функции класса <code>java.util.Random</code>, позволяющие получить различные псевдослучайные значения.</p>
+<div>
+  <table class="simple" width="70%" border="1" cellspacing="0" cellpadding="5">
+    <tr>
+      <td width="20%">
+        <div align="center"><b>Функция</b></div></td>
+      <td width="78%">
+        <div align="center"><b>Описание</b></div></td>
+    </tr>
+    <tr>
+      <td width="20%"><code>nextBoolean()</code></td>
+      <td width="78%">возвращает следующее равномерно распределенное значение типа <b><code>boolean</code></b></td>
+    </tr>
+    <tr>
+      <td width="20%" height="3"><code>nextDouble()</code></td>
+      <td width="78%" height="3">возвращает следующее значение типа <b><code>double</code></b>, равномерно распределенное на интервале от 0 до 1</td>
+    </tr>
+    <tr>
+      <td width="20%"><code>nextFloat()</code></td>
+      <td width="78%">возвращает следующее значение типа <code><b>float</b></code>, равномерно распределенное на интервале от 0 до 1</td>
+    </tr>
+    <tr>
+      <td width="20%"><code>nextInt()</code></td>
+      <td width="78%">возвращает следующее равномерно распределенное значение типа <b><code>int</code></b></td>
+    </tr>
+    <tr>
+      <td width="20%"><code>nextInt(<b>int</b> n)</code></td>
+      <td width="78%">возвращает следующее значение типа <b><code>int</code> </b>, равномерно распределенное от 0 до <code>n</code> (не включая <code>n</code>)</td>
+    </tr>
+    <tr>
+      <td width="20%"><code>nextLong()</code></td>
+      <td width="78%">возвращает следующее равномерно распределенное значение типа <b><code>long</code></b></td>
+    </tr>
+    <tr>
+      <td width="20%"><code>nextBytes(<b>byte</b>[] bytes)</code></td>
+      <td width="78%">заполняет массив целых типа <b><code>byte</code></b> случайными значениями</td>
+    </tr>
+    <tr>
+      <td width="20%" height="25"><code>nextGaussian()</code></td>
+      <td width="78%" height="25">возвращает следующее значение типа <b><code>double</code></b>, распределенное на интервале от 0 до 1 по нормальному закону</td>
+    </tr>
+  </table>
+</div>
+<p>При работе с числами с плавающей точкой иногда необходимо обеспечить гарантированно одинаковый результат для всех платформ. Такую возможность обеспечивает модификатор <b><code>strictfp</code></b> - ключевое слово языка программирования Java, позволяющее произвести вычисления с плавающей точкой одинаково, независимо от операционной системы и аппаратной платформы, даже если они позволяют получить большую точность. Введено в Java, начиная с версии JVM 1.2.</p>
+<p>До JVM 1.2, все промежуточные вычисления с плавающей точкой производились только с одинарной или двойной точностью. Вследствие этого, ошибки расчета (ошибки округления, арифметическое переполнение и антипереполнение - ситуация, когда результат операции с плавающей точкой становится настолько близким к нулю, что порядок числа выходит за пределы разрядной сетки) происходили чаще, чем в архитектурах, которые осуществляли промежуточные вычисления с большей точностью. </p>
+<p>Начиная с версии JVM 1.2, промежуточные вычисления не ограничиваются стандартной точностью 32 и 64 битами. На платформах, которые могут производить вычисления с другой точностью (например, с 80-битной двойной расширенной точностью на x86 или x86-64 платформах), JVM использует их возможности (по умолчанию), что помогает предотвратить ошибки округления и переполнения и тем самым повысить точность. </p>
+<p>Однако бывает необходимо, чтобы вычисления с плавающей точкой производились одинаково на всех платформах. Этого позволяет достичь модификатор <b> <code>strictfp</code></b>, ограничивающий значения промежуточных вычислений одинарной и двойной точностью (точно так же, как в более ранних версиях JVM). Модификатор <code><b>strictfp</b></code> может быть использован перед именами классов, интерфейсов и неабстрактных методов.</p>
+<p>Для математических вычислений кроме встроенных типов-значений можно использовать объекты классов, производных от <code>java.lang.Number</code>. Ранее были рассмотрены классы <code>Byte</code>, <code>Double</code>, <code>Float</code>, <code>Integer</code>, <code>Long</code> и <code>Short</code>, производные от <code>Number</code>. Существуют также классы <code>java.math.BigInteger</code> и <code>java.math.BigDecimal</code>, позволяющие работать с числами произвольной точности. </p>
+<p>Конструкторы класса <code>BigInteger</code> позволяют создавать числа из строк, из массивов байт или формировать его случайно с указанием нужной длины. </p>
+<blockquote>
+  <pre>BigInteger number1 = <b>new</b> BigInteger(100, <b>new</b> Random()); // 100 - количество бит
+BigInteger number2 = <b>new</b> BigInteger(&quot;12345678901234567890&quot;);
+<b>int</b> n = 100000;
+// Целое значение нужно преобразовать в строку:
+BigInteger number3 = <b>new</b> BigInteger(n + &quot;&quot;);</pre>
+</blockquote>
+<p>В отличие от традиционных операций, необходимо использовать методы <code>add()</code>, <code>subtract()</code>, <code>multiply()</code> и <code>divide()</code> с параметром типа <code>BigInteger</code> (второй операнд). Существует также целый ряд дополнительных функций для реализации различных операций и преобразования типов.</p>
+<p>Класс <code>BigDecimal</code> создается и работает аналогично. Кроме того, имеется ряд дополнительных конструкторов. В частности, для создания объекта можно использовать <code>BigInteger</code>. Поддерживается также большое количество методов, реализующих различные операции.</p>
+<p>Для удобства работы в классе <code>BigInteger</code> определены константы <code>BigInteger.ZERO</code>, <code>BigInteger.ONE</code> и <code>BigInteger.TEN</code>. Аналогичные константы определены в классе <code>BigDecimal</code>.</p>
+<h3>1.3 Работа с календарем</h3>
+<p>Классы <code>Calendar</code> и <code>Date</code> из пакета <code>java.util</code> предоставляют методы работы с датой и временем. Объект класса <code>Date</code> хранит число миллисекунд, прошедших с 1 января 1970 г. 00:00:00 по Гринвичу. Это &quot;день рождения&quot; UNIX, он называется &quot;Epoch&quot;. </p>
+<p>Класс <code>Date</code> реализует два конструктора. Конструктор <code>Date()</code> заносит в создаваемый объект текущую дату и время в формате текущих региональных настроек:</p>
+<blockquote>
+  <pre>Date aDate = <b>new</b> Date();</pre>
+</blockquote>
+<p>Конструктор <code>Date(<b>long</b> millisec)</code> заносит в создаваемый объект указанное число. Например, получить число миллисекунд, прошедших с момента Epoch, можно статическим методом <code>System.currentTimeMillis()</code>:</p>
+<blockquote>
+  <pre>Date date = <b>new</b> Date(System.currentTimeMillis());</pre>
+</blockquote>
+<p>Многие конструкторы и методы класса <code>Date()</code> считаются устаревшими, так как класс не обеспечивает возможности интернационализации приложений. Для задания дат следует использовать класс <code>Calendar</code>. </p>
+<p>Методы класса <code>Date</code>:</p>
+<ul>
+  <li><code><b>long</b> getTime()</code> - получить значение, хранящееся в объекте</li>
+  <li><code><b>void</b> setTime(<b>long</b> newTime)</code> - установить новое значение</li>
+  <li><code><b>boolean</b> after(<b>long</b> when)</code> - возвращает <b><code>true</code></b>, если время <code>when</code> больше данного; </li>
+  <li><code><b>boolean</b> before(<b>long</b> when</code>) - возвращает <b><code>true</code></b>, если время <code>when</code> меньше данного. </li>
+</ul>
+<p>Преобразование миллисекунд, хранящихся в объектах класса <code>Date</code>, в текущее время и дату производится методами класса <code>Calendar</code>. Класс <code>Calendar</code> является абстрактным классом, который предоставляет методы для преобразования определенного момента времени в набор полей календаря (год, месяц, день месяца, час и т. д.), а также для работы с полями календаря (например, получить дату следующей недели).</p>
+<p>В Java есть только одна реализация класса <code>Calendar</code> - класс <code>GregorianCalendar</code>, производный от <code>Calendar</code>. Создать экземпляр класса <code>GregorianCalendar</code> можно с помощью статического метода <code>getInstance()</code>:</p>
+<blockquote>
+  <pre class="justified">Calendar gregorianCalendar = Calendar.getInstance(); // или Calendar gregorianCalendar = GregorianCalendar.getInstance();</pre>
+</blockquote>
+<p>В классе <code>Calendar</code> определены целочисленные константы <code>JANUARY</code> … <code>DECEMBER</code> (месяца) , константы <code>MONDAY</code> … <code>SUNDAY</code> (дни недели) , а также методы, позволяющие прочитать или установить первый день недели, время, часовой пояс и др.</p>
+<p>Дочерний класс <code>GregorianCalendar</code> имеет конструкторы, позволяющие определить календарь по времени:</p>
+<blockquote>
+  <pre>GregorianCalendar()
+GregorianCalendar(<b>int</b> year, <b>int</b> month, <b>int</b> date) 
+GregorianCalendar(<b>int</b> year, <b>int</b> month, <b>int</b> date, <b>int</b> hour, <b>int</b> minute) 
+GregorianCalendar(<b>int</b> year, <b>int</b> month, <b>int</b> date, <b>int</b> hour, <b>int</b> minute, <b>int</b> second)</pre>
+</blockquote>
+<p>Можно привести пример работы с классами <code>Date</code> и <code>Calendar</code>: </p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.calendar;
+<b>
+import</b> java.util.Calendar;
+<b>import</b> java.util.GregorianCalendar;
+<b>import</b> java.util.Date;
+<b>
+public</b> <b>class</b> DateTest {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        //Установка времени с использованием экземпляра Date:
+        Date date = <b>new</b> Date(System.currentTimeMillis());
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTime(date);
+        System.out.println(calendar.getTime());
+
+        //Вызов методов getter и setter объекта Calendar:
+        calendar.set(Calendar.MONTH, Calendar.JULY);
+        calendar.set(Calendar.DAY_OF_MONTH, 15);
+        calendar.set(Calendar.YEAR, 1978);
+        calendar.set(Calendar.HOUR, 2);
+        calendar.set(Calendar.MINUTE, 15);
+        calendar.set(Calendar.SECOND, 37);
+        System.out.println(calendar.getTime());
+        System.out.println(&quot;The YEAR is: &quot; + calendar.get(Calendar.YEAR));
+        System.out.println(&quot;The MONTH is: &quot; + calendar.get(Calendar.MONTH));
+        System.out.println(&quot;The DAY is: &quot; + calendar.get(Calendar.DATE));
+        System.out.println(&quot;The HOUR is: &quot; + calendar.get(Calendar.HOUR));
+        System.out.println(&quot;The MINUTE is: &quot; + calendar.get(Calendar.MINUTE));
+        System.out.println(&quot;The SECOND is: &quot; + calendar.get(Calendar.SECOND));
+        System.out.println(&quot;The AM_PM indicator is: &quot; + calendar.get(Calendar.AM_PM));
+    }
+
+}</pre>
+</blockquote>
+<p>Стандартные средства Java (до JDK 7) для работы с датами и временем имеют целый ряд недостатков, связанных с неудобством их использования, что привело к появлению альтернативных (нестандартных) библиотек, таких как популярная среди Java-программистов библиотека <a href="http://www.joda.org/joda-time">Joda-Time</a>. Для того, чтобы исправить это положение, новые классы и средства поддержки работы с датами и календарем реализованы в Java 8. Библиотека даты и времени по своему использованию во многом аналогична Joda-Time.</p>
+<p>В пакете <code>java.time</code> предложены классы для представления даты и времени:</p>
+<ul>
+  <li> <code>LocalDate</code> (день, месяц, год)</li>
+  <li><code>LocalTime</code> (только время суток)</li>
+  <li> <code>LocalDateTime</code> (дата и время).</li>
+</ul>
+<p>Эти три класса используются в тех случаях, когда не учитывается поясное время. Создать объекты можно с помощью статических функций <code>now()</code>, возвращающих текущее значение времени (даты):</p>
+<blockquote>
+  <pre>LocalDate date = LocalDate.now();
+LocalTime time = LocalTime.now();
+LocalDateTime dateTime = LocalDateTime.now();</pre>
+</blockquote>
+<p>Другие способы создания объекта - использование статической функции <code>of()</code>, принимающей в качестве параметров значения часов, минут и секунд:</p>
+<blockquote>
+  <pre>time = LocalTime.of(11, 15, 0);
+date = LocalDate.of(2015, 3, 8);
+dateTime = LocalDateTime.of(2015, Month.MARCH, 8, 11, 15, 0);
+dateTime = LocalDateTime.of(date, time); // другой вариант</pre>
+</blockquote>
+<p>Как видно из примера, для задания месяцев можно использовать как целые значения, так и константы перечисления <code>java.time.Month</code>. Из имеющегося объекта типа <code>LocalDate</code> можно создать объект типа <code>LocalDateTime</code> с помощью метода <code>atTime()</code>:</p>
+<blockquote>
+  <pre>dateTime = date.atTime(time);</pre>
+</blockquote>
+<p>С помощью методов <code>plus()</code> и <code>minus()</code> можно изменять значения даты и времени существующих объектов. При этом можно задавать единицу измерения с помощью констант перечисления <code>java.time.temporal.ChronoUnit</code>. В следующем примере определяется время на два часа позже текущего:</p>
+<blockquote>
+  <pre>LocalTime now = LocalTime.now();
+LocalTime later = now.plus(2, ChronoUnit.HOURS);
+System.out.println(later);</pre>
+</blockquote>
+<p>Есть также методы добавления и вычитания <code>plusHours()</code>, <code>minusHours()</code>, <code>plusMinutes()</code>, <code>minusMinutes()</code>, <code>plusSeconds()</code>, <code>minusSeconds()</code>, <code>plusNanos()</code> и <code>minusNanos()</code> с целыми параметрами. Аналогично класс <code>LocalDate</code> предоставляет методы <code>plusDays</code>, <code>plusMonths</code>, <code>minusDays</code> и <code>minusMonths</code>. Например:</p>
+<blockquote>
+  <pre>LocalDate today = LocalDate.now();
+LocalDate thirtyDaysFromNow = today.plusDays(30);
+LocalDate nextMonth = today.plusMonths(1);
+LocalDate aMonthAgo = today.minusMonths(1);</pre>
+</blockquote>
+<p>Идентификация часовых поясов осуществляется средствами класса <code>ZoneId</code>. Простейший способ получения идентификатора часового пояса, установленного в системе, - использование статической функции <code>systemDefault()</code>:</p>
+<blockquote>
+  <pre>ZoneId myZone = ZoneId.systemDefault();</pre>
+</blockquote>
+<p>Можно получить идентификатор часового пояса, используя строковую константу. Список возможных констант можно получить с помощью статического метода <code>ZoneId.getAvailableZoneIds()</code>. Перечисленные константы могут быть использованы в методе <code>of()</code>:</p>
+<blockquote>
+  <pre>ZoneId germanZone = ZoneId.of(&quot;Europe/Berlin&quot;);</pre>
+</blockquote>
+<p>Для работы со временем с учетом часовых поясов используется класс <code>ZonedDateTime</code>. Его использование аналогично <code>LocalTime</code>, однако если в качестве параметра метода <code>now()</code> задать объект типа <code>ZoneId</code>, можно работать с данными о времени соответствующего часового пояса:</p>
+<blockquote>
+  <pre>ZonedDateTime germanTime = ZonedDateTime.now(germanZone); 
+System.out.println(germanTime);</pre>
+</blockquote>
+<p>Для работы с поясным временем можно также использовать класс <code>Clock</code>.</p>
+<blockquote>
+  <pre>Clock clock = Clock.system(ZoneId.of(&quot;Europe/Moscow&quot;));
+LocalTime moscowTime = LocalTime.now(clock);
+System.out.println(moscowTime);</pre>
+</blockquote>
+<p>Java 8 определяет два класса, <code>Period</code> и <code>Duration</code>, позволяющие определять промежутки между датами и временами соответственно. Для этого используются методы <code>between()</code>:</p>
+<blockquote>
+  <pre>Period p = Period.between(date1, date2);
+Duration d = Duration.between(time1, time2);</pre>
+</blockquote>
+<p>Объекты этих классов также могут быть созданы с помощью статических методов, например:</p>
+<blockquote>
+  <pre>Duration twoHours = Duration.ofHours(2);
+Duration tenMinutes = Duration.ofMinutes(10);
+Duration thirtySecs = Duration.ofSeconds(30);</pre>
+</blockquote>
+<p>Класс <code>java.time.temporal.TemporalAdjusters</code> содержит такие полезные методы, как <code>firstDayOfMonth()</code>, <code>firstDayOfNextMonth()</code>, <code>firstInMonth(DayOfWeek)</code>, <code>lastDayOfMont()</code>, <code>next(DayOfWeek)</code>, <code>nextOrSame(DayOfWeek)</code>, <code>previous(DayOfWeek)</code>, <code>previousOrSame(DayOfWeek)</code> и т. д. </p>
+<p>Класс <code>Instant</code> представляет момент времени, измеренный в наносекундах. С использованием представления в наносекундах новая библиотека позволяет обеспечить совместимость с ранее использовавшимися средствами. Классы <code>Date</code> и <code>Calendar</code> предыдущих версий Java поддерживают метод <code>toInstant()</code>, результат которого может быть использован для создания объектов <code>LocalDateTime</code> или <code>ZonedDateTime</code>:</p>
+<blockquote>
+  <pre>java.util.Date date = <b>new</b> java.util.Date();
+Instant moment = date.toInstant();
+ZoneId myZone = ZoneId.systemDefault();
+LocalDateTime localDateTime = LocalDateTime.ofInstant(moment, myZone);
+ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(moment, myZone);</pre>
+</blockquote>
+<h2>2 Примеры программ</h2>
+<h3>2.1 Использование класса BigInteger</h3>
+<p>Следующая программа осуществляет вычисление факториала целых чисел в диапазоне от 0 до 1676.</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.bigint;
+
+<b>import</b> java.math.BigInteger;
+<b>import</b> java.util.Scanner;
+
+<b>public</b> <b>class</b> Factorial {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        BigInteger result = BigInteger.ONE;
+        <b>int</b> n = <b>new</b> Scanner(System.in).nextInt();
+        <b>for</b> (<b>int</b> i = 1; i &lt;= n; i++) {
+            result = result.multiply(<b>new</b> BigInteger(i + &quot;&quot;));
+        }
+        System.out.println(result);
+    }
+
+}
+</pre>
+</blockquote>
+<h3>2.2 Работа с календарем</h3>
+<p>Допустим, необходимо создать класс &quot;Состязание&quot; (<code>Competition</code>) с полями &quot;Место проведения&quot; типа <code>String</code> и &quot;Дата&quot; типа <code>Calendar</code>. Необходимо реализовать статическую функцию определения времени между двумя состязаниями. Программа будет иметь следующий вид:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.calendar;
+
+<b>import</b> java.util.Calendar;
+<b>import</b> java.util.GregorianCalendar;
+
+<b>public</b> <b>class</b> Competition {
+    <strong>private</strong> String place;
+    <strong>private</strong> Calendar date;
+
+    <b>public</b> Competition(String place, Calendar date) {
+        <b>this</b>.place = place;
+        <b>this</b>.date = date;
+    }
+ 
+    <b>public</b> <b>static</b> String between(Competition c1, Competition c2) {
+        <b>int</b> years = c2.date.get(Calendar.YEAR) - c1.date.get(Calendar.YEAR);
+        <b>int</b> months = c2.date.get(Calendar.MONTH) - c1.date.get(Calendar.MONTH);
+        <b>int</b> day = c2.date.get(Calendar.DAY_OF_MONTH) - c1.date.get(Calendar.DAY_OF_MONTH);
+        <b>return</b> years + &quot; год (года, лет) &quot; + months + &quot; мес. &quot; + day + &quot; дн.&quot;; 
+    }
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        Competition c1 = <b>new</b> Competition(&quot;Харьков&quot;, <b>new</b> GregorianCalendar(2012, 02, 11));
+        Competition c2 = <b>new</b> Competition(&quot;Киев&quot;, <b>new</b> GregorianCalendar(2013, 06, 20));
+        System.out.println(between(c1, c2));
+    }
+
+}</pre>
+</blockquote>
+<h2>3 Задания на самостоятельную работу</h2>
+<h3>3.1 Использование класса BigInteger*</h3>
+<p>Напишите программу, осуществляющую заполнение числа типа <code>BigInteger</code> случайными цифрами и вычисление целой степени этого числа. Для результата используйте <code>BigInteger</code>. Реализовать два варианта - с использованием функции <code>pow</code> класса и функции, обеспечивающей умножение длинных целых. Сравнить результаты.</p>
+<h3>3.2 Работа с календарем*</h3>
+<p align="left">В классе Person ранее созданной иерархии классов создать поле типа <code>Calendar</code> и добавить функцию вычисления возраста.</p>
+<h2>4 Контрольные вопросы</h2>
+<ol>
+  <li>Назовите основные составляющие платформы Java SE.</li>
+  <li>Для чего могут быть использованы случайные числа?</li>
+  <li>Как обеспечить получение одинаковой последовательности псевдослучайных чисел?</li>
+  <li>Как получить вещественные случайные числа в заданном диапазоне?</li>
+  <li>В чем предназначение модификатора <b><code>strictfp</code></b>?</li>
+  <li>Для чего используются классы <code>BigInteger</code> и <code>BigDecimal</code>?</li>
+  <li>Как можно создать число типа <code>BigInteger</code>?</li>
+  <li>Можно ли применять математические операции к числам типов <code>BigInteger</code> и <code>BigDecimal</code>?</li>
+  <li>В чем различие между классами <code>Calendar</code> и <code>Date</code>?</li>
+  <li>Как создать экземпляр класса <code>GregorianCalendar</code>?</li>
+  <li>Какие средства для работы с календарем предоставляет Java 8?</li>
+  <li>Какие средства для работы с часовыми поясами предоставляет Java 8?</li>
+</ol>
+<p>&nbsp;</p>
+    <div class="w3-clear nextprev">
+        <a class="btn btn-info float-left" href="topic_1_08.html">Предыдущая</a>
+        <a class="btn btn-info float-left" href="topic_2_02.html">Следующая</a>
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+<a href="#top" id="up">up</a>
+<footer class="container-fluid text-center">
+    <p>&copy; 2003-2019 Л.В.Иванов</p>
+</footer>
+<script>
+    $(document).ready(function () {
+        // Add smooth scrolling to all links in navbar + footer link
+        $("a[href='#top']").on('click', function (event) {
+
+            // Make sure this.hash has a value before overriding default behavior
+            if (this.hash !== "") {
+
+                // Prevent default anchor click behavior
+                event.preventDefault();
+
+                // Store hash
+                var hash = this.hash;
+
+                // Using jQuery's animate() method to add smooth page scroll
+                // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+                $('html, body').animate({
+                    scrollTop: $(hash).offset().top
+                }, 900, function () {
+
+                    // Add hash (#) to URL when done scrolling (default click behavior)
+                    window.location.hash = hash;
+                });
+            } // End if
+        });
+        var offset = 200;
+        var duration = 300;
+        $('#up').fadeOut(0);
+        $(window).scroll(function () {
+            var winTop = $(window).scrollTop();
+            if (winTop > offset) {
+                $('#up').css("opacity", "0.8");
+                $('#up').fadeIn(duration);
+            } else {
+                $('#up').fadeOut(duration);
+            }
+        });
+    })
+</script>
+
+</body>
+</html>

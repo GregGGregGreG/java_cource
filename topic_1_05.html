@@ -1,0 +1,1566 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>1.05 - Определение классов.  Наследование и полиморфизм</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background: #dfdfdf;
+        }
+
+        /* Remove the navbar's default margin-bottom and rounded borders */
+        .jumbotron {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        #header {
+            background-color: #445566;
+        }
+
+        #header h2, #header h4, #header h3, #header h5, #header p {
+            margin-left: -10px;
+            color: #ededed;
+        }
+
+        #header h2 {
+            font-weight: bold;
+        }
+
+        #header h4 {
+            font-size: 1.5em;
+        }
+
+        #content {
+            background: white;
+            padding-right: 9%;
+            box-sizing: border-box;
+        }
+
+        p {
+            text-align: justify;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        ul.nav, ul.side_menu {
+            list-style-type: none;
+            margin-left: -20px;
+        }
+
+        .navbar {
+            margin-bottom: 0;
+            border-radius: 0;
+        }
+
+        .navbar-inverse {
+            background-color: #445566;
+            border: none;
+            border-top: 1px solid white;
+        }
+
+        .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > li > a:hover {
+            background-color: #293b4c;
+        }
+
+        /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+        .row.content {
+            height: 450px
+        }
+
+        /* Set gray background color and 100% height */
+        .sidenav {
+            padding-top: 20px;
+            height: 100%;
+        }
+
+        .btn-info {
+            color: #fff;
+            background-color: #445566;
+            border: none;
+            border-radius: 0;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .btn-info:hover {
+            background-color: #293b4c;
+        }
+
+        .navbar-inverse .navbar-toggle:hover {
+            background-color: #293b4c;
+        }
+
+        .hide {
+            visibility: hidden;
+        }
+
+        .disa {
+            cursor: default;
+            opacity: 0.6;
+
+        }
+
+        .disa:hover {
+            background-color: #445566;
+        }
+
+        /* Set black background color, white text and some padding */
+        footer {
+            background-color: #293b4c;
+            color: white;
+            padding: 15px;
+        }
+
+        #up {
+            color: #fff;
+            position: fixed;
+            display: block;
+            background: #293b4c;
+            width: 40px;
+            height: 40px;
+            bottom: 64px;
+            right: 30px;
+            opacity: 0;
+            border-radius: 50%;
+            padding-left: 12px;
+            padding-top: 8px;
+            box-sizing: border-box;
+        }
+
+        /* On small screens, set height to 'auto' for sidenav and grid */
+        @media screen and (max-width: 990px) {
+            #content {
+                padding-right: 10px;
+            }
+
+            #up {
+                display: none !important;
+            }
+        }
+
+        /* On small screens, set height to 'auto' for sidenav and grid */
+        @media screen and (max-width: 767px) {
+            .sidenav {
+                height: auto;
+                padding: 15px;
+            }
+
+            .row.content {
+                height: auto;
+            }
+        }
+
+        @media only screen and (max-width: 600px) {
+            img.small_img {
+                width: 40%;
+                height: auto;
+            }
+
+            img.big_img {
+                width: 90%;
+                height: auto;
+            }
+        }
+
+        .justified {
+            text-align: justify;
+            font-weight: normal
+        }
+
+        tt {
+            color: #446699;
+        }
+    </style>
+</head>
+<body id="top">
+<div class="container-fluid text-left" id="header">
+    <div class="container text-left col-md-3 col-sm-12">
+        <img src="Images/icon-java.png" style="padding-top: 15px; box-sizing: border-box;">
+    </div>
+    <div class="container text-left col-md-9 col-sm-12">
+        <h2>Язык программирования и технологии Java</h2>
+        <h5>Разработчик курса Л. В. Иванов</h5>
+        <h4>Модуль 1 Объектно-ориентированное программирование и язык Java</h4>
+
+    </div>
+</div>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <!--div class="col-sm-12 col-md-3 sidenav">
+            </div-->
+
+            <ul class="nav navbar-nav">
+                <li><a href="index.html">Главная</a></li>
+                <li class="active"><a href="topic_1_01.html">Объектно-ориентированное программирование и язык Java</a>
+                </li>
+                <li><a href="topic_2_01.html">Платформа Java SE</a></li>
+                <li><a href="">Разработка приложений JAVA EE</a></li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid text-left">
+    <div class="row content">
+        <div class="col-sm-12 col-md-3 sidenav">
+            <ul class="side_menu">
+                <li>1 Объектно-ориентированное программирование и язык Java
+                    <ul class="side_menu">
+                        <li><a href="topic_1_01.html">01 Парадигмы программирования. Основы объектно-ориентированного подхода</a></li>
+                        <li><a href="topic_1_02.html">02 Язык программирования Java и Java-платформа</a></li>
+                        <li><a href="topic_1_03.html">03 Синтаксические конструкции языка Java</a></li>
+                        <li><a href="topic_1_04.html">04 Ссылочные типы. Массивы. Строки и классы-оболочки</a></li>
+                        <li>05 Определение классов.  Наследование и полиморфизм</li>
+                        <li><a href="topic_1_06.html">06 Вложенные типы. Интерфейсы. Лямбда-выражения и ссылки на методы</a></li>
+                        <li><a href="topic_1_07.html">07 Перечисления. Исключения. Использование обобщений</a></li>
+                        <li><a href="topic_1_08.html">08 Понятие паттернов проектирования. Порождающие паттерны</a></li>
+                    </ul>
+                </li>
+                <li>2 Платформа Java SE
+                  <ul class="side_menu">
+                        <li><a href="topic_2_01.html">01 Платформа Java SE и ее составляющие</a></li>
+                        <li><a href="topic_2_02.html">02 Работа с коллекциями в Java 7</a></li>
+                        <li><a href="topic_2_03.html">03 Работа с текстовыми данными. Локализация</a></li>
+                        <li><a href="topic_2_04.html">04 Работа с потоками ввода-вывода и файловой системой</a></li>
+                        <li><a href="topic_2_05.html">05 Работа с XML. XML-сериализация</a></li>
+                        <li>06 Тестирование и управление сборкой. Ведение системного журнала</li>
+                        <li>07 Работа с потоками выполнения</li>
+                        <li>08 Работа с контейнерами Java 8. Stream API</li>
+                        <li>09 Поддержка сетевого взаимодействия</li>
+                        <li>10 Работа с базами данных</li>
+                        <li>11 Использование RTTI и рефлексии. Метапрограммирование. Аннотации</a></li>
+                        <li>12 </a>Использование структурных паттернов</li>
+                  </ul>
+                </li>
+                <li>3 Основы разработки приложений Java EE
+                    <ul class="side_menu">
+                        <li>01 Платформа Java EE. Web-приложения. Создание сервлетов</li>
+                        <li>02 Основы создания страниц JSP</li>
+                        <li>03 Работа с EJB. Создание Web-сервисов</li>
+                        <li>04 Использование Spring Framework</li>
+                        <li>05 Использование паттернов поведения и распределения ответственности </li>
+                        <li>06 Дополнительные возможности Java 11</li>
+                    </ul>
+                </li>
+            </ul>
+      </div>
+        <div class="col-sm-12 col-md-9 text-left" id="content">
+            <div class="w3-clear nextprev">
+                <a class="btn btn-info float-left" href="topic_1_04.html">Предыдущая</a>
+                <a class="btn btn-info float-left" href="topic_1_06.html">Следующая</a>
+            </div>
+            <h1>Определение классов.  Наследование и полиморфизм</h1>
+<h2>1 Теоретическая часть</h2>
+<h3>1.1 Определение классов</h3>
+<p><i>Класс</i> &#8211 это структурированный тип данных, набор элементов данных различных типов и функций для работы с этими данными. Описание класса состоит из спецификаторов (например, <code><b>public</b></code>, <code><b>final</b></code>), имени, имени базового класса, списка интерфейсов и тела, заключенного в фигурные скобки.</p>
+<p><i>Тело класса</i> содержит поля (элементы данных) и методы (функции). Поля и методы вместе именуются элементами (членами) класса. В класс могут также входить другие классы, интерфейсы и перечисления. Ниже приводится пример описания класса:</p>
+<blockquote>
+  <pre><b>class</b> Rectangle {
+    <b>double</b> width;
+    <b>double</b> height;
+    <b>double</b> area() {
+        <b>return</b> width * height;
+    }
+}</pre>
+</blockquote>
+<p>После последней закрывающейся фигурной скобки не следует ставить точку с запятой. Методы всегда реализуются внутри определения класса.</p>
+<p>При создании объекта класса поля инициализируются значениями по умолчанию (нулями или <b><code>null</code></b> для ссылок). В Java допускает инициализацию полей начальными значениями:</p>
+<blockquote>
+  <pre><b>class</b> Rectangle {
+    <b>double</b> width = 10;
+    <b>double</b> height = 20;
+    <b>double</b> area() {
+        <b>return</b> width * height;
+    }
+}</pre>
+</blockquote>
+<p>Можно создать специальный блок инициализации внутри тела класса. Такой блок будет выполняться каждый раз при создании нового объекта:</p>
+<blockquote>
+  <pre><b>class</b> Rectangle {
+    <b>double</b> width;
+    <b>double</b> height;
+    {
+        width = 10;
+        height = 20;
+    }
+    <b>double</b> area() {
+        <b>return</b> width * height;
+    }
+}</pre>
+</blockquote>
+<p>Для того, чтобы работать с полями и методами класса, необходимо создать объект. Для этого сначала создают ссылку на объект, а потом с помощью операции <b><code>new</code></b> создают сам объект путем вызова конструктора. Эти действия можно совместить. После этого можно вызывать методы и использовать поля:</p>
+<blockquote>
+  <pre class="justified">Rectangle rect = <b>new</b> Rectangle(); // rect - имя ссылки на объект
+<b>double</b> a = rect.area();           // a = 200
+rect.width = 15;                  // изменение значения поля
+<b>double</b> b = rect.area();           // b = 300</pre>
+</blockquote>
+<h3>1.2 Конструкторы. Ссылка this </h3>
+<p><i>Конструктор</i> представляет собой функцию, инициализирующую объект. Имя конструктора совпадает с именем класса. Нельзя указывать тип результата конструктора. В классе может быть определено несколько конструкторов, отличающихся списками параметров. Если ни один конструктор явно не определен, автоматически создается конструктор по умолчанию (без параметров). Такой конструктор инициализирует все поля начальными значениями по умолчанию. Значения по умолчанию для целых и вещественных чисел &#8211 0, для <code><b>boolean</b></code> &#8211 <code><b>false</b></code>, для <code><b>char</b></code> &#8211 символ c кодом 0.</p>
+<p>Вместо блока инициализации можно проинициализовать поля в конструкторе. Тогда код класса будет таким:</p>
+<blockquote>
+  <pre><b>class</b> Rectangle {
+    <b>double</b> width;
+    <b>double</b> height;
+
+    Rectangle() { // конструктор
+        width = 10;
+        height = 20;
+    }
+
+    <b>double</b> area() {
+        <b>return</b> width * height;
+    }
+}</pre>
+</blockquote>
+<p>Для удобства создания объекта можно сделать несколько конструкторов:</p>
+<blockquote>
+  <pre><b>class</b> Rectangle {
+    <b>double</b> width;
+    <b>double</b> height;
+
+    Rectangle() { // конструктор
+        width = 10;
+        height = 20;
+    }
+
+    Rectangle(<b>double</b> width, <b>double</b> height) { // конструктор
+        <b>this</b>.width = width;
+        <b>this</b>.height = height;
+    }
+
+    <b>double</b> area() {
+        <b>return</b> width * height;
+    }
+}</pre>
+</blockquote>
+<p>Теперь объект можно создать, указав сразу значения <code>width</code> и <code>height</code>:</p>
+<blockquote>
+  <pre>Rectangle rect = <b>new</b> Rectangle(25, 35); // width = 25, height = 35</pre>
+</blockquote>
+<p>В приведенном выше коде класса используется ключевое слово <b><code>this</code></b>, имеющее смысл ссылки на объект, для которого вызван метод. В теле конструктора <b><code>this</code></b> используется для предотвращения конфликта имен, так как имена параметров (без <b><code>this</code></b>) и полей (с префиксом <b><code>this</code></b>) совпадают. Обращение ко всем полям и методам из тела метода класса может сопровождаться префиксом <b><code>this</code></b>, например:</p>
+<blockquote>
+  <pre><b>double</b> area() {
+    <b>return</b> <b>this</b>.width * <b>this</b>.height;
+}</pre>
+</blockquote>
+<p>Однако в данном случае использование <b><code>this</code></b> не целесообразно.</p>
+<p>Один конструктор можно вызвать из другого с использованием слова <b><code>this</code></b>, после которого следуют необходимые аргументы.</p>
+<blockquote>
+  <pre><b>class</b> Rectangle {
+    <b>double</b> width;
+    <b>double</b> height;
+    Rectangle(<b>double</b> width, <b>double</b> height) {
+        <b>this.</b>width = width;
+        <b>this.</b>height = height;
+    }
+    Rectangle() {
+        <b>this</b>(10, 20); // вызов другого конструктора
+    }
+}</pre>
+</blockquote>
+<p><i>Примечание</i>: в среде IntelliJ IDEA конструктор с параметрами, соответствующими полям, может быть сгенерирован через функцию главного меню <tt>Code | Generate... | Constructor</tt>, далее выбираются необходимые поля, которым будут соответствовать параметры конструктора. В частности, можно сгенерировать конструктор без параметров. </p>
+<p>В Java нет деструкторов. Можно создать специальный метод <code>finalize()</code>, который вызывается сборщиком мусора перед ликвидацией объекта. В некоторых случаях объект может быть не удален сборщиком мусора никогда (памяти хватало до конца программы), следовательно, метод <code>finalize()</code> может быть никогда не вызван.</p>
+<p>Методы и поля могут быть объявлены с ключевым словом <b><code>static</code></b>. Обращение к таким полям и методам может осуществляться без создания экземпляра класса (объекта). Статические поля являются альтернативой отсутствующим в Java глобальным переменным. Статические поля могут быть проинициализированы при описании:</p>
+<blockquote>
+  <pre><b>class</b> SomeClass {
+    <b>static double</b> x = 10;
+    <b>static int    </b>i = 20;
+}</pre>
+</blockquote>
+<p>Можно создать специальный блок статической инициализации:</p>
+<blockquote>
+  <pre><b>class</b> SomeClass {
+    <b>static double</b> x;
+    <b>static int </b>i;
+    <b>static </b>{
+        x = 10;
+        i = 20;
+    }
+}</pre>
+</blockquote>
+<p>В отличие от нестатической инициализации, создание и инициализация статических полей осуществляется при первом обращении к классу (создании экземпляра класса или обращении к статическим элементам). Java не создает статических полей для неиспользуемых классов.</p>
+<p>Статические методы не могут использовать ссылку <b><code>this</code></b>. Обращение к статическим элементам может производиться как по имени класса, так и через ссылку на объект:</p>
+<blockquote>
+  <pre>SomeClass.x = 30;
+SomeClass s = <b>new</b> SomeClass();
+s.x = 40;</pre>
+</blockquote>
+<p>Объект, созданный с помощью <b><code>new</code></b>, содержит свою копию всех данных (полей), кроме статических.</p>
+<h3>1.3 Спецификаторы доступа</h3>
+<p><i>Спецификатор доступа</i> (спецификатор видимости) &#8211 ключевое слово, предшествующее описанию элемента класса, и определяющее, из каких частей кода программы может быть осуществлен доступ к элементу класса. Java поддерживает закрытый (<b><code>private</code></b>), защищенный (<b><code>protected</code></b>) и открытый (<b><code>public</code></b>) уровни доступа. Сам класс может быть объявлен как <b><code>public</code></b>. Java требует отдельной спецификации доступа для каждого элемента (или группы полей с одинаковым типом, перечисленным через запятую).</p>
+<p>Доступ к закрытым (<b><code>private</code></b>) элементам класса ограничен методами внутри класса.</p>
+<p>Открытые (<b><code>public</code></b>) элементы открытого класса могут быть доступны из любой функции любого пакета.</p>
+<p>Элементы класса без атрибутов доступа имеют видимость по умолчанию. Такой доступ еще называют "дружественным". Все прочие классы данного пакета имеют доступ к таким элементам как к открытым. Извне пакета такие элементы вообще недоступны.</p>
+<p>Доступ к защищенным (<b><code>protected</code></b>) элементам класса, определенном в некотором пакете, ограничен методами данного класса и производных классов любых пакетов, а также методами классов данного пакета.</p>
+<p>В соответствии с основопологающим принципом инкапсуляции поля класса (данные) следует объявлять как закрытые и осуществлять к ним доступ через открытые функции. В Java принято для полей создавать специальные функции доступа &#8211 так называемые <em>геттеры</em> и <em>сеттеры</em>. Геттер позволяет прочитать значение поля, а сеттер &#8211 задать новое значение. В соответствии с принятыми соглашениями, для поля с именем <code>name</code> имена функций доступа будут <code>setName</code> и <code>getName</code>. В следующем примере класс содержит два поля и соответственно по две функции доступа для каждого поля:</p>
+<blockquote>
+  <pre><b>public class</b> SomeClass {
+    <b>private int</b> i;
+    <b>private double</b> x;
+
+    <b>public int</b> getI() {
+        <b>return</b> i;
+    }
+
+<b>    public void</b> setI(<b>int</b> i) {
+        <b>this</b>.i = i;
+    }
+
+    <b>public </b><b>double</b> getX() {
+        <b>return</b> x;
+    }
+
+    <b>public void</b> setX(<b>double</b> x) {
+        <b>this</b>.x = x;
+    }
+}</pre>
+</blockquote>
+<p>Как и для конструкторов, имя параметра сеттера целесообразно делать таким же, как имя соответствующего поля, а для разрешения конфликта имен следует использовать ссылку <b><code>this</code></b>.</p>
+<p><i>Примечание</i>: в среде IntelliJ IDEA геттеры и сеттеры можно автоматически сгенерировать с помощью функции главного меню <tt>Code | Generate... | Getter and Setter</tt>, далее выбираются необходимые поля, которым будут методы доступа. Можно также сгенерировать только геттеры или только сеттеры.</p>
+<p>Внутри классов можно определять константы. Константы могут быть двух видов - статические и нестатические. Статическую константу создает компилятор. По соглашению ее имя должно содержать только заглавные буквы:</p>
+<blockquote>
+  <pre><b>public</b> <b>static</b> <b>final</b> <b>double</b> PI = 3.14159265;</pre>
+</blockquote>
+<p>Значение нестатической константы задается один раз - либо на месте определения или в блоке инициализации (тогда это значение будет одинаковым для всех экземпляров), либо в конструкторе:</p>
+<blockquote>
+  <pre><b>class</b> ConstDemo {
+    <b>public</b> <b>final</b> <b>int</b> one = 1;
+    <b>public</b> <b>final</b> <b>int</b> two; 
+
+    {
+        two = 2;
+    }
+
+    <b>public</b> <b>final</b> <b>int</b> other;
+
+    <b>public</b> ConstDemo(<b>int</b> other) {
+        <b>this</b>.other = other;
+    }
+}</pre>
+</blockquote>
+<p>Константы можно определять как <strong><code>public</code></strong>.</p>
+<h3>1.4 Композиция</h3>
+<p><i>Композицией классов</i> называется создание новых классов с использованием объектов других классов в качестве полей. Java не допускает размещения объектов внутри других объектов, разрешено только размещение ссылок. Композиция классов в этом случае предполагает создание объектов непосредственно (в теле класса при объявлении полей) или в конструкторах.</p>
+<blockquote>
+  <pre><b>class </b>X {
+}
+
+<b>class </b>Y {
+}
+
+<b>class</b> Z {
+    X x = <b>new</b> X();
+    Y y;
+    Z() {
+        y = <b>new</b> Y();
+    }
+}</pre>
+</blockquote>
+<p>Можно создать внутренний объект непосредственно перед его первым использованием.</p>
+<p>Отношение, моделируемое композицией, часто называют отношением &quot;has-a&quot;. </p>
+<p><i>Агрегирование </i>представляет собой разновидность композиции, предполагающую, что сущность (экземпляр) содержится в другой сущности или не может быть создана и существовать без всеохватывающей сущности. При этом объемлющая сущность может существовать без внутренней, то есть время жизни объемлющей и внутренней сущностей может не совпадать. Более строгая трактовка композиции (собственно композиция) предполагает, что время жизни объемлющей и внутренней сущностей совпадает. На уровне Java агрегирование предполагает возможность создания внутреннего объекта перед его использованием, тогда как строгая композиция предполагает создание внутреннего объекта в теле класса, в блоке инициализации или в конструкторе.</p>
+<h3>1.5 Наследование</h3>
+<p><i>Механизм наследования</i> заключается в порождении производных классов от базовых. Если один класс (производный) является потомком другого (базового), то наследник имеет возможность пользоваться данными и функциями, определенными в классе-предке. Отношения между классами и подклассами называются иерархией наследования классов.</p>
+<p>В Java разрешается только единичное наследование классов - у класса может быть только один базовый класс. Наследование всегда открытое. В Java нет защищенного и закрытого наследования. Наследование имеет следующий синтаксис:</p>
+<blockquote>
+  <pre><b>class</b> DerivedClass <b>extends</b> BaseClass {
+    // тело класса
+}</pre>
+</blockquote>
+<p>Функции производного класса имеют доступ только к элементам, описанным в разделах <code> <b>public</b></code> и <code><b>protected</b></code> (защищенные). Члены класса, объявленные как защищенные, могут использоваться классами-потомками, а также в пределах пакета. Закрытые члены класса недоступны даже для его потомков.</p>
+<p>Все классы Java непосредственно или опосредованно происходят от класса <code>java.lang.Object</code>. Этот класс предоставляет набор полезных методов, таких как <code>toString()</code> для приведения любого объекта к строковому представлению и т.д. Базовый класс <code>Object</code> никогда явно не указывается.</p>
+<p>До выполнения конструктора производного класса вызывается конструктор базового класса и конструкторы объектов, создаваемых при описании класса.</p>
+<p>Ключевое слово <b><code>super</code></b> используется для доступа к элементам базового класса из производного класса, в частности: </p>
+<ul>
+  <li>для вызова перекрытого метода базового класса;</li>
+  <li>для передачи параметров конструктору базового класса.</li>
+</ul>
+<p>Например:</p>
+<blockquote>
+  <pre><b>class</b> BaseClass {
+    <b>int</b> i, j;
+    BaseClass(<b>int</b> i, <b>int</b> j) {
+        <b>this</b>.i = i;
+        <b>this</b>.j = j;
+    }
+}
+
+<b>class</b> DerivedClass <b>extends</b> BaseClass {
+    <b>int</b> k;
+    DerivedClass(<b>int</b> i, <b>int</b> j, <b>int</b> k) {
+        <b>super</b>(i, j);
+        <b>this</b>.k = k;
+    }
+}</pre>
+</blockquote>
+<p>Доступ к базовому классу с использованием <b><code>super</code></b> разрешен только в конструкторах и нестатических методах.</p>
+<p>Классы могут быть определены с модификатором <b><code>final</code></b>. Финальные классы не могут использоваться в качестве базовых. Методы с модификатором <b><code>final</code></b> не могут быть перекрыты. Например:</p>
+<blockquote>
+  <pre><b>final</b> <b>class</b> A {
+    <b>void</b> f() { }
+}
+
+<b>class</b> B {
+    <b>final</b> <b>void</b> g() { } 
+}
+
+<b>class</b> C <b>extends</b> A { // Ошибка! Нельзя наследовать от A
+}
+
+<b>class</b> D <b>extends</b> B {
+    <b>void</b> g() { }    // Ошибка! g() нельзя перекрыть
+}</pre>
+</blockquote>
+<p>Ссылка на производный класс неявно приводится к ссылке на базовый класс. Другими словами, объекты производных классов всегда можно использовать там, где требуется объект базового класса.</p>
+<blockquote>
+  <pre><b>class</b> Base {
+    <b>static</b> <b>void</b> f(Base b) { }
+}
+
+<b>class</b> Derived <b>extends</b> Base {
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        Base b;
+        b = <b>new</b> Derived(); // Неявное приведение
+        Derived d = <b>new</b> Derived();
+        f(d);              // Неявное приведение
+    }
+}</pre>
+</blockquote>
+<p>Обратное приведение необходимо производить явно:</p>
+<blockquote>
+  <pre>Base b = <b>new</b> Base();
+Derived d = (Derived) b;    </pre>
+</blockquote>
+<h3>1.6 Полиморфизм</h3>
+<p><i>Полиморфизм времени выполнения </i> - это свойство, при котором поведение объектов класса может определяться не на этапе компиляции, а на этапе выполнения. Классы, предоставляющие идентичный интерфейс, но реализованные под конкретные специфические требования, называются <i>полиморфными классами</i>. </p>
+<p>Для реализации полиморфизма обычно используется так называемый механизм позднего связывания. <i>Раннее связывание</i>, при котором адреса вызываемых функций однозначно определяются при компоновке программы, присуще языкам процедурного типа, таким как C или Pascal. <i>Позднее связывание</i> означает, что подключение происходит во время выполнения программы и в объектно-ориентированных языках зависит от типов объектов. Позднее связывание еще называют динамическим, или связыванием времени выполнения. </p>
+<p>В языках объектно-ориентированного программирования позднее связывание реализуется через механизм виртуальных функций. <i>Виртуальная функция</i> (виртуальный метод, virtual method) - это функция, определенная в базовом классе, и перекрытая в производных, так, что конкретная реализация функции для вызова будет определяться во время выполнения программы. Выбор реализации виртуальной функции зависит от реального (а не объявленного при описании) типа объекта. Поскольку ссылка на базовый тип может содержать адрес объекта любого производного типа, поведение ранее созданных классов может быть изменено позже путем перекрытия виртуальных методов. Перекрытие предусматривает воссоздание имени, списка параметров и спецификатора доступа. Фактически полиморфными являются классы, которые содержат виртуальные функции.</p>
+<p>В С++ и C# позднее связывание реализуется через механизм виртуальных функций. В Java все нестатические, нефинальные и не относящиеся к закрытым методы являются виртуальными. Слово <code>virtual</code> не используется. Конструкторы также не могут быть виртуальными. </p>
+<p>Начиная с Java 5, перед перекрытыми виртуальными методами размещают аннотацию <code>@Override</code>, которая позволяет компилятору осуществить дополнительную проверку синтаксиса - соответствие сигнатуры новой функции сигнатуре перекрываемой функции базового класса. Использование <code>@Override</code> желательно, но не обязательно.</p>
+<p>Все классы Java является полиморфными, поскольку таковым является класс <code>java.lang.Object</code>. В частности, благодаря полиморфизму каждый класс может определить свою виртуальную функцию <code>toString()</code>, которая будет вызвана для автоматического получения данных об объекте в виде строки.</p>
+<p>При перекрытии защищенных (<b><code>protected</code></b>) методов можно повышать их уровень видимости до <b><code>public</code></b>.</p>
+<p>В Java используется ключевое слово <code><b>instanceof</b></code>, которое позволяет проверить, является ли объект экземпляром данного типа (или производных типов). Выражение</p>
+<blockquote>
+  <pre><i>объект</i> <b>instanceof</b> <i>класс</i></pre>
+</blockquote>
+<p>возвращает значение типа<b><code> boolean</code></b>, которое может быть использовано для проверки, можно ли вызывать метод данного класса:</p>
+<blockquote>
+  <pre><b>if</b>(x <b>instanceof</b> SomeClass)
+    ((SomeClass)x).someMethod();</pre>
+</blockquote>
+<h3>1.7 Абстрактные классы и методы</h3>
+<p>Иногда классы создаются для представления абстрактных концепций, а не для создания экземпляров. Такие концепции могут быть представлены абстрактными классами. В Java для этого используется ключевое слово <b><code>abstract</code></b> перед определением класса.</p>
+<blockquote>
+  <pre><b>abstract class</b> SomeConcept {
+  . . .
+}</pre>
+</blockquote>
+<p>Абстрактный класс может содержать абстрактные методы, такие, для которых не приводится реализация. Такие методы не имеют тела функции. Их объявление аналогично объявлению функций-элементов в С++, но объявлению должно предшествовать ключевое слово <b><code>abstract</code></b>. </p>
+<p>Например, абстрактный класс <code>Shape</code> (геометрическая фигура) реализует поля и методы, которые могут быть использованы различными производными классами. К таким полям можно, например, отнести текущую позицию и метод перемещения по экрану <code>moveTo()</code>. В классе <code>Shape</code> также объявлены абстрактные методы, такие как <code>draw()</code>, которые должны быть реализованы во всех производных классах, но по-разному. Реализация по умолчанию не имеет смысла. Например: </p>
+<blockquote>
+  <pre><b>abstract class</b> Shape {
+    <b>int</b> x, y;
+    . . .
+    <b>void</b> moveTo(<b>int</b> newX, <b>int</b> newY) {
+        . . .
+    }
+    <b>abstract void</b> draw();
+}</pre>
+</blockquote>
+<p>Конкретные классы, произведенные от <code>Shape</code>, такие как <code>Circle</code> или <code>Rectangle</code>, определяют реализацию метода <code>draw()</code>.</p>
+<blockquote>
+  <pre><b>class</b> Circle <b>extends</b> Shape 
+{
+    <b>void</b> draw() {
+        . . .
+    }
+}
+
+<b>class</b> Rectangle <b>extends</b> Shape {
+    <b>void</b> draw() {
+        . . .
+    }
+}</pre>
+</blockquote>
+<p>От абстрактного класса не требуется обязательного наличия абстрактных методов. Но каждый класс, в котором есть хоть один абстрактный метод, или хотя бы один абстрактный метод базового класса не был определен, должен быть объявлен как абстрактный (с использованием ключевого слова <b><code>abstract</code></b>). </p>
+<p>В UML имена абстрактных классов и функций пишутся курсивом.</p>
+<p><em>Примечание</em>. Для переопределения методов в среде IntelliJ IDEA можно автоматически сгенерировать каркас кода с помощью функции главного меню <tt>Code | Generate | Override Methods...</tt>. </p>
+<h3>1.8 Аннотации (метаданные)</h3>
+<p>Аннотации позволяют включить в программный код дополнительную информацию, которая не может быть определена с помощью средств языка. В тексте программы аннотации начинаются с символа @. Типичный пример аннотации - <code>@Override</code>. Благодаря этой аннотации компилятор может проверить, действительно соответствующий метод был объявлен в базовых классах.</p>
+<blockquote>
+  <pre>
+<b>public</b> <b>class</b> MyClass <b>extends</b> Object {
+  
+    @Override
+    <b>public</b> String toString() {
+        <b>return</b> &quot;My overridden method!&quot;;
+    }
+}</pre>
+</blockquote>
+<p>Можно привести другие примеры аннотаций:</p>
+<ul>
+  <li><code> @SuppressWarnings(&quot;идентификатор_предупреждения&quot;)</code> <code>-</code> предупреждения компилятора не должны выдаваться в аннотированном элементе;</li>
+  <li><code>@Deprecated</code> <code>-</code> использование аннотированного элемента не является более желательным.</li>
+</ul>
+<p>Java позволяет определять собственные аннотации. Соответствующий механизм будет рассмотрен позже.</p>
+<h3>1.9 Клонирование объектов и проверка эквивалентности </h3>
+<p>Иногда возникает необходимость в создании копии некоторого объекта, например, для выполнения с копией действий, не нарушающих данных об оригинале. Простое присваивание приводит только к копированию ссылок. Если нам необходимо поэлементно скопировать некоторый объект, необходимо использовать механизм так называемого клонирования. </p>
+<p>В базовом классе <code>java.lang.Object</code> имеется функция <code>clone()</code>, использование которой по умолчанию позволяет скопировать объект поэлементно. Эта функция также определена для массивов, строк и других стандартных классов. Например, так можно получить копию существующего массива и работать с этой копией:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fifth;
+
+<b>import</b> java.util.Arrays;
+
+<b>public</b> <b>class</b> ArrayClone {
+  
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        <b>int</b>[] a1 = { 1, 2, 3, 4 };
+        <b>int</b>[] a2 = a1.clone(); // Копия элементов
+        System.out.println(Arrays.toString(a2)); // [1, 2, 3, 4]
+        a1[0] = 10; // меняем первый массив
+        System.out.println(Arrays.toString(a1)); // [10, 2, 3, 4]
+        System.out.println(Arrays.toString(a2)); // [1, 2, 3, 4]
+    }
+
+}</pre>
+</blockquote>
+<p>Для того, чтобы можно было клонировать объекты пользовательских классов, эти классы должны реализовывать интерфейс <code>Cloneable</code>. Этот интерфейс не объявляет ни одного метода. Он всего лишь указывает, что объекты данного класса можно клонировать. В противном случае вызов функции <code>clone()</code> приведет к генерации исключения типа <code>CloneNotSupportedException</code>. Механизм исключений будет рассмотрен позже. Заметим только, что функция может проигнорировать исключение, если после ее заголовка добавить <code><b>throws</b> ИмяКлассаИсключения</code>.</p>
+<p>Допустим, нам нужно клонировать объекты класса <code>Human</code>, включающего два поля типа <code>String</code> - <code>name</code> и <code>surname</code>. Добавляем к описанию класса реализацию интерфейса <code>Cloneable</code>, генерируем конструктор с двумя параметрами, для удобства вывода содержимого полей перекрываем функцию <code>toString()</code>. В функции <code>main()</code> осуществляем тестирование клонирования объекта:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fifth;
+
+<b>public</b> <b>class</b> Human <b>implements</b> Cloneable {
+    <b>private</b> String name;
+    <b>private</b> String surname;
+  
+    <b>public</b> Human(String name, String surname) {
+        <b>super</b>();
+        <b>this</b>.name = name;
+        <b>this</b>.surname = surname;
+    }
+
+    @Override
+    <b>public</b> String toString() {
+        <b>return</b> name + &quot; &quot; + surname;
+    }
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) <b>throws</b> CloneNotSupportedException {
+        Human human1 = <b>new</b> Human(&quot;John&quot;, &quot;Smith&quot;);
+        Human human2 = (Human) human1.clone();
+        System.out.println(human2); // John Smith
+        human1.name = &quot;Mary&quot;;
+        System.out.println(human1); // Mary Smith
+        System.out.println(human2); // John Smith
+    }
+
+}</pre>
+</blockquote>
+<p>Как видно из примера, после клонирования в исходный объект можно вносить изменения. При этом копия не изменится.</p>
+<p>Для удобства использования функции <code>clone()</code> ее можно перекрыть, изменив ее тип результата и сделав открытой. Благодаря наличию этой функции упростится клонирование (не нужно будет каждый раз приводить тип):</p>
+<blockquote>
+  <pre>
+  @Override
+  <b>public</b> Human clone() <b>throws</b> CloneNotSupportedException {
+      <b>return</b> (Human) <b>super</b>.clone();
+  }
+  . . .
+  
+  Human human2 = human1.clone();</pre>
+</blockquote>
+<p>Стандартное клонирование, реализованное в классе <code>java.lang.Object</code>, позволяет создавать копии объектов, поля которых - типы значения и тип <code>String</code> (а также классы-оболочки). Если поля объекта - ссылки на массивы или другие типы, необходимо применять так называемое &quot;глубокое&quot; клонирование. Допустим, некоторый класс <code>SomeCloneableClass</code> содержит два поля типа <b><code>double</code></b> и массив целых. &quot;Глубокое&quot; клонирование обеспечит создание отдельных массивов для различных объектов.</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fifth;
+
+<b>import</b> java.util.Arrays;
+
+<b>public</b> <b>class</b> SomeCloneableClass <b>implements</b> Cloneable {
+    <b>private</b> <b>double</b> x, y;
+    <b>private</b> <b>int</b>[] a;
+  
+    <b>public</b> SomeCloneableClass(<b>double</b> x, <b>double</b> y, <b>int</b>[] a) {
+        <b>super</b>();
+        <b>this</b>.x = x;
+        <b>this</b>.y = y;
+        <b>this</b>.a = a;
+    }
+
+    @Override
+    <b>protected</b> SomeCloneableClass clone() <b>throws</b> CloneNotSupportedException {
+        SomeCloneableClass scc = (SomeCloneableClass) <b>super</b>.clone(); // копируем x и y
+        scc.a = a.clone(); // теперь два объекта работают с различными массивами
+        <b>return</b> scc;
+    }
+
+    @Override
+    <b>public</b> String toString() {
+        <b>return</b> &quot; x=&quot; + x + &quot; y=&quot; + y + &quot; a=&quot; + Arrays.toString(a);
+    }
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) <b>throws</b> CloneNotSupportedException {
+        SomeCloneableClass scc1 = <b>new</b> SomeCloneableClass(0.1, 0.2, <b>new</b> <b>int</b>[] { 1, 2, 3 });
+        SomeCloneableClass scc2 = scc1.clone();
+        scc2.a[2] = 4;
+        System.out.println(&quot;scc1:&quot; + scc1);
+        System.out.println(&quot;scc2:&quot; + scc2);
+    }
+
+}</pre>
+</blockquote>
+<p>Для того, чтобы убедиться, что клонированные объекты одинаковые, хорошо было бы иметь возможность автоматического сравнения всех полей. Ссылочная модель объектов Java не позволяет сравнивать содержимое объектов с помощью операции сравнения (<code>==</code>), так как при этом сравниваются ссылки. Для сравнения значений по полям целесообразно использовать функцию <code>equals()</code>, определенную в классе <code>java.lang.Object</code>. Для классов, поля которых представляют собой типы-значения, метод класса обеспечивает поэлементное сравнение. Если же поля представляют собой ссылки на объекты, необходимо явно перекрывать функцию <code>equals()</code>. Приведем полный пример с классом <code>Human</code>.</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fifth;
+
+<b>public</b> <b>class</b> Human <b>implements</b> Cloneable {
+    <b>private</b> String name;
+    <b>private</b> String surname;
+   
+    <b>public</b> Human(String name, String surname) {
+        <b>super</b>();
+        <b>this</b>.name = name;
+        <b>this</b>.surname = surname;
+    }
+
+    @Override
+    <b>public</b> <b>boolean</b> equals(Object obj) {
+        Human h = (Human) obj;
+        <b>return</b> name.equals(h.name) &amp;&amp; surname.equals(h.surname);
+    }
+
+    @Override
+    <b>public</b> Human clone() <b>throws</b> CloneNotSupportedException {
+        <b>return</b> (Human) <b>super</b>.clone();
+    }
+
+    @Override
+    <b>public</b> String toString() {
+        <b>return</b> name + &quot; &quot; + surname;
+    }
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) <b>throws</b> CloneNotSupportedException {
+        Human human1 = <b>new</b> Human(&quot;John&quot;, &quot;Smith&quot;);
+        Human human2 = human1.clone();
+        System.out.println(human2);
+        human1.name = &quot;Mary&quot;;
+        System.out.println(human1);
+        System.out.println(human2);
+        human2.name = <b>new</b> String(&quot;Mary&quot;);
+        System.out.println(human2);
+        System.out.println(human1.equals(human2)); // true
+    }
+
+}
+</pre>
+</blockquote>
+<p>Если бы метод <code>equals()</code> не был определен, последнее сравнение дало бы <b><code>false</code></b>.</p>
+<p>Вместе с принято переопределять метод <span class="justified"><code>hashCode()</code>, описанный в классе <code>Object</code>. и реализующий так называемое хеширование. </span><i>Хеширование</i> (hashing) &#8211; это процесс преобразования данных об объекте уникальный код с использованием некоторого формального алгоритма. В широком смысле в результате должны получаться последовательности бит фиксированной длины, в частном случае &#8211; просто целое число. Это преобразование осуществляет так называемая <i>хеш-функция</i>, или функция хеширования. Функция хеширования должна следовать следующему правилу: хеш-функция должна возвращать <i>одинаковый хеш-код</i> всякий раз, когда она применена к одинаковым или равным объектам.</p>
+<p>Все объекты в Java наследуют стандартную реализацию <code>hashCode()</code> функции, описанной в классе <code>Object</code>. Эта функция возвращает хеш-код, полученный путем конвертации внутреннего адреса объекта в число, что ведет к созданию уникального кода для каждого отдельного объекта.</p>
+<p>Конкретные стандартные классы релизуют свои хэш-функции. Например, для строк значение хэш-функции вычисляется по формуле:</p>
+<blockquote>
+  <pre>s[0]*31<sup>n-1</sup> + s[1]*31<sup>n-2</sup> + ... + s[n-1]</pre>
+</blockquote>
+<p>Здесь <code>s[0]</code>, <code>s[1]</code> и т.д. - коды соответствующих символов.</p>
+<p>Хеш-функции используют для начального сравнения объектов в различных алгоритмах и контейнерах. Эффективность этих контейнеров существенно зависит от качества хеш-функции.</p>
+<h2>2 Примеры программ</h2>
+<h3>2.1 Точка на плоскости</h3>
+<p>Допустим, необходимо реализовать программу для работы с точками на плоскости. Точка задается парой вещественных чисел. Класс для представления точки должен реализовывать следующие методы:</p>
+<ul>
+  <li>вычисление расстояния от точки до начала координат;</li>
+  <li>вычисление расстояния между двумя точками.</li>
+</ul>
+<p>Вторая функция может быть реализована как статический метод. Программа может быть следующей:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fifth;
+
+<b>public</b> <b>class</b> Point {
+    <b>private double</b> x, y;
+
+    <b>public</b> <b></b>Point(<b>double</b> x, <b>double</b> y) {
+        <b>this</b>.x = x;
+        <b>this</b>.y = y;
+    }
+
+    <b>public</b> <b></b><b>double</b> distance() {
+        <b>return</b> Math.sqrt(x * x + y * y);
+    }
+
+    <b>public</b> <b></b><b>static</b> <b>double</b> distance(Point p1, Point p2) {
+        <b>return</b> Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + 
+                         (p1.y - p2.y) * (p1.y - p2.y));
+    }
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        Point p1 = <b>new</b> Point(3, 4);
+        System.out.println(p1.distance());
+        Point p2 = <b>new</b> Point(4, 5);
+        System.out.println(distance(p1, p2));
+    }
+}</pre>
+</blockquote>
+<h3>2.2 Линейное уравнение</h3>
+<p>Допустим, необходимо спроектировать класс, представляющий линейное уравнение. Поля этого класса &#8211 коэффициенты <i>a</i> и <i>b</i> и корень <i>x</i>, который необходимо найти. Создаем класс <code>LinearEquation</code>, содержащий функцию <code>main()</code>. После добавления необходимых полей генерируем геттеры и сеттеры. Геттеры необходимы для всех полей, а сеттры &#8211 для полей <code>a</code> и <code>b</code>. Далее к классу добавляем функцию <code>solve()</code>, возвращающую <b><code>false</code></b> или <b><code>true</code></b> в зависимости от того, можно ли решить уравнение. Тестирование осуществляется в функции <code>main()</code>. Получим следующую программу:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fifth;
+
+<b>public</b> <b>class</b> LinearEquation {
+    <b>private</b> <b>double</b> a, b, x;
+  
+    <b>public</b> <b>double</b> getA() {
+        <b>return</b> a;
+    }
+  
+    <b>public</b> <b>void</b> setA(<b>double</b> a) {
+        <b>this</b>.a = a;
+    }
+  
+    <b>public</b> <b>double</b> getB() {
+        <b>return</b> b;
+    }
+  
+    <b>public</b> <b>void</b> setB(<b>double</b> b) {
+        <b>this</b>.b = b;
+    }
+  
+    <b>public</b> <b>double</b> getX() {
+        <b>return</b> x;
+    }
+  
+    <b>public</b> <b>boolean</b> solve() {
+        <b>if</b> (a == 0) {
+            <b>return</b> <b>false</b>;
+        }
+        x = - b / a;
+    <b>    return</b> <b>true</b>;
+    }
+  
+  <b>  public</b> <b>static</b> <b>void</b> main(String[] args) {
+        LinearEquation e = <b>new</b> LinearEquation();
+        e.setA(1);
+        e.setB(-2);
+        <b>if</b> (e.solve()) {
+            System.out.println("x = " + e.getX());
+        }
+        <b>else</b> {
+            System.out.println("Нет решений!");
+        }
+        e.setA(0);
+        e.setB(4);
+        <b>if</b> (e.solve()) {
+            System.out.println("x = " + e.getX());
+        }
+    <b>    else</b> {
+            System.out.println("Нет решений!");
+        }
+    }
+}</pre>
+</blockquote>
+<h3>2.3 Простые дроби</h3>
+<p>Допустим, необходимо создать класс для представления простой дроби. Поля этого класса (n и d) &#8211 соответственно числитель и знаменатель. Поскольку важно, чтобы знаменатель не был бы равен 0, конструктор без параметров инициализирует знаменатель единицей. Конструктор с параметрами инициализируется данными с проверкой их допустимости. Функция <code>System.exit()</code> осуществляет аварийное прекращение работы программы:</p>
+<blockquote>
+  <pre><b>public</b> <b>class</b> Fraction {
+    <b>private</b> <b>int</b> n, d;
+    
+    <b>public</b> Fraction() {
+        n = 0;
+        d = 1;
+    }
+  
+    <b>public</b> Fraction(<b>int</b> numerator, <b>int</b> denominator) {
+        <b>if</b> (denominator &lt;= 0) {
+            System.err.println("Знаменатель неположительный!");
+            System.exit(1);
+        }
+        n = numerator;
+        d = denominator;
+    }</pre>
+</blockquote>
+<p>Можно автоматически сгенерировать функции доступа по чтению (getters):</p>
+<blockquote>
+  <pre><b>    public</b> <b>int</b> getDenominator() {
+        <b>return</b> d;
+    }
+  
+    <b>public</b> <b>int</b> getNumerator() {
+        <b>return</b> n;
+    }</pre>
+</blockquote>
+<p>Функция <code>set</code>() проверяет допустимость данных и генерирует исключение:</p>
+<blockquote>
+  <pre><b>    public</b> <b>void</b> set(<b>int</b> numerator, <b>int</b> denominator) {
+        <b>if</b> (denominator &lt;= 0){
+            System.err.println("Знаменатель неположительный!");
+            System.exit(1);
+        }
+        n = numerator;
+        d = denominator;
+    }</pre>
+</blockquote>
+<p>Благодаря перекрытию функции <code>toString()</code> можно управлять механизмом получения строкового представления данных объекта:</p>
+<blockquote>
+  <pre><b>    public</b> String toString() {
+        <b>return</b> n + "/" + d;
+    }</pre>
+</blockquote>
+<p>Функция <code>sum()</code> осуществляет сложение дробей. Функция <code>reduce()</code> осуществляет сокращение дроби:</p>
+<blockquote>
+  <pre><b>    public</b> <b>static</b> Fraction sum(Fraction a, Fraction b) {
+        Fraction c = <b>new</b> Fraction();
+        c.n = a.n * b.d + a.d * b.n;
+        c.d = a.d * b.d;
+        c.reduce();
+        <b>return</b> c;
+    }
+
+    <strong>protected</strong> Fraction reduce() {
+        <b>int</b> num = n, den = d;
+    <b>    while</b> (num != den) {
+            <b>if</b> (num &gt; den) {
+                num -= den;
+            }
+        <b>    else</b> {
+                den -= num;
+            }
+        }
+        n /= num;
+        d /= num;
+    <b>    return</b> <b>this</b>;
+    }</pre>
+</blockquote>
+<p>В функции <code>main()</code> осуществляется тестирование. Приведем весь текст программы:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fifth;
+
+<b>public</b> <b>class</b> Fraction {
+    <b>private</b> <b>int</b> n, d;
+  
+    <b>public</b> Fraction() {
+        n = 0;
+        d = 1;
+    }
+  
+    <b>public</b> Fraction(<b>int</b> numerator, <b>int</b> denominator) {
+        <b>if</b> (denominator &lt;= 0) {
+            System.err.println("Знаменатель неположительный!");
+            System.exit(1);
+        }
+        n = numerator;
+        d = denominator;
+    }
+  
+    <b>public</b> <b>int</b> getDenominator() {
+        <b>return</b> d;
+    }
+  
+    <b>public</b> <b>int</b> getNumerator() {
+        <b>return</b> n;
+    }
+  
+    <b>public</b> <b>void</b> set(<b>int</b> numerator, <b>int</b> denominator) {
+        <b>if</b> (denominator &lt;= 0){
+            System.err.println("Знаменатель неположительный!");
+            System.exit(1);
+        }<b>
+        </b>n = numerator;
+        d = denominator;
+    }
+  
+    <b>public</b> String toString() {
+        <b>return</b> n + "/" + d;
+    }
+  
+    <b>public</b> <b>static</b> Fraction sum(Fraction a, Fraction b) {
+        Fraction c = <b>new</b> Fraction();
+        c.n = a.n * b.d + a.d * b.n;
+        c.d = a.d * b.d;
+        c.reduce();
+        <b>return</b> c;
+    }
+  
+    <strong>protected</strong> Fraction reduce() {
+        <b>int</b> num = n, den = d;
+        <b>while</b> (num != den) {
+            <b>if</b> (num &gt; den) {
+                num -= den;
+            }
+        <b>    else</b> {
+                den -= num;
+            }
+        }
+        n /= num;
+        d /= num;
+    <b>    return</b> <b>this</b>;
+    }
+  
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        Fraction a = <b>new</b> Fraction(10, 20);
+        System.out.println("a = " + a.reduce());
+        Fraction b = <b>new</b> Fraction(1, 3);
+        System.out.println("b = " + b.reduce());
+        System.out.println("a + b = " + sum(a, b));
+    }
+}</pre>
+</blockquote>
+<h3>2.4 Иерархия объектов реального мира</h3>
+<p>Допустим, необходимо разработать иерархию классов &quot;Регион&quot; - &quot;Населенный район&quot; - &quot;Страна&quot;. Отдельные классы этой иерархии могут стать базовыми для других классов (например &quot;Необитаемый остров&quot;, &quot;Национальный парк&quot;, &quot;Административный район&quot;, &quot;Автономная республика&quot; и т.д.). Иерархию классов можно дополнить классами &quot;Город&quot; и &quot;Остров&quot;. Целесообразно в каждый класс добавить конструктор, инициализирующий все поля. Можно также создать массив ссылок на различные объекты иерархии и. для каждого объекта вывести на экран строку данных о нем.</p>
+<p>Для того чтобы получить строковое представление объекта, необходимо перекрыть функцию <code>toString()</code>. </p>
+<p>Можно предложить следующую иерархию классов:.</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fifth;
+
+//Иерархия классов
+<b>class</b> Region {
+    <b>private</b> String name;
+    <b>private</b> <b>double</b> area;
+  
+    <b>public</b> Region(String name, <b>double</b> area) {
+        <b>this</b>.name = name;
+        <b>this</b>.area = area;
+    }
+
+    <b>public</b> String getName() {
+        <b>return</b> name;
+    }
+
+    <b>public</b> <b>double</b> getArea() {
+        <b>return</b> area;
+    }
+
+    @Override
+    <b>public</b> String toString() {
+        <b>return</b> getClass().getName() + &quot;: \t&quot; + name + &quot;.   \tТерритория &quot; + area + &quot; кв.км.&quot;;
+    }
+}
+
+<b>class</b> PopulatedRegion <b>extends</b> Region {
+    <b>private</b> <b>int</b> population;
+    <b>public</b> PopulatedRegion(String name, <b>double</b> area, <b>int</b> population) {
+        <b>super</b>(name, area);
+        <b>this</b>.population = population;
+    }
+
+    <b>public</b> <b>int</b> getPopulation() {
+        <b>return</b> population;
+    }
+
+    <b>public</b> <b>int</b> density() {
+        <b>return</b> (<b>int</b>) (population / getArea());
+    }
+
+    @Override
+    <b>public</b> String toString() {
+        <b>return</b> <b>super</b>.toString() + &quot;    \tНаселение &quot; + population + 
+               &quot; чел.\tПлотность населеня &quot; + density() + &quot; чел/кв.км.&quot;;
+    }
+}
+
+<b>class</b> Country <b>extends</b> PopulatedRegion {
+    <b>private</b> String capital;
+
+    <b>public</b> Country(String name, <b>double</b> area, <b>int</b> population, String capital) {
+        <b>super</b>(name, area, population);
+        <b>this</b>.capital = capital;
+    }
+
+    <b>public</b> String getCapital() {
+        <b>return</b> capital;
+    }
+
+    @Override
+    <b>public</b> String toString() {
+        <b>return</b> <b>super</b>.toString() + &quot;\tСтолица &quot; + capital;
+    }
+}
+
+<b>class</b> City <b>extends</b> PopulatedRegion {
+    <b>private</b> <b>int</b> boroughs; // Количество районов
+
+    <b>public</b> City(String name, <b>double</b> area, <b>int</b> population, <b>int</b> boroughs) {
+        <b>super</b>(name, area, population);
+        <b>this</b>.boroughs = boroughs;
+    }
+
+    <b>public</b> <b>int</b> getBoroughs() {
+        <b>return</b> boroughs;
+    }
+
+    @Override
+    <b>public</b> String toString() {
+        <b>return</b> <b>super</b>.toString() + &quot;\tРайонов - &quot; + boroughs;
+    }
+}
+
+<b>class</b> Island <b>extends</b> PopulatedRegion {
+    <b>private</b> String sea;
+
+    <b>public</b> Island(String name, <b>double</b> area, <b>int</b> population, String sea) {
+        <b>super</b>(name, area, population);
+        <b>this</b>.sea = sea;
+    }
+
+    <b>public</b> String getSea() {
+        <b>return</b> sea;
+    }
+
+    @Override
+    <b>public</b> String toString() {
+        <b>return</b> <b>super</b>.toString() + &quot;\tМоре - &quot; + sea;
+    }  
+
+}
+
+<b>public</b> <b>class</b> Regions {
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        Region[] a = <b>new</b> Region[4];
+        a[0] = <b>new</b> City(&quot;Киев&quot;, 839, 2679000, 10);
+        a[1] = <b>new</b> Country(&quot;Украина&quot;, 603700, 46294000, &quot;Киев&quot;);
+        a[2] = <b>new</b> City(&quot;Харьков&quot;, 310, 1461000, 9);
+        a[3] = <b>new</b> Island(&quot;Змеиный&quot;, 0.2, 30, &quot;Черное&quot;);
+        <b>for</b> (<b>int</b> i = 0; i &lt; a.length; i++) {
+            System.out.println(a[i]);
+        }
+    }
+}</pre>
+</blockquote>
+<p>Благодаря полиморфизму, данные об объекте выводятся в зависимости от его типа. В примере используется вызов функций <code>getClass().getName()</code>, позволяющий получить имя класса для каждого объекта. Функция <code>getClass()</code> является частью механизма RTTI (Run-Time Type Information), который будет рассмотрен позже.</p>
+<h3>2.5  Класс для представления массива точек</h3>
+<h4>2.5.1 Постановка задачи и создание абстрактного класса</h4>
+<p>Допустим, необходимо разработать класс для представления массива точек. Каждая точка представлена двумя числами типа <code><b>double</b></code> - <code>x</code> и <code>y</code>. Необходимо обеспечить задание точки, получение информации о координатах конкретной точки и общем количестве точек, а также добавление точки в конец массива и удаление последней точки. Кроме того, необходимо организовать сортировку массива по возрастанию заданной координаты и вывод координат точек в строку.</p>
+<p>Наиболее простым, но не единственным решением является создание класса <code>Point</code> с двумя полями и создание массива ссылок на <code>Point</code>. Такое решение - правильное с точки зрения организации структуры данных, но не достаточно эффективное, так как оно предполагает размещение в динамической памяти как самого массива, так и отдельных объектов-точек. Альтернативные представления - два массива координат, двумерный массив и т. д.</p>
+<p> Окончательное решение о структуре данных может быть принято только в контексте конкретной задачи. Полиморфизм позволяет реализовать необходимые алгоритмы без привязки к конкретной структуре данных. Для этого создаем абстрактный класс, в котором функции доступа объявлены как абстрактные, а алгоритмы сортировки и вывода в строку реализованы с использованием абстрактных функций доступа. Кроме того можно определить функцию для тестирования. Соответствующий абстрактный класс будет иметь следующий вид:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fifth;
+
+<b>public</b> <b>abstract</b> <b>class</b> AbstractArrayOfPoints {
+
+    // Запись новых координат точки:
+    <b>public</b> <b>abstract</b> <b>void</b> setPoint(<b>int</b> i, <b>double</b> x, <b>double</b> y);
+
+    // Получение X точки i:
+    <b>public</b> <b>abstract</b> <b>double</b> getX(<b>int</b> i);
+
+    // Получение Y точки i:
+    <b>public</b> <b>abstract</b> <b>double</b> getY(<b>int</b> i);
+
+    // Получение количества точек:
+    <b>public</b> <b>abstract</b> <b>int</b> count();
+
+    // Добавление точки в конец массива:
+    <b>public</b> <b>abstract</b> <b>void</b> addPoint(<b>double</b> x, <b>double</b> y);
+
+    // Удаление последней точки:
+    <b>public</b> <b>abstract</b> <b>void</b> removeLast();
+
+    // Сортировка по значениям X:
+    <b>public</b> <b>void</b> sortByX() {
+        <b>boolean</b> mustSort; // Повторяем до тех пор,
+                          // пока mustSort равно <b>true</b>
+        <b>do</b> {
+            mustSort = <b>false</b>;
+            <b>for</b> (<b>int</b> i = 0; i &lt; count() - 1; i++) {
+                <b>if</b> (getX(i) &gt; getX(i + 1)) {
+                    // меняем элементы местами
+                    <b>double</b> x = getX(i);
+                    <b>double</b> y = getY(i);
+                    setPoint(i, getX(i + 1), getY(i + 1));
+                    setPoint(i + 1, x, y);
+                    mustSort = <b>true</b>;
+                }
+            }
+        }
+    <b>    while</b> (mustSort);
+    }
+
+    // Аналогично можно реализовать функцию sortByY()
+    // Вывод точек в сторку:
+    @Override
+  <b>  public</b> String toString() {
+        String s = &quot;&quot;;
+        <b>for</b> (<b>int</b> i = 0; i &lt; count(); i++) {
+            s += &quot;x = &quot; + getX(i) + &quot; ty = &quot; + getY(i) + &quot;\n&quot;;
+        }
+        <b>return</b> s + &quot;\n&quot;;
+    }
+
+    // Тестируем сортировку на четырех точках:
+  <b>  public</b> <b>void</b> test() {
+        addPoint(22, 45);
+        addPoint(4, 11);
+        addPoint(30, 5.5);
+        addPoint(-2, 48);
+        sortByX();
+        System.out.println(<b>this</b>);
+    }
+}</pre>
+</blockquote>
+<p>Теперь можно реализовать различные варианты представления структуры данных.</p>
+<h4>2.5.2 Реализация через массив объектов типа Point</h4>
+<p>Первой из возможных реализаций будет создание класса <code>Point</code> и использование массива ссылок на <code>Point</code>. В том же проекте создаем класс <code>ArrayOfPointObjects</code>. Если классу явно указать базовый (<code>AbstractArrayOfPoints</code>), в окне редактора будут индицированы ошибки, связанные с наличием неперекрытых абстрактных методов. С помощью функции меню <tt>Code | Generate | Override Methods...</tt> можно автоматически сгенерировать каркас методов, которые нужно перекрыть. В результате получим следующий код:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fifth;<b>
+
+public</b> <b>class</b> ArrayOfPointObjects <b>extends</b> AbstractArrayOfPoints {
+
+    @Override
+    <b>public</b> <b>void</b> setPoint(<b>int</b> i, <b>double</b> x, <b>double</b> y) {
+
+    }
+
+    @Override
+    <b>public</b> <b>double</b> getX(<b>int</b> i) {
+        <b>return</b> 0;
+    }
+
+    @Override
+  <b>  public</b> <b>double</b> getY(<b>int</b> i) {
+        <b>return</b> 0;
+    }
+
+    @Override
+  <b>  public</b> <b>int</b> count() {
+        <b>return</b> 0;
+    }
+
+    @Override
+  <b>  public</b> <b>void</b> addPoint(<b>double</b> x, <b>double</b> y) {
+
+    }
+  
+    @Override
+  <b>  public</b> <b>void</b> removeLast() {
+
+    }
+
+}</pre>
+</blockquote>
+<p>Класс для представления точки можно добавить в том же пакете. Класс <code>Point</code> будет содержать два поля и конструктор:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fifth;
+
+<b>public</b> <b>class</b> Point {
+  <b>  private</b> <b>double</b> x, y;
+
+    <b>public</b> Point(<b>double</b> x, <b>double</b> y) {
+        <b>this</b>.x = x;
+        <b>this</b>.y = y;
+    }
+
+  <b>  public</b> <b>double</b> getX() {
+        <b>return</b> x;
+    }
+
+    <b>public</b> <b>double</b> getY() {
+        <b>return</b> y;
+    }
+
+    <b>public</b> <b>void</b> setPoint(<b>double</b> x, <b>double</b> y) {
+        <b>this</b>.x = x;
+        <b>this</b>.y = y;
+    }
+}</pre>
+</blockquote>
+<p>В классе <code>ArrayOfPointObjects</code> создаем поле - ссылку на массив <code>Point</code> и инициализируем ее пустым массивом. Реализация большинства функций представляется очевидной. Наибольшую трудность представляют функции добавления и удаления точек. В обоих случаях необходимо создать новый массив нужной длины и переписать в него содержимое из старого. В функции <code>main()</code> осуществляем тестирование. Весь код файла <code>AbstractArrayOfPoints.java</code> будет иметь вид: </p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fifth;
+
+<b>public</b> <b>class</b> ArrayOfPointObjects <b>extends</b> AbstractArrayOfPoints {
+
+    <b>private</b> Point[] p = { };
+
+    @Override
+    <b>public</b> <b>void</b> setPoint(<b>int</b> i, <b>double</b> x, <b>double</b> y) {
+        <b>if</b> (i &lt; count()) {
+            p[i].setPoint(x, y);
+        }
+    }
+
+    @Override
+    <b>public</b> <b>double</b> getX(<b>int</b> i) {
+        return p[i].getX();
+    }
+
+    @Override
+    <b>public</b> <b>double</b> getY(<b>int</b> i) {
+        return p[i].getY();
+    }
+
+    @Override
+    <b>public</b> <b>int</b> count() {
+        <b>return</b> p.length;
+    }
+
+    @Override
+    <b>public</b> <b>void</b> addPoint(<b>double</b> x, <b>double</b> y) {
+        // Создаем массив, больший на один элемент:
+        Point[] p1 = <b>new</b> Point[p.length + 1];
+        // Копируем все элементы:
+        System.arraycopy(p, 0, p1, 0, p.length);
+        // Записываем новую точку в последний элемент:
+        p1[p.length] = <b>new</b> Point(x, y);
+        p = p1; // Теперь p указывает на новый массив
+    }
+
+    @Override
+    <b>public</b> <b>void</b> removeLast() {
+        <b>if</b> (p.length == 0)
+            <b>return</b>; // Массив уже пустой
+        // Создаем массив, меньший на один элемент:
+        Point[] p1 = <b>new</b> Point[p.length - 1];
+        // Копируем все элементы, кроме последнего:
+        System.arraycopy(p, 0, p1, 0, p1.length);
+        p = p1; // Теперь p указывает на новый массив
+    }
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        // Можно создать безымянный объект:
+        <b>new</b> ArrayOfPointObjects().test();
+    }
+}</pre>
+</blockquote>
+<p>В результате получим в консольном окне точки, рассортированные по координате <code>X</code>.</p>
+<h4>2.5.3 Реализация через два массива</h4>
+<p>Альтернативная реализация предполагает создание двух массивов для отдельного хранения значений <code>X</code> и <code>Y</code>. Создаем класс <code>ArrayWithTwoArrays</code>, используя аналогичные опции. В классе <code>ArrayWithTwoArrays</code> создаем два поля - ссылки на массивы вещественных чисел и инициализируем их пустыми массивами. Реализация функций аналогична предыдущему варианту. В функции <code>main()</code> осуществляем тестирование:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fifth;
+
+<b>public</b> <b>class</b> ArrayWithTwoArrays <b>extends</b> AbstractArrayOfPoints {
+    <b>private</b> <b>double</b>[] ax = { };
+    <b>private</b> <b>double</b>[] ay = { };
+
+    @Override
+    <b>public</b> <b>void</b> setPoint(<b>int</b> i, <b>double</b> x, <b>double</b> y) {
+        <b>if</b> (i &lt; count()) {
+            ax[i] = x;
+            ay[i] = y;
+        }
+    }
+
+    @Override
+    <b>public</b> <b>double</b> getX(<b>int</b> i) {
+        <b>return</b> ax[i];
+    }
+
+    @Override
+    <b>public</b> <b>double</b> getY(<b>int</b> i) {
+        <b>return</b> ay[i];
+    }
+
+    @Override
+    <b>public</b> <b>int</b> count() {
+        <b>return</b> ax.length; // Можно y.length, они одинаковые
+    }
+
+    @Override
+    <b>public</b> <b>void</b> addPoint(<b>double</b> x, <b>double</b> y) {
+        <b>double</b>[] ax1 = <b>new</b> <b>double</b>[ax.length + 1];
+        System.arraycopy(ax, 0, ax1, 0, ax.length);
+        ax1[ax.length] = x;
+        ax = ax1;
+        <b>double</b>[] ay1 = <b>new</b> <b>double</b>[ay.length + 1];
+        System.arraycopy(ay, 0, ay1, 0, ay.length);
+        ay1[ay.length] = y;
+        ay = ay1;
+    }
+
+    @Override
+    <b>public</b> <b>void</b> removeLast() {
+        <b>if</b> (count() == 0) {
+            <b>return</b>;
+        }
+        <b>double</b>[] ax1 = <b>new</b> <b>double</b>[ax.length - 1];
+        System.arraycopy(ax, 0, ax1, 0, ax1.length);
+        ax = ax1;
+        <b>double</b>[] ay1 = <b>new</b> <b>double</b>[ay.length - 1];
+        System.arraycopy(ay, 0, ay1, 0, ay1.length);
+        ay = ay1;
+    }
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        <b>new</b> ArrayWithTwoArrays().test();
+    }
+}</pre>
+</blockquote>
+<p>Результаты должны быть идентичными.</p>
+<h3>2.6 Решение уравнения методом дихотомии</h3>
+<p>Допустим, необходимо решить методом дихотомии (деления отрезка пополам) произвольное уравнение.</p>
+<div align="center"><i>f(x)</i> = 0</div>
+<p>Численные методы решения уравнений предполагают многократное вычисление в различных точках значений функциональной зависимости <i>f(x)</i>, определяющей левую часть уравнения. В отличие от алгоритма решения, <i>f(x)</i> может меняться в различных задачах. Необходимо реализовать механизм передачи информации о данной зависимости классу, который отвечает за решение уравнения. Для этого можно предложить использование абстрактного класса. Создаем новый класс - <code>AbstractEquation</code>, содержащий абстрактную функцию <code>f()</code> и функцию решения уравнения - <code>solve()</code>:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fifth;
+
+<b>public</b> <b>abstract</b> <b>class</b> AbstractEquation {
+
+    <b>abstract</b> <b>public double</b> f(<b>double</b> x);
+
+    <b>public </b><b>double</b> solve(<b>double</b> a, <b>double</b> b, <b>double</b> eps) {
+        <b>double</b> x = (a + b) / 2;
+        <b>while</b> (Math.abs(b - a) &gt; eps) {
+            <b>if</b> (f(a) * f(x) &gt; 0) {
+                a = x;
+            }
+            <b>else</b> {
+                b = x;
+            }
+            x = (a + b) / 2;
+        }
+        <b>return</b> x;
+    }
+}</pre>
+</blockquote>
+<p>Теперь можно создать конкретный класс с конкретной функцией <code>f()</code>:</p>
+<blockquote>
+  <pre><b>package</b> ua.inf.iwanoff.fifth;
+
+<b>public</b> <b>class</b> SpecificEquation <b>extends</b> AbstractEquation {
+
+    <b>public </b><b>double</b> f(<b>double</b> x) {
+        <b>return</b> x * x - 2;
+    }
+
+    <b>public</b> <b>static</b> <b>void</b> main(String[] args) {
+        SpecificEquation se = <b>new</b> SpecificEquation();
+        System.out.println(se.solve(0, 2, 0.000001));
+    }
+}</pre>
+</blockquote>
+<h2>3 Задания на самостоятельную работу</h2>
+<h3>3.1 3D-точка</h3>
+<p>Модифицировать пример программы для представления точки в трехмерном пространстве.</p>
+<h3>3.2 Простой класс</h3>
+<p>Создать класс с конструктором для описания товара (сохраняются название и цена).</p>
+<h3>3.3 Квадратное уравнение</h3>
+<p>Спроектировать класс для решения квадратного уравнения.</p>
+<h3>3.4 Простые дроби</h3>
+<p>Дополнить класс для представления простой дроби функциями перемножения дробей (статический метод) и возведения дроби в целую степень (нестатический метод). Добавить в функции <code>main()</code> ввод данных с клавиатуры.</p>
+<h3>3.5 Комплексные числа</h3>
+<p>Создать класс для представления комплексного числа. Реализовать конструкторы, функции сложения, вычитания, умножения деления и умножения на константу. Осуществить тестирование всех разработанных методов.</p>
+<h3>3.6 Класс для представления массива</h3>
+<p>Добавить к классу, представляющему массив, функцию удаления последнего элемента. Добавить в функции main() ввод данных с клавиатуры.</p>
+<h3>3.7 Иерархия классов</h3>
+<p>Реализовать классы &quot;Человек&quot;, &quot;Гражданин&quot;, &quot;Сотрудник&quot;. &quot;Сотрудник на ставке&quot;, &quot;Сотрудник с почасовой оплатой&quot;. Создать массив ссылок на различные объекты иерархии. Для каждого объекта вывести на экран строку данных о нем. В классе сотрудник определить абстрактную функцию &quot;Начисление зарплаты за месяц&quot;. В классе &quot;Сотрудник на ставке&quot; описать поля &quot;Ставка&quot; и &quot;Процент премии&quot;, а в классе &quot;Сотрудник с почасовой оплатой&quot; - поля &quot;Часовая оплата&quot; &quot;Количество проработанных часов&quot;. Значения полей задавать в конструкторах. Создать массив сотрудников различных типов. Для всех сотрудников начислить и вывести заработную плату. </p>
+<p><i>Примечание</i>. Желательно использовать английскую мнемонику для именования классов, полей и методов. </p>
+<h3>3.8 Реализация массива точек через двумерный массив*</h3>
+<p>Реализовать функциональность абстрактного класса <code>AbstractArrayOfPoints</code>, приведенного в примере, через использование двумерного массива вещественных чисел. Каждая строчка массива должна соответствовать точке. Осуществить тестирование класса. </p>
+<h3>3.9 Реализация массива точек через одномерный массив вещественных чисел*</h3>
+<p>Реализовать функциональность абстрактного класса <code>AbstractArrayOfPoints</code>, приведенного в примере, через использование одномерного массива вещественных чисел. Каждая пара чисел в массиве должна соответствовать точке. Дополнительно необходимо перекрыть функцию <code>sortByX()</code>, реализовав сортировку выбором.</p>
+<h3>3.10 Минимум функции*</h3>
+<p>Реализовать программу, которая позволяет найти минимум некоторой функции на заданном интервале. Алгоритм нахождения минимума заключается в последовательном переборе с заданным шагом точек интервала и сравнении значений функции в текущей точке с ранее найденным минимумом. </p>
+<p>Реализовать подход через использование абстрактных классов. В базовом абстрактном классе реализовать алгоритм поиска минимума, и объявить абстрактный метод для задания некоторой исследуемой функции. В производном классе определить эту функцию любым способом, удобным для проверки правильности нахождения минимума. </p>
+<h3>3.11 Матрица*</h3>
+<p>Создать класс для представления именованной матрицы со строковым полем - наименованием матрицы и полем, представляющим двумерный массив. Реализовать методы клонирования, проверки эквивалентности и получения строкового представления. Осуществить тестирование.</p>
+<p><i>Примечание</i>. Клонировать следует не только массив, но и отдельно его строки.</p>
+<h2>4 Контрольные вопросы</h2>
+<ol>
+  <li>Можно ли в Java вне класса реализовывать методы, объявленные внутри класса?</li>
+  <li>Чем отличаются статические и нестатические элементы класса?</li>
+  <li>Как осуществляется инициализация статических данных?</li>
+  <li>Где может быть расположена конструкция инициализации?</li>
+  <li>Как в Java определяется дружественный доступ к элементам класса?</li>
+  <li>Как можно использовать ссылки this?</li>
+  <li>Как вызвать конструкторы из других конструкторов?</li>
+  <li>Сколько конструкторов без параметров может быть создано в одном классе?</li>
+  <li>Как создать класс, в котором нет ни одного конструктора?</li>
+  <li>Почему в Java нет деструкторов?</li>
+  <li>Когда вызывается метод <code>finalize()</code>?</li>
+  <li>Какие существуют модификаторы доступа? </li>
+  <li>В чем заключается смысл инкапсуляции и как она реализована в Java?</li>
+  <li>Для чего используются функции доступа?</li>
+  <li>Чем отличается использование функции <code>Math.random()</code> от средств класса <code>java.util.Random</code>?</li>
+  <li>Какими способами можно создать новую строку?</li>
+  <li>Как по умолчанию осуществляется сортировка массива строк?</li>
+  <li>Можно ли изменить содержимое ранее созданной строки?</li>
+  <li>Для чего используются классы <code>StringBuffer</code> и <code>StringBuilder</code>?</li>
+  <li>Как осуществляется разделение строки на лексемы?</li>
+  <li>Как перевести число в его строковое представление и наоборот?</li>
+  <li>В чем преимущества и недостатки классов-оболочек по сравнению с соответствующими примитивными типами?</li>
+  <li>Как создать объект типа <code>Integer</code>?</li>
+  <li>В каких случаях целесообразно использовать композицию классов?</li>
+  <li>Можно ли в Java полностью разместить один объект внутри другого объекта?</li>
+  <li>В чем заключается содержание наследования?</li>
+  <li>В чем смысл существования общего базового класса?</li>
+  <li>Какие элементы базового класса не наследуются?</li>
+  <li>Где и для чего можно применять ключевое слово <strong><code>super</code></strong>?</li>
+  <li>Как перекрыть метод с модификатором <strong><code>final</code></strong>?</li>
+  <li>Допускается ли множественное наследование классов?</li>
+  <li>Можно ли неявно приводить ссылку на базовый класс к ссылке на производный класс?</li>
+  <li>Какие возможности предоставляет использование полиморфизма?</li>
+  <li>Чем виртуальная функция отличается от невиртуальной?</li>
+  <li>Как в Java указать, что функция виртуальная?</li>
+  <li>Почему функции с модификатором <strong><code>private</code></strong> не являются виртуальными?</li>
+  <li>В чем смысл применения аннотаций?</li>
+  <li>Для чего используется клонирование объектов и как оно реализовано?</li>
+  <li>Когда нужно реализовывать &quot;глубокое&quot; клонирование?</li>
+  <li>Когда возникает необходимость в перекрытии метода <code>equals()</code>?</li>
+</ol>
+<p>&nbsp;</p>
+    <div class="w3-clear nextprev">
+        <a class="btn btn-info float-left" href="topic_1_04.html">Предыдущая</a>
+        <a class="btn btn-info float-left" href="topic_1_06.html">Следующая</a>
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+<a href="#top" id="up">up</a>
+<footer class="container-fluid text-center">
+    <p>&copy; 2003-2019 Л.В.Иванов</p>
+</footer>
+<script>
+    $(document).ready(function () {
+        // Add smooth scrolling to all links in navbar + footer link
+        $("a[href='#top']").on('click', function (event) {
+
+            // Make sure this.hash has a value before overriding default behavior
+            if (this.hash !== "") {
+
+                // Prevent default anchor click behavior
+                event.preventDefault();
+
+                // Store hash
+                var hash = this.hash;
+
+                // Using jQuery's animate() method to add smooth page scroll
+                // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+                $('html, body').animate({
+                    scrollTop: $(hash).offset().top
+                }, 900, function () {
+
+                    // Add hash (#) to URL when done scrolling (default click behavior)
+                    window.location.hash = hash;
+                });
+            } // End if
+        });
+        var offset = 200;
+        var duration = 300;
+        $('#up').fadeOut(0);
+        $(window).scroll(function () {
+            var winTop = $(window).scrollTop();
+            if (winTop > offset) {
+                $('#up').css("opacity", "0.8");
+                $('#up').fadeIn(duration);
+            } else {
+                $('#up').fadeOut(duration);
+            }
+        });
+    })
+</script>
+
+</body>
+</html>
